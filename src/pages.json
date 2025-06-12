@@ -58,6 +58,13 @@
       "type": "page"
     },
     {
+      "path": "pages/about/i18n",
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "%app.name%"
+      }
+    },
+    {
       "path": "pages/login/index",
       "type": "page",
       "style": {
