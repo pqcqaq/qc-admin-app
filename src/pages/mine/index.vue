@@ -3,6 +3,7 @@
   style: {
     navigationBarTitleText: '我的',
   },
+  layout: 'tabbar',
 }
 </route>
 

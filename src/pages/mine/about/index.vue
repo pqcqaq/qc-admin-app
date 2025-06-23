@@ -15,7 +15,7 @@
           <wd-img :src="appLogo" width="120px" height="120px" radius="24rpx"></wd-img>
         </view>
         <view class="app-name">{{ appTitle }}</view>
-        <view class="app-version">版本 {{ packageJson.version }}</view>
+        <view class="app-version">版本 {{ version }}</view>
       </view>
 
       <!-- 联系方式 -->
@@ -48,7 +48,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-import packageJson from '@/../package.json'
+import { version } from '@/../package.json' with { type: 'json' }
 
 const appTitle = ref(import.meta.env.VITE_APP_TITLE || 'patrol')
 const appLogo = ref(import.meta.env.VITE_APP_LOGO || '/static/logo.svg')

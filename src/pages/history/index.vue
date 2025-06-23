@@ -7,8 +7,8 @@
 <template>
   <view class="about-page">
     <view class="content">
-      <text class="title">关于页面</text>
-      <text class="subtitle">带高亮条的自定义TabBar</text>
+      <text class="title">历史页面</text>
+      <text class="subtitle">历史记录</text>
     </view>
 
     <!-- 功能入口 -->
