@@ -9,28 +9,43 @@
 }
 </route>
 <template>
-  <view
-    class="bg-white overflow-hidden pt-2 px-4"
-    :style="{ marginTop: safeAreaInsets?.top + 'px' }"
-  >
-    <view class="mt-12">
-      <image src="/static/logo.svg" alt="" class="w-28 h-28 block mx-auto" />
+  <view class="index-page">
+    <view class="header">
+      <text class="title">Tabbar 动画测试</text>
     </view>
 
-    <view class="text-justify max-w-100 m-auto text-4 indent mb-2">{{ description }}</view>
-    <view class="text-center mt-8">
-      当前平台是：
-      <text class="text-green-500">{{ PLATFORM.platform }}</text>
-    </view>
-    <view class="text-center mt-4">
-      模板分支是：
-      <text class="text-green-500">base</text>
+    <view class="content">
+      <view class="status-info">
+        <text class="info-text">当前选中: {{ tabbarStore.selectedIndex }}</text>
+        <text class="info-text">上次选中: {{ tabbarStore.previousSelectedIndex }}</text>
+        <text class="info-text">是否在动画: {{ tabbarStore.isAnimating ? '是' : '否' }}</text>
+        <text class="info-text">已初始化: {{ tabbarStore.hasBeenInitialized ? '是' : '否' }}</text>
+      </view>
+
+      <view class="button-group">
+        <button
+          v-for="(tab, index) in tabList"
+          :key="index"
+          class="test-button"
+          :class="{ active: tabbarStore.selectedIndex === index }"
+          @click="switchToTab(index)"
+        >
+          切换到 {{ tab.text }}
+        </button>
+      </view>
+
+      <view class="test-buttons">
+        <button class="test-button reset" @click="resetAnimation">重置动画状态</button>
+        <button class="test-button trigger" @click="triggerLayoutAnimation">触发布局动画</button>
+      </view>
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
 import PLATFORM from '@/utils/platform'
+import { useTabbarStore } from '@/store/tabbar'
+import { tabList } from '@/config/tabbar'
 
 defineOptions({
   name: 'Home',
@@ -47,10 +62,111 @@ const description = ref('tests')
 onLoad(() => {
   console.log('项目作者:', author.value)
 })
+
+const tabbarStore = useTabbarStore()
+
+const switchToTab = (index: number) => {
+  // 直接更新store状态来测试动画
+  tabbarStore.setSelectedIndex(index, true)
+}
+
+const resetAnimation = () => {
+  tabbarStore.stopAnimation()
+  tabbarStore.resetInitialization()
+}
+
+const triggerLayoutAnimation = () => {
+  tabbarStore.triggerLayoutAnimation()
+}
 </script>
 
-<style>
-.main-title-color {
-  color: #d14328;
+<style lang="scss" scoped>
+.index-page {
+  padding: 20px;
+  min-height: calc(100vh - 100px);
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  .content {
+    .status-info {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+
+      .info-text {
+        display: block;
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .button-group {
+      margin-bottom: 20px;
+
+      .test-button {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 12px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        color: #333;
+
+        &.active {
+          background: #018d71;
+          color: white;
+          border-color: #018d71;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .test-buttons {
+      .test-button {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 14px;
+
+        &.reset {
+          background: #ff6b6b;
+          color: white;
+          border: none;
+        }
+
+        &.trigger {
+          background: #4ecdc4;
+          color: white;
+          border: none;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
 }
 </style>

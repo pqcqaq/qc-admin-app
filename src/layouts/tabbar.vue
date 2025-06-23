@@ -47,11 +47,16 @@ onUnmounted(() => {
 const updateTabBarState = () => {
   nextTick(() => {
     if (tabBarRef.value) {
-      // 使用新的初始化方法
-      if (tabBarRef.value.initializeComponent) {
-        tabBarRef.value.initializeComponent()
-      } else if (tabBarRef.value.updateSelectedIndex) {
-        tabBarRef.value.updateSelectedIndex()
+      // 如果是布局重新渲染且需要动画，使用新的动画方法
+      if (tabbarStore.shouldAnimate && tabBarRef.value.triggerLayoutAnimation) {
+        tabBarRef.value.triggerLayoutAnimation()
+      } else {
+        // 否则使用原有的初始化方法
+        if (tabBarRef.value.initializeComponent) {
+          tabBarRef.value.initializeComponent()
+        } else if (tabBarRef.value.updateSelectedIndex) {
+          tabBarRef.value.updateSelectedIndex()
+        }
       }
     }
   })

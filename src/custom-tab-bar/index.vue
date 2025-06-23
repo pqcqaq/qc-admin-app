@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, nextTick } from 'vue'
 import { tabList, type TabItem } from '@/config/tabbar'
 import { useTabbarStore } from '@/store/tabbar'
 
@@ -33,9 +33,15 @@ const tabbarStore = useTabbarStore()
 
 // 切换tab
 const switchTab = (item: TabItem, index: number) => {
+  // 如果点击的是当前已选中的tab，直接返回
+  if (tabbarStore.selectedIndex === index) {
+    return
+  }
+
   // 设置选中状态，启用动画
   tabbarStore.setSelectedIndex(index, true)
 
+  // 页面跳转
   uni.switchTab({
     url: `/${item.pagePath}`,
   })
@@ -69,6 +75,18 @@ const initializeComponent = () => {
   updateSelectedIndex()
 }
 
+// 新增：触发布局动画（用于layout重新渲染后）
+const triggerLayoutAnimation = () => {
+  // 先确保系统信息和选中状态正确
+  getSystemInfo()
+  updateSelectedIndex()
+
+  // 然后触发动画
+  nextTick(() => {
+    tabbarStore.triggerLayoutAnimation()
+  })
+}
+
 onMounted(() => {
   initializeComponent()
 })
@@ -82,6 +100,7 @@ onUnmounted(() => {
 defineExpose({
   updateSelectedIndex,
   initializeComponent,
+  triggerLayoutAnimation, // 新增暴露的方法
 })
 </script>
 
@@ -107,12 +126,34 @@ defineExpose({
     height: 3px;
     background: linear-gradient(90deg, #018d71 0%, #02a87a 100%);
     border-radius: 0 0 1.5px 1.5px;
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 8px rgba(1, 141, 113, 0.3);
+    transform-origin: center;
+    will-change: left;
+
+    // 添加发光效果
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: inherit;
+      border-radius: inherit;
+      filter: blur(4px);
+      opacity: 0.6;
+      z-index: -1;
+      transition: inherit;
+    }
 
     // 禁用动画的类
     &.no-transition {
-      transition: none;
+      transition: none !important;
+
+      &::after {
+        transition: none !important;
+      }
     }
   }
 
@@ -123,8 +164,9 @@ defineExpose({
     align-items: center;
     justify-content: center;
     height: 100%;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
+    position: relative;
 
     &:active {
       transform: scale(0.95);
@@ -134,25 +176,58 @@ defineExpose({
       width: 24px;
       height: 24px;
       margin-bottom: 3px;
-      transition: transform 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .tab-text {
       font-size: 10px;
       color: #999999;
-      transition: color 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     &.active {
       .tab-icon {
         transform: scale(1.1);
+        filter: brightness(1.1);
       }
 
       .tab-text {
         color: #018d71;
         font-weight: 500;
+        transform: translateY(-1px);
+      }
+
+      // 添加活跃状态的背景光晕
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 40px;
+        height: 40px;
+        background: rgba(1, 141, 113, 0.1);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        animation: activeGlow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
     }
+  }
+}
+
+// 活跃状态的光晕动画
+@keyframes activeGlow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
   }
 }
 
