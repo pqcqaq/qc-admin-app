@@ -9,80 +9,99 @@
 <template>
   <view class="login-container">
     <!-- 背景装饰元素 -->
-    <view class="bg-decoration bg-circle-1"></view>
+    <!-- <view class="bg-decoration bg-circle-1"></view>
     <view class="bg-decoration bg-circle-2"></view>
-    <view class="bg-decoration bg-circle-3"></view>
+    <view class="bg-decoration bg-circle-3"></view> -->
 
     <view class="login-header">
       <image class="login-logo" :src="appLogo" mode="aspectFit"></image>
-      <view class="login-title">{{ appTitle }}</view>
+      <!-- <view class="login-title">{{ appTitle }}</view> -->
     </view>
     <view class="login-form">
-      <view class="welcome-text">欢迎登录</view>
-      <view class="login-desc">请输入您的账号和密码</view>
-      <view class="login-input-group">
-        <view class="input-wrapper">
-          <wd-input
-            v-model="loginForm.accountName"
-            prefix-icon="user"
-            placeholder="请输入用户名"
-            clearable
-            class="login-input"
-            :border="false"
-            required
-          ></wd-input>
-          <view class="input-bottom-line"></view>
-        </view>
-        <view class="input-wrapper">
-          <wd-input
-            v-model="loginForm.password"
-            prefix-icon="lock-on"
-            placeholder="请输入密码"
-            clearable
-            show-password
-            class="login-input"
-            :border="false"
-            required
-          ></wd-input>
-          <view class="input-bottom-line"></view>
-        </view>
-      </view>
+      <!-- <view class="welcome-text">欢迎登录</view> -->
+      <!-- <view class="login-desc">请输入您的账号和密码</view> -->
+      <wd-tabs
+        v-model="tab"
+        animated
+        class="login-tabs"
+        :line-height="4"
+        :line-width="80"
+        :duration="500"
+      >
+        <wd-tab :title="t('login_by_account')" class="login-tab">
+          <view class="login-input-group">
+            <view class="input-wrapper">
+              <wd-input
+                v-model="loginForm.accountName"
+                prefix-icon="user"
+                placeholder="请输入用户名"
+                clearable
+                class="login-input"
+                :border="false"
+                required
+              ></wd-input>
+              <view class="input-bottom-line"></view>
+            </view>
+            <view class="input-wrapper">
+              <wd-input
+                v-model="loginForm.password"
+                prefix-icon="lock-on"
+                placeholder="请输入密码"
+                clearable
+                show-password
+                class="login-input"
+                :border="false"
+                required
+              ></wd-input>
+              <!-- <view class="input-bottom-line"></view> -->
+            </view>
+          </view>
+        </wd-tab>
+        <wd-tab :title="t('login_by_verification_code')"></wd-tab>
+      </wd-tabs>
+
       <!-- 登录按钮组 -->
       <view class="login-buttons">
         <!-- 账号密码登录按钮 -->
         <wd-button
-          type="primary"
+          :type="buttonType"
           size="large"
           block
           @click="handleAccountLogin"
           class="account-login-btn"
         >
-          <wd-icon name="right" size="18px" class="login-icon"></wd-icon>
-          登录
+          <wd-icon name="right" size="18rpx" class="login-icon"></wd-icon>
+          {{ t('login') }}
         </wd-button>
         <!-- 微信小程序一键登录按钮 -->
         <!-- #ifdef MP-WEIXIN -->
-        <view class="divider">
+        <!-- <view class="divider">
           <view class="divider-line"></view>
           <view class="divider-text">或</view>
           <view class="divider-line"></view>
-        </view>
+        </view> -->
         <!-- #endif -->
       </view>
+      <view class="forget-password" @click="forgetPassword">{{ t('forget_password') }}?</view>
     </view>
     <!-- 隐私协议勾选 -->
     <view class="privacy-agreement">
       <wd-checkbox
         v-model="agreePrivacy"
-        shape="square"
+        shape="circle"
+        @click="checkAgreePrivacy"
         class="privacy-checkbox"
-        active-color="var(--wot-color-theme, #1989fa)"
+        active-color="var(--wot-color-theme, #ffffff)"
       >
         <view class="agreement-text">
-          我已阅读并同意
-          <text class="agreement-link" @click.stop="handleAgreement('user')">《用户协议》</text>
+          {{ t('accept_protocol') }}
+          <text class="agreement-link" @click.stop="handleAgreement('user')">
+            《{{ t('user_protocol') }}》
+          </text>
           和
-          <text class="agreement-link" @click.stop="handleAgreement('privacy')">《隐私政策》</text>
+          <text class="agreement-link" @click.stop="handleAgreement('privacy')">
+            《{{ t('privacy_policy') }}》
+          </text>
         </view>
       </wd-checkbox>
     </view>
@@ -97,6 +116,13 @@ import { isMpWeixin } from '@/utils/platform'
 import { toast } from '@/utils/toast'
 import { isTableBar } from '@/utils/index'
 import { ILoginParams } from '@/api'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
+const t = i18n.t
+
+const tab = ref<number>(0)
+
 const redirectRoute = ref('')
 
 // 获取环境变量
@@ -112,7 +138,7 @@ const loginForm = ref<ILoginParams>({
   password: '',
 })
 // 隐私协议勾选状态
-const agreePrivacy = ref(true)
+const agreePrivacy = ref(false)
 
 // 账号密码登录
 const handleAccountLogin = async () => {
@@ -142,16 +168,32 @@ const handleAccountLogin = async () => {
 
 // 处理协议点击
 const handleAgreement = (type: 'user' | 'privacy') => {
-  const title = type === 'user' ? '用户协议' : '隐私政策'
+  // const title = type === 'user' ? '用户协议' : '隐私政策'
   // showToast(`查看${title}`)
   // 实际项目中可以跳转到对应的协议页面
-  // uni.navigateTo({
-  //   url: `/pages/agreement/${type}`
-  // })
+  uni.navigateTo({
+    url: `/pages/login/${type}`,
+  })
 }
+
+//button 类型
+import { ButtonType } from 'wot-design-uni/components/wd-button/types'
+const buttonType = ref<ButtonType>('info')
+
+const checkAgreePrivacy = () => {
+  if (!agreePrivacy.value) {
+    buttonType.value = 'info'
+  } else {
+    buttonType.value = 'success'
+  }
+}
+
+// 忘记密码
+const forgetPassword = () => {}
 </script>
 
 <style lang="scss" scoped>
+$primary-color: #3daa9a;
 /* 验证码输入框样式 */
 .captcha-wrapper {
   .captcha-input {
@@ -162,12 +204,12 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   }
 
   .captcha-image {
-    width: 100px;
-    height: 36px;
-    margin-left: 10px;
-    border-radius: 8px;
+    width: 100rpx;
+    height: 36rpx;
+    margin-left: 10rpx;
+    border-radius: 8rpx;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -186,7 +228,7 @@ const handleAgreement = (type: 'user' | 'privacy') => {
     &:active {
       opacity: 0.8;
       transform: scale(0.96);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
     }
   }
 }
@@ -196,8 +238,8 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 0 70rpx;
-  background-color: #ffffff;
+  padding: 0 30rpx;
+  background-color: $primary-color;
   background-image: linear-gradient(
     135deg,
     rgba(25, 137, 250, 0.05) 0%,
@@ -208,38 +250,38 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 }
 
 /* 背景装饰元素 */
-.bg-decoration {
-  position: absolute;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(25, 137, 250, 0.05), rgba(25, 137, 250, 0.1));
-  z-index: 0;
-  pointer-events: none;
-}
+// .bg-decoration {
+//   position: absolute;
+//   border-radius: 50%;
+//   background: linear-gradient(135deg, rgba(25, 137, 250, 0.05), rgba(25, 137, 250, 0.1));
+//   z-index: 0;
+//   pointer-events: none;
+// }
 
-.bg-circle-1 {
-  width: 500rpx;
-  height: 500rpx;
-  top: -200rpx;
-  right: -200rpx;
-  opacity: 0.6;
-}
+// .bg-circle-1 {
+//   width: 500rpx;
+//   height: 500rpx;
+//   top: -200rpx;
+//   right: -200rpx;
+//   opacity: 0.6;
+// }
 
-.bg-circle-2 {
-  width: 400rpx;
-  height: 400rpx;
-  bottom: 10%;
-  left: -200rpx;
-  opacity: 0.4;
-}
+// .bg-circle-2 {
+//   width: 400rpx;
+//   height: 400rpx;
+//   bottom: 10%;
+//   left: -200rpx;
+//   opacity: 0.4;
+// }
 
-.bg-circle-3 {
-  width: 300rpx;
-  height: 300rpx;
-  bottom: -100rpx;
-  right: 10%;
-  opacity: 0.3;
-  background: linear-gradient(135deg, rgba(7, 193, 96, 0.05), rgba(7, 193, 96, 0.1));
-}
+// .bg-circle-3 {
+//   width: 300rpx;
+//   height: 300rpx;
+//   bottom: -100rpx;
+//   right: 10%;
+//   opacity: 0.3;
+//   background: linear-gradient(135deg, rgba(7, 193, 96, 0.05), rgba(7, 193, 96, 0.1));
+// }
 
 .login-header {
   display: flex;
@@ -250,6 +292,7 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   animation: fadeInDown 0.8s ease-out;
 
   .login-logo {
+    /*
     width: 200rpx;
     height: 200rpx;
     border-radius: 36rpx;
@@ -260,47 +303,72 @@ const handleAgreement = (type: 'user' | 'privacy') => {
       transform: scale(0.95);
       box-shadow: 0 6rpx 15rpx rgba(0, 0, 0, 0.1);
     }
+    **/
+    width: 350rpx;
+    height: 350rpx;
+    top: 20rpx;
   }
 
-  .login-title {
-    margin-top: 30rpx;
-    font-size: 46rpx;
-    font-weight: bold;
-    color: #333333;
-    letter-spacing: 3rpx;
-    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
-  }
+  // .login-title {
+  //   margin-top: 30rpx;
+  //   font-size: 46rpx;
+  //   font-weight: bold;
+  //   color: #333333;
+  //   letter-spacing: 3rpx;
+  //   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
+  // }
 }
 
 .login-form {
-  flex: 1;
-  margin-top: 70rpx;
+  flex: 0.2;
+  margin-top: 0rpx;
   animation: fadeIn 0.8s ease-out 0.2s both;
+  background-color: #ffffff;
+  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.25);
+  padding: 0rpx 24rpx 0 24rpx;
+  height: 300rpx;
 
-  .welcome-text {
-    margin-bottom: 16rpx;
-    font-size: 48rpx;
-    font-weight: bold;
-    color: #333333;
-    text-align: center;
-    letter-spacing: 1rpx;
+  .login-tabs {
+    height: 100%;
   }
 
-  .login-desc {
-    margin-bottom: 70rpx;
-    font-size: 28rpx;
-    color: #888888;
-    text-align: center;
+  .forget-password {
+    position: relative;
+    bottom: 10rpx;
+    width: 98%;
+    text-align: right;
+    font-size: 24rpx;
+    color: $primary-color;
+    margin-top: 42rpx;
+    cursor: pointer;
+    transition: color 0.3s ease;
   }
+
+  // .welcome-text {
+  //   margin-bottom: 16rpx;
+  //   font-size: 48rpx;
+  //   font-weight: bold;
+  //   color: #333333;
+  //   text-align: center;
+  //   letter-spacing: 1rpx;
+  // }
+
+  // .login-desc {
+  //   margin-bottom: 70rpx;
+  //   font-size: 28rpx;
+  //   color: #888888;
+  //   text-align: center;
+  // }
 
   .login-input-group {
-    margin-bottom: 60rpx;
+    margin-top: 50rpx;
+    margin-bottom: 50rpx;
     position: relative;
     z-index: 1;
 
     .input-wrapper {
       position: relative;
-      margin-bottom: 50rpx;
+      margin-bottom: 20rpx;
       transition: all 0.3s ease;
       border-radius: 16rpx;
       overflow: hidden;
@@ -314,6 +382,7 @@ const handleAgreement = (type: 'user' | 'privacy') => {
         background-color: rgba(245, 247, 250, 0.7);
         border-radius: 16rpx;
         transition: all 0.3s ease;
+        border: 2px rgb(238, 238, 238) solid;
 
         :deep(.wd-input__inner) {
           font-size: 30rpx;
@@ -372,12 +441,12 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 
     .account-login-btn {
       height: 96rpx;
-      margin-top: 20rpx;
+      width: 100%;
+      margin: 0 auto;
       font-size: 32rpx;
       font-weight: 500;
       letter-spacing: 2rpx;
-      border-radius: 48rpx;
-      box-shadow: 0 10rpx 20rpx rgba(25, 137, 250, 0.25);
+      border-radius: 10rpx;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
@@ -451,12 +520,14 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   .agreement-text {
     font-size: 26rpx;
     line-height: 1.6;
-    color: #666666;
+    color: #ffffff;
 
     .agreement-link {
+      cursor: pointer;
+      text-decoration: underline;
       padding: 0 4rpx;
       font-weight: 500;
-      color: var(--wot-color-theme, #1989fa);
+      color: var(--wot-color-theme, #ffffff);
       transition: all 0.3s ease;
 
       &:active {
@@ -485,7 +556,7 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-20rpx);
   }
   to {
     opacity: 1;

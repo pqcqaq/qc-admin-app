@@ -1,23 +1,19 @@
 <template>
   <view class="markdown-demo">
-    <view class="header">
-      <text class="title">Markdown渲染器演示</text>
-    </view>
+    <view class="header"></view>
 
     <view class="demo-section">
-      <view class="section-title">示例文档</view>
-      <MarkdownRenderer src="example.md" />
-    </view>
-
-    <view class="demo-section">
-      <view class="section-title">加载失败示例</view>
-      <MarkdownRenderer src="non-existent.md" />
+      <view class="section-title">《{{ t('privacy_policy') }}》</view>
+      <MarkdownRenderer src="privacy.md" />
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
 import MarkdownRenderer from '@/components/markdown-renderer/MarkdownRenderer.vue'
+import { useI18n } from 'vue-i18n'
+const i18n = useI18n()
+const t = i18n.t
 </script>
 
 <style lang="scss" scoped>

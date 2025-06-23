@@ -4,5 +4,12 @@
   "app.name": "En Title",
   "weight": "{heavy}KG",
   "detail": "{0}cm, {1}KG",
-  "introduction": "I am {name},height:{detail.height},weight:{detail.weight}"
+  "introduction": "I am {name},height:{detail.height},weight:{detail.weight}",
+  "user_protocol": "user protocol",
+  "accept_protocol": "I have read and accepted ",
+  "privacy_policy": "privacy policy",
+  "login_by_account": "login by account",
+  "login": "login",
+  "forget_password": "forget password",
+  "login_by_verification_code": "login by verification code"
 }

@@ -4,5 +4,12 @@
   "app.name": "中文标题",
   "weight": "{heavy}公斤",
   "detail": "{0}cm, {1}公斤",
-  "introduction": "我是 {name},身高:{detail.height},体重:{detail.weight}"
+  "introduction": "我是 {name},身高:{detail.height},体重:{detail.weight}",
+  "user_protocol": "用户协议",
+  "accept_protocol": "我已阅读并同意",
+  "privacy_policy": "隐私政策",
+  "login_by_account": "账号登录",
+  "login": "登 录",
+  "forget_password": "忘记密码",
+  "login_by_verification_code": "验证码登录"
 }
