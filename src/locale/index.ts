@@ -90,4 +90,9 @@ export function setLocale(locale: 'en' | 'zh-Hans') {
   i18n.global.locale = locale
   console.log(`[i18n] Language changed to: ${locale}`)
 }
+
+export function getLocale() {
+  return i18n.global.locale
+}
+
 export default i18n

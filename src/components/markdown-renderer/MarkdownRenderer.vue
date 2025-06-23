@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import MarkdownIt from 'markdown-it'
+import { getLocale } from '@/locale'
 
 interface Props {
   /** markdown文件路径，相对于static/markdown目录 */
@@ -55,12 +56,14 @@ async function loadMarkdown() {
   loading.value = true
   error.value = ''
 
+  const locale = getLocale()
+
   try {
     let markdownContent = ''
 
     // #ifdef H5
     // H5平台使用fetch加载文件
-    const fetchResponse = await fetch(`/static/markdown/${props.src}`)
+    const fetchResponse = await fetch(`/static/markdown/${locale}/${props.src}`)
     if (!fetchResponse.ok) {
       throw new Error(`HTTP ${fetchResponse.status}: ${fetchResponse.statusText}`)
     }
