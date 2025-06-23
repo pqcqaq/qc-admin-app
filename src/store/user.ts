@@ -37,7 +37,7 @@ export const useUserStore = defineStore(
       if (!val.avatarUrl) {
         val.avatarUrl = userInfoState.avatarUrl
       } else {
-        val.avatarUrl = 'https://oss.laf.run/ukw0y1-site/avatar.jpg?feige'
+        val.avatarUrl = 'http://qiniuyun.ling-shun.com/avatar-default.png'
       }
       userInfo.value = val
     }

@@ -23,24 +23,25 @@
     "fontSize": "10px",
     "iconWidth": "24px",
     "spacing": "3px",
+    "custom": true,
     "list": [
       {
-        "iconPath": "static/tabbar/home.png",
-        "selectedIconPath": "static/tabbar/homeHL.png",
+        "iconPath": "/static/tabbar/home.png",
+        "selectedIconPath": "/static/tabbar/homeHL.png",
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": ""
       },
       {
-        "iconPath": "static/tabbar/example.png",
-        "selectedIconPath": "static/tabbar/exampleHL.png",
-        "pagePath": "pages/about/about",
-        "text": "关于"
+        "iconPath": "/static/tabbar/History.png",
+        "selectedIconPath": "/static/tabbar/HistoryHL.png",
+        "pagePath": "pages/history/index",
+        "text": ""
       },
       {
-        "iconPath": "static/tabbar/personal.png",
-        "selectedIconPath": "static/tabbar/personalHL.png",
+        "iconPath": "/static/tabbar/Category.png",
+        "selectedIconPath": "/static/tabbar/CategoryHL.png",
         "pagePath": "pages/mine/index",
-        "text": "我的"
+        "text": ""
       }
     ]
   },
@@ -51,11 +52,13 @@
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "首页"
-      }
+      },
+      "layout": "tabbar"
     },
     {
       "path": "pages/about/about",
-      "type": "page"
+      "type": "page",
+      "layout": "tabbar"
     },
     {
       "path": "pages/about/i18n",
@@ -63,6 +66,11 @@
       "style": {
         "navigationBarTitleText": "%app.name%"
       }
+    },
+    {
+      "path": "pages/history/index",
+      "type": "page",
+      "layout": "tabbar"
     },
     {
       "path": "pages/login/index",
@@ -77,6 +85,14 @@
       "type": "page"
     },
     {
+      "path": "pages/login/service",
+      "type": "page"
+    },
+    {
+      "path": "pages/login/privacy",
+      "type": "page"
+    },
+    {
       "path": "pages/login/user",
       "type": "page"
     },
@@ -85,7 +101,8 @@
       "type": "page",
       "style": {
         "navigationBarTitleText": "我的"
-      }
+      },
+      "layout": "tabbar"
     },
     {
       "path": "pages/mine/about/index",

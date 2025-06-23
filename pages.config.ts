@@ -1,5 +1,7 @@
 import { defineUniPages } from '@uni-helper/vite-plugin-uni-pages'
 
+import { tabList } from './src/config/tabbar'
+
 export default defineUniPages({
   globalStyle: {
     navigationStyle: 'default',
@@ -27,25 +29,7 @@ export default defineUniPages({
     fontSize: '10px',
     iconWidth: '24px',
     spacing: '3px',
-    list: [
-      {
-        iconPath: 'static/tabbar/home.png',
-        selectedIconPath: 'static/tabbar/homeHL.png',
-        pagePath: 'pages/index/index',
-        text: '首页',
-      },
-      {
-        iconPath: 'static/tabbar/example.png',
-        selectedIconPath: 'static/tabbar/exampleHL.png',
-        pagePath: 'pages/about/about',
-        text: '关于',
-      },
-      {
-        iconPath: 'static/tabbar/personal.png',
-        selectedIconPath: 'static/tabbar/personalHL.png',
-        pagePath: 'pages/mine/index',
-        text: '我的',
-      },
-    ],
+    custom: true,
+    list: tabList,
   },
 })

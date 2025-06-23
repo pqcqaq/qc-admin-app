@@ -5,6 +5,7 @@
     navigationStyle: 'custom',
     navigationBarTitleText: '首页',
   },
+  layout: 'tabbar',
 }
 </route>
 <template>
@@ -41,6 +42,7 @@ const systemInfo = uni.getSystemInfoSync()
 safeAreaInsets = systemInfo.safeAreaInsets
 const author = ref('qcqcqc')
 const description = ref('tests')
+
 // 测试 uni API 自动引入
 onLoad(() => {
   console.log('项目作者:', author.value)
