@@ -135,7 +135,6 @@
       <wd-checkbox
         v-model="agreePrivacy"
         shape="circle"
-        @click="checkAgreePrivacy"
         class="privacy-checkbox"
         active-color="var(--wot-color-theme, #ffffff)"
       >
@@ -230,16 +229,22 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 import { ButtonType } from 'wot-design-uni/components/wd-button/types'
 const buttonType = ref<ButtonType>('info')
 
-const checkAgreePrivacy = () => {
-  if (!agreePrivacy.value) {
-    buttonType.value = 'info'
-  } else {
+// 忘记密码
+const forgetPassword = () => {}
+
+// 改变login button颜色
+const changeButtonColor = () => {
+  if (loginForm.value.accountName && loginForm.value.password && agreePrivacy.value) {
     buttonType.value = 'success'
+  } else {
+    buttonType.value = 'info'
   }
 }
 
-// 忘记密码
-const forgetPassword = () => {}
+watch(
+  () => [loginForm.value.accountName, loginForm.value.password, agreePrivacy.value],
+  changeButtonColor,
+)
 </script>
 
 <style lang="scss" scoped>
