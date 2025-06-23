@@ -73,6 +73,10 @@
       }
     },
     {
+      "path": "pages/markdown-demo/index",
+      "type": "page"
+    },
+    {
       "path": "pages/mine/index",
       "type": "page",
       "style": {
