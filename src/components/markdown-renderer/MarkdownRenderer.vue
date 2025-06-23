@@ -59,58 +59,29 @@ async function loadMarkdown() {
   const locale = getLocale()
 
   try {
-    let markdownContent = ''
-
-    // #ifdef H5
-    // H5平台使用fetch加载文件
-    const fetchResponse = await fetch(`/static/markdown/${locale}/${props.src}`)
-    if (!fetchResponse.ok) {
-      throw new Error(`HTTP ${fetchResponse.status}: ${fetchResponse.statusText}`)
-    }
-    markdownContent = await fetchResponse.text()
-    // #endif
-
-    // #ifndef H5
-    // 非H5平台尝试使用uni.request
+    // 统一使用uni.request加载文件
     const uniResponse = await new Promise<UniApp.RequestSuccessCallbackResult>(
       (resolve, reject) => {
-        // 尝试不同的路径格式
-        const possiblePaths = [
-          `/static/markdown/${props.src}`,
-          `../static/markdown/${props.src}`,
-          `./static/markdown/${props.src}`,
-          `static/markdown/${props.src}`,
-        ]
+        // 构造路径，格式类似 /static/markdown/zh-Hans/example.md
+        const filePath = `/static/markdown/${locale}/${props.src}`
 
-        let attemptIndex = 0
-
-        function tryNextPath() {
-          if (attemptIndex >= possiblePaths.length) {
-            reject(new Error('所有路径尝试都失败了'))
-            return
-          }
-
-          uni.request({
-            url: possiblePaths[attemptIndex],
-            method: 'GET',
-            success: resolve,
-            fail: () => {
-              attemptIndex++
-              tryNextPath()
-            },
-          })
-        }
-
-        tryNextPath()
+        uni.request({
+          url: filePath,
+          method: 'GET',
+          success: resolve,
+          fail: (error) => {
+            reject(new Error(`请求失败: ${error.errMsg || '未知错误'}`))
+          },
+        })
       },
     )
 
+    let markdownContent = ''
     if (uniResponse.statusCode === 200 && typeof uniResponse.data === 'string') {
       markdownContent = uniResponse.data
     } else {
-      throw new Error(`无法加载文件: ${props.src}`)
+      throw new Error(`无法加载文件: ${props.src}，状态码: ${uniResponse.statusCode}`)
     }
-    // #endif
 
     // 渲染markdown
     if (markdownContent) {

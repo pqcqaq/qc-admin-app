@@ -39,6 +39,11 @@ const baseUrl = getEnvBaseUrl()
 const httpInterceptor = {
   // 拦截前触发
   invoke(options: CustomRequestOptions) {
+    // 如果是/static开头，直接返回
+    if (options.url.startsWith('/static')) {
+      return
+    }
+
     const userStore = useUserStore()
     // 无论如何给query拼接上_token_
     options.query = options.query || {}
