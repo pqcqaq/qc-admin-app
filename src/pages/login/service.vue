@@ -1,7 +1,7 @@
 <template>
   <view class="markdown-demo">
     <view class="demo-section">
-      <view class="section-title">{{ t('service') }}</view>
+      <view class="section-title">{{ t('user_protocol') }}</view>
       <MarkdownRenderer src="service.md" />
     </view>
   </view>
