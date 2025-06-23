@@ -137,7 +137,7 @@ const redirectRoute = ref('')
 
 // 获取环境变量
 const appTitle = ref(import.meta.env.VITE_APP_TITLE || 'Login')
-const appLogo = ref(import.meta.env.VITE_APP_LOGO || '/static/logo.svg')
+const appLogo = ref(import.meta.env.VITE_APP_LOGO || '/static/logo.png')
 
 // 初始化store
 const userStore = useUserStore()
