@@ -19,6 +19,7 @@
 <script lang="ts" setup>
 import type { ConfigProviderThemeVars } from 'wot-design-uni'
 import CustomTabBar from '@/custom-tab-bar/index.vue'
+import { useTabbarStore } from '@/store/tabbar'
 
 const themeVars: ConfigProviderThemeVars = {
   // colorTheme: 'red',
@@ -27,6 +28,7 @@ const themeVars: ConfigProviderThemeVars = {
 }
 
 const tabBarRef = ref()
+const tabbarStore = useTabbarStore()
 
 // 监听页面变化，更新tabbar状态
 onMounted(() => {
@@ -37,10 +39,20 @@ onShow(() => {
   updateTabBarState()
 })
 
+// 页面卸载时清理动画状态
+onUnmounted(() => {
+  tabbarStore.stopAnimation()
+})
+
 const updateTabBarState = () => {
   nextTick(() => {
-    if (tabBarRef.value && tabBarRef.value.updateSelectedIndex) {
-      tabBarRef.value.updateSelectedIndex()
+    if (tabBarRef.value) {
+      // 使用新的初始化方法
+      if (tabBarRef.value.initializeComponent) {
+        tabBarRef.value.initializeComponent()
+      } else if (tabBarRef.value.updateSelectedIndex) {
+        tabBarRef.value.updateSelectedIndex()
+      }
     }
   })
 }
