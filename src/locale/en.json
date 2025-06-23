@@ -11,5 +11,10 @@
   "login_by_account": "login by account",
   "login": "login",
   "forget_password": "forget password",
-  "login_by_verification_code": "login by verification code"
+  "login_by_verification_code": "login by verification code",
+  "please_enter_your_username": "please enter your username",
+  "please_enter_your_password": "please enter your password",
+  "please_enter_your_phone_number": "please enter your phone number",
+  "please_enter_your_verification_code": "please enter your verification code",
+  "send_a_verification_code": "send a verification code"
 }

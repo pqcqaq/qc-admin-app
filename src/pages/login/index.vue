@@ -29,7 +29,7 @@
               <wd-input
                 v-model="loginForm.accountName"
                 prefix-icon="user"
-                placeholder="请输入用户名"
+                :placeholder="t('please_enter_your_username')"
                 clearable
                 class="login-input"
                 :border="false"
@@ -41,31 +41,57 @@
               <wd-input
                 v-model="loginForm.password"
                 prefix-icon="lock-on"
-                placeholder="请输入密码"
+                :placeholder="t('please_enter_your_password')"
                 clearable
                 show-password
                 class="login-input"
                 :border="false"
                 required
               ></wd-input>
-              <!-- <view class="input-bottom-line"></view> -->
             </view>
           </view>
         </wd-tab>
         <wd-tab :title="t('login_by_verification_code')" class="login-tab">
-          <view class="verification-code-input-group">
+          <view class="login-input-group">
             <view class="input-wrapper">
               <wd-input
                 prefix-icon="phone"
-                placeholder="请输入手机号"
+                :placeholder="t('please_enter_your_phone_number')"
                 clearable
                 class="login-input"
                 :border="false"
                 required
-              ></wd-input>
-              <view class="input-bottom-line"></view>
+              >
+                <template #prefix>
+                  <view class="prefix-container">
+                    <img :width="25" :height="25" src="@/static/icon/phone_icon.svg" class="icon" />
+                    <text class="prefix-text">
+                      +86
+                      <wd-divider vertical :hairline="false" />
+                    </text>
+                  </view>
+                </template>
+              </wd-input>
             </view>
-            <view class="captcha-wrapper"></view>
+            <view class="input-wrapper">
+              <wd-input
+                class="login-input"
+                :placeholder="t('please_enter_your_verification_code')"
+                clearable
+                :border="false"
+                required
+              >
+                <template #prefix>
+                  <view class="prefix-container">
+                    <img :width="25" :height="25" src="@/static/icon/code_icon.svg" class="icon" />
+                  </view>
+                </template>
+                <template #suffix>
+                  <wd-divider vertical :hairline="false" />
+                  <text type="success">{{ t('send_a_verification_code') }}</text>
+                </template>
+              </wd-input>
+            </view>
           </view>
         </wd-tab>
       </wd-tabs>
@@ -115,7 +141,7 @@
         </view>
       </wd-checkbox>
     </view>
-    <view class="login-footer"></view>
+    <!-- <view class="login-footer"></view> -->
   </view>
 </template>
 
@@ -338,8 +364,7 @@ $primary-color: #3daa9a;
   animation: fadeIn 0.8s ease-out 0.2s both;
   background-color: #ffffff;
   box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.25);
-  padding: 0rpx 24rpx 0 24rpx;
-  height: 300rpx;
+  padding: 0rpx 24rpx 0rpx 24rpx;
 
   .login-tabs {
     height: 100%;
@@ -385,6 +410,12 @@ $primary-color: #3daa9a;
       transition: all 0.3s ease;
       border-radius: 16rpx;
       overflow: hidden;
+
+      .prefix-container {
+        display: flex;
+        align-items: center; /* 垂直居中对齐 */
+        gap: 8rpx; /* 图标和文字之间的间距，可根据实际调整 */
+      }
 
       &:last-child {
         margin-bottom: 0;
@@ -499,23 +530,23 @@ $primary-color: #3daa9a;
       }
     }
 
-    .wechat-login-btn {
-      height: 96rpx;
-      font-size: 32rpx;
-      color: #07c160;
-      border-color: #07c160;
-      border-radius: 48rpx;
-      transition: all 0.3s ease;
+    // .wechat-login-btn {
+    //   height: 96rpx;
+    //   font-size: 32rpx;
+    //   color: #07c160;
+    //   border-color: #07c160;
+    //   border-radius: 48rpx;
+    //   transition: all 0.3s ease;
 
-      .wechat-icon {
-        margin-right: 12rpx;
-      }
+    //   .wechat-icon {
+    //     margin-right: 12rpx;
+    //   }
 
-      &:active {
-        background-color: rgba(7, 193, 96, 0.08);
-        transform: scale(0.98);
-      }
-    }
+    //   &:active {
+    //     background-color: rgba(7, 193, 96, 0.08);
+    //     transform: scale(0.98);
+    //   }
+    // }
   }
 }
 
@@ -551,10 +582,10 @@ $primary-color: #3daa9a;
   }
 }
 
-.login-footer {
-  padding: 50rpx 0;
-  margin-top: auto;
-}
+// .login-footer {
+//   padding: 50rpx 0;
+//   margin-top: auto;
+// }
 
 /* 添加动画效果 */
 @keyframes fadeIn {

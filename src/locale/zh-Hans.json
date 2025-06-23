@@ -11,5 +11,10 @@
   "login_by_account": "账号登录",
   "login": "登 录",
   "forget_password": "忘记密码",
-  "login_by_verification_code": "验证码登录"
+  "login_by_verification_code": "验证码登录",
+  "please_enter_your_username": "请输入用户名",
+  "please_enter_your_password": "请输入登录密码",
+  "please_enter_your_phone_number": "请输入手机号",
+  "please_enter_your_verification_code": "请输入短信验证码",
+  "send_a_verification_code": "发送验证码"
 }
