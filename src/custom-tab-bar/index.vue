@@ -1,18 +1,22 @@
 <template>
   <view class="custom-tab-bar">
     <!-- 高亮条 -->
-    <view class="highlight-bar" :style="{ left: highlightPosition + 'px' }"></view>
+    <view
+      class="highlight-bar"
+      :class="{ 'no-transition': !tabbarStore.isAnimating }"
+      :style="{ left: tabbarStore.highlightPosition + 'px' }"
+    ></view>
 
     <!-- Tabbar项目 -->
     <view
       v-for="(item, index) in tabList"
       :key="index"
       class="tab-item"
-      :class="{ active: selectedIndex === index }"
+      :class="{ active: tabbarStore.selectedIndex === index }"
       @click="switchTab(item, index)"
     >
       <image
-        :src="selectedIndex === index ? item.selectedIconPath : item.iconPath"
+        :src="tabbarStore.selectedIndex === index ? item.selectedIconPath : item.iconPath"
         class="tab-icon"
       ></image>
       <text v-if="item.text" class="tab-text">{{ item.text }}</text>
@@ -21,22 +25,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
-import { tabList, tabBarConfig, type TabItem } from '@/config/tabbar'
+import { onMounted, onUnmounted } from 'vue'
+import { tabList, type TabItem } from '@/config/tabbar'
+import { useTabbarStore } from '@/store/tabbar'
 
-const selectedIndex = ref(0)
-const tabBarWidth = ref(375) // 默认屏幕宽度，后续会动态获取
-
-// 计算高亮条位置
-const highlightPosition = computed(() => {
-  const itemWidth = tabBarWidth.value / tabList.length
-  const centerPosition = selectedIndex.value * itemWidth + itemWidth / 2
-  return centerPosition - 15 // 15为高亮条宽度的一半
-})
+const tabbarStore = useTabbarStore()
 
 // 切换tab
 const switchTab = (item: TabItem, index: number) => {
-  selectedIndex.value = index
+  // 设置选中状态，启用动画
+  tabbarStore.setSelectedIndex(index, true)
+
   uni.switchTab({
     url: `/${item.pagePath}`,
   })
@@ -46,7 +45,7 @@ const switchTab = (item: TabItem, index: number) => {
 const getSystemInfo = () => {
   uni.getSystemInfo({
     success: (res) => {
-      tabBarWidth.value = res.screenWidth
+      tabbarStore.setTabBarWidth(res.screenWidth)
     },
   })
 }
@@ -57,27 +56,32 @@ const updateSelectedIndex = () => {
   if (pages.length > 0) {
     const currentPage = pages[pages.length - 1]
     const currentRoute = currentPage.route
-
-    const index = tabList.findIndex((item) => {
-      const pagePath = item.pagePath.startsWith('/') ? item.pagePath.slice(1) : item.pagePath
-      const route = currentRoute.startsWith('/') ? currentRoute.slice(1) : currentRoute
-      return pagePath === route
-    })
-
-    if (index !== -1) {
-      selectedIndex.value = index
-    }
+    // 根据路由更新状态，不启用动画
+    tabbarStore.updateSelectedIndexByRoute(currentRoute)
   }
 }
 
-onMounted(() => {
+// 初始化组件状态
+const initializeComponent = () => {
+  // 确保动画状态正确
+  tabbarStore.stopAnimation()
   getSystemInfo()
   updateSelectedIndex()
+}
+
+onMounted(() => {
+  initializeComponent()
+})
+
+// 组件卸载时清理
+onUnmounted(() => {
+  tabbarStore.stopAnimation()
 })
 
 // 暴露给外部调用的方法
 defineExpose({
   updateSelectedIndex,
+  initializeComponent,
 })
 </script>
 
@@ -105,6 +109,11 @@ defineExpose({
     border-radius: 0 0 1.5px 1.5px;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 8px rgba(1, 141, 113, 0.3);
+
+    // 禁用动画的类
+    &.no-transition {
+      transition: none;
+    }
   }
 
   .tab-item {

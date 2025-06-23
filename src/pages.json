@@ -89,10 +89,6 @@
       "type": "page"
     },
     {
-      "path": "pages/login/privacy",
-      "type": "page"
-    },
-    {
       "path": "pages/login/user",
       "type": "page"
     },
