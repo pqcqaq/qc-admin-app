@@ -28,26 +28,36 @@
             <view class="input-wrapper">
               <wd-input
                 v-model="loginForm.accountName"
-                prefix-icon="user"
                 :placeholder="t('please_enter_your_username')"
                 clearable
                 class="login-input"
                 :border="false"
                 required
-              ></wd-input>
+              >
+                <template #prefix>
+                  <view class="prefix-container">
+                    <img src="@/static/icon/user_icon.svg" class="icon" />
+                  </view>
+                </template>
+              </wd-input>
               <view class="input-bottom-line"></view>
             </view>
             <view class="input-wrapper">
               <wd-input
                 v-model="loginForm.password"
-                prefix-icon="lock-on"
                 :placeholder="t('please_enter_your_password')"
                 clearable
                 show-password
                 class="login-input"
                 :border="false"
                 required
-              ></wd-input>
+              >
+                <template #prefix>
+                  <view class="prefix-container">
+                    <img src="@/static/icon/password_icon.svg" class="icon" />
+                  </view>
+                </template>
+              </wd-input>
             </view>
           </view>
         </wd-tab>
@@ -64,7 +74,7 @@
               >
                 <template #prefix>
                   <view class="prefix-container">
-                    <img :width="25" :height="25" src="@/static/icon/phone_icon.svg" class="icon" />
+                    <img src="@/static/icon/phone_icon.svg" class="icon" />
                     <text class="prefix-text">
                       +86
                       <wd-divider vertical :hairline="false" />
@@ -83,12 +93,12 @@
               >
                 <template #prefix>
                   <view class="prefix-container">
-                    <img :width="25" :height="25" src="@/static/icon/code_icon.svg" class="icon" />
+                    <img src="@/static/icon/code_icon.svg" class="icon" />
                   </view>
                 </template>
                 <template #suffix>
                   <wd-divider vertical :hairline="false" />
-                  <text type="success">{{ t('send_a_verification_code') }}</text>
+                  <text>{{ t('send_a_verification_code') }}</text>
                 </template>
               </wd-input>
             </view>
@@ -428,21 +438,21 @@ $primary-color: #3daa9a;
         transition: all 0.3s ease;
         border: 2px rgb(238, 238, 238) solid;
 
-        :deep(.wd-input__inner) {
-          font-size: 30rpx;
-          color: #333333;
-        }
+        // :deep(.wd-input__inner) {
+        //   font-size: 30rpx;
+        //   color: #333333;
+        // }
 
-        :deep(.wd-input__placeholder) {
-          font-size: 28rpx;
-          color: #aaaaaa;
-        }
+        // :deep(.wd-input__placeholder) {
+        //   font-size: 28rpx;
+        //   color: #aaaaaa;
+        // }
 
-        &:focus-within {
-          background-color: rgba(245, 247, 250, 0.95);
-          box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
-          transform: translateY(-3rpx);
-        }
+        // &:focus-within {
+        //   background-color: rgba(245, 247, 250, 0.95);
+        //   box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
+        //   transform: translateY(-3rpx);
+        // }
       }
 
       .input-bottom-line {
