@@ -4,5 +4,7 @@
   "app.name": "中文标题",
   "weight": "{heavy}公斤",
   "detail": "{0}cm, {1}公斤",
-  "introduction": "我是 {name},身高:{detail.height},体重:{detail.weight}"
+  "introduction": "我是 {name},身高:{detail.height},体重:{detail.weight}",
+  "service": "用户协议",
+  "privacy": "隐私政策"
 }

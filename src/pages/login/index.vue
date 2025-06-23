@@ -8,18 +8,11 @@
 </route>
 <template>
   <view class="login-container">
-    <!-- 背景装饰元素 -->
-    <view class="bg-decoration bg-circle-1"></view>
-    <view class="bg-decoration bg-circle-2"></view>
-    <view class="bg-decoration bg-circle-3"></view>
-
     <view class="login-header">
       <image class="login-logo" :src="appLogo" mode="aspectFit"></image>
       <view class="login-title">{{ appTitle }}</view>
     </view>
     <view class="login-form">
-      <view class="welcome-text">欢迎登录</view>
-      <view class="login-desc">请输入您的账号和密码</view>
       <view class="login-input-group">
         <view class="input-wrapper">
           <wd-input
@@ -142,7 +135,11 @@ const handleAccountLogin = async () => {
 
 // 处理协议点击
 const handleAgreement = (type: 'user' | 'privacy') => {
-  const title = type === 'user' ? '用户协议' : '隐私政策'
+  if (type === 'user') {
+    uni.navigateTo({ url: '/pages/login/service' })
+  } else {
+    uni.navigateTo({ url: '/pages/login/privacy' })
+  }
   // showToast(`查看${title}`)
   // 实际项目中可以跳转到对应的协议页面
   // uni.navigateTo({
@@ -152,8 +149,8 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 </script>
 
 <style lang="scss" scoped>
-/* 验证码输入框样式 */
-.captcha-wrapper {
+$primary-color: #3cab9a;
+captcha-wrapper {
   .captcha-input {
     :deep(.wd-input__suffix) {
       margin-right: 0;
@@ -197,7 +194,7 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   flex-direction: column;
   min-height: 100vh;
   padding: 0 70rpx;
-  background-color: #ffffff;
+  background-color: $primary-color;
   background-image: linear-gradient(
     135deg,
     rgba(25, 137, 250, 0.05) 0%,
@@ -253,7 +250,6 @@ const handleAgreement = (type: 'user' | 'privacy') => {
     width: 200rpx;
     height: 200rpx;
     border-radius: 36rpx;
-    box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.12);
     transition: all 0.3s ease;
 
     &:active {

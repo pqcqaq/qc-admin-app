@@ -4,5 +4,7 @@
   "app.name": "En Title",
   "weight": "{heavy}KG",
   "detail": "{0}cm, {1}KG",
-  "introduction": "I am {name},height:{detail.height},weight:{detail.weight}"
+  "introduction": "I am {name},height:{detail.height},weight:{detail.weight}",
+  "service": "User Agreement",
+  "privacy": "Privacy Policy"
 }

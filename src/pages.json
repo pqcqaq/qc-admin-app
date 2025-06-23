@@ -73,6 +73,14 @@
       }
     },
     {
+      "path": "pages/login/privacy",
+      "type": "page"
+    },
+    {
+      "path": "pages/login/service",
+      "type": "page"
+    },
+    {
       "path": "pages/markdown-demo/index",
       "type": "page"
     },
