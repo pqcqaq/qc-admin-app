@@ -52,7 +52,22 @@
             </view>
           </view>
         </wd-tab>
-        <wd-tab :title="t('login_by_verification_code')"></wd-tab>
+        <wd-tab :title="t('login_by_verification_code')" class="login-tab">
+          <view class="verification-code-input-group">
+            <view class="input-wrapper">
+              <wd-input
+                prefix-icon="phone"
+                placeholder="请输入手机号"
+                clearable
+                class="login-input"
+                :border="false"
+                required
+              ></wd-input>
+              <view class="input-bottom-line"></view>
+            </view>
+            <view class="captcha-wrapper"></view>
+          </view>
+        </wd-tab>
       </wd-tabs>
 
       <!-- 登录按钮组 -->
