@@ -66,7 +66,7 @@ import { ref } from 'vue'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { toast } from '@/utils/toast'
-import { updateInfo, updateUserPassword } from '@/api/login'
+// import { updateInfo, updateUserPassword } from '@/api/login'
 
 // 表单引用
 const formRef = ref()
@@ -88,9 +88,9 @@ const handleSubmit = async () => {
   // 表单验证
   const valid = await formRef.value.validate()
   if (!valid) return
-  const { message } = await updateUserPassword(formData.value)
-  await useUserStore().logout()
-  toast.success('修改成功，请重新登录')
+  // const { message } = await updateUserPassword(formData.value)
+  // await useUserStore().logout()
+  // toast.success('修改成功，请重新登录')
 }
 </script>
 
