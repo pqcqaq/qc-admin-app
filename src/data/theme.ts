@@ -2,5 +2,6 @@ import type { ConfigProviderThemeVars } from 'wot-design-uni'
 
 export const theme: ConfigProviderThemeVars = {
   // Primary color
-  buttonSuccessColor: '#3daa9a',
+  colorSuccess: '#3daa9a',
+  buttonSuccessColor: '#ffffff',
 }
