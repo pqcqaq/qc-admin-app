@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import CustomTabBar from '@/custom-tab-bar/index.vue'
 import { useTabbarStore } from '@/store/tabbar'
-import { theme } from '@/data/theme'
+import { theme } from '@/config/theme'
 
 const tabBarRef = ref()
 const tabbarStore = useTabbarStore()

@@ -8,5 +8,5 @@
 </template>
 
 <script lang="ts" setup>
-import { theme } from '@/data/theme'
+import { theme } from '@/config/theme'
 </script>
