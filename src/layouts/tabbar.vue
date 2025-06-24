@@ -1,5 +1,5 @@
 <template>
-  <wd-config-provider :themeVars="themeVars">
+  <wd-config-provider :themeVars="theme">
     <view class="tabbar-layout">
       <!-- 页面内容 -->
       <view class="page-content">
@@ -17,15 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { ConfigProviderThemeVars } from 'wot-design-uni'
 import CustomTabBar from '@/custom-tab-bar/index.vue'
 import { useTabbarStore } from '@/store/tabbar'
-
-const themeVars: ConfigProviderThemeVars = {
-  // colorTheme: 'red',
-  // buttonPrimaryBgColor: '#07c160',
-  // buttonPrimaryColor: '#07c160',
-}
+import { theme } from '@/data/theme'
 
 const tabBarRef = ref()
 const tabbarStore = useTabbarStore()

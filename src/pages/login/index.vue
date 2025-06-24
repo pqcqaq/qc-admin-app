@@ -162,6 +162,7 @@ import { toast } from '@/utils/toast'
 import { isTableBar } from '@/utils/index'
 import { ILoginParams } from '@/api'
 import { useI18n } from 'vue-i18n'
+import { ButtonType } from 'wot-design-uni/components/wd-button/types'
 
 const i18n = useI18n()
 const t = i18n.t
@@ -226,7 +227,6 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 }
 
 //button 类型
-import { ButtonType } from 'wot-design-uni/components/wd-button/types'
 const buttonType = ref<ButtonType>('info')
 
 // 忘记密码
