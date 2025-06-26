@@ -6,13 +6,12 @@
 }
 </route>
 
-<template>
+<!-- <template>
   <view class="profile-info-container">
     <view class="profile-card">
       <view class="form-wrapper">
         <wd-form ref="formRef" :model="formData" label-width="160rpx" class="profile-form">
           <wd-cell-group class="form-group">
-            <!-- 昵称 -->
             <view class="sex-field">
               <text class="field-label">昵称</text>
               <wd-input
@@ -25,7 +24,6 @@
               />
             </view>
 
-            <!-- 性别 -->
             <view class="sex-field">
               <text class="field-label">性别</text>
               <wd-radio-group
@@ -39,11 +37,82 @@
             </view>
           </wd-cell-group>
         </wd-form>
+      </view>
+    </view>
+  </view>
+</template> -->
+<template>
+  <view class="personal-info-container">
+    <!-- 头像 -->
+    <view class="card between" @click="goTo('avatar')">
+      <text class="label">头像</text>
+      <view class="value arrow-right">
+        <image class="avatar" src="/src/static/icon/user_icon.svg" />
+        <wd-icon name="arrow-right" size="20" />
+      </view>
+    </view>
 
-        <!-- 操作按钮
-        <view class="form-actions">
-          <wd-button type="primary" size="large" @click="handleSubmit">保存修改</wd-button>
-        </view> -->
+    <!-- 用户名 -->
+    <view class="card between" @click="goTo('username')">
+      <text class="label">用户名</text>
+      <view class="value arrow-right">
+        <text>王先生</text>
+        <wd-icon name="arrow-right" size="20" />
+      </view>
+    </view>
+
+    <!-- 联系电话 -->
+    <view class="card between" @click="goTo('phone')">
+      <text class="label">联系电话</text>
+      <view class="value arrow-right">
+        <text>+86 199xxxxxxx</text>
+        <wd-icon name="arrow-right" size="20" />
+      </view>
+    </view>
+
+    <!-- 性别（不可点） -->
+    <view class="card between">
+      <text class="label">性别</text>
+      <view class="value">
+        <text>男</text>
+      </view>
+    </view>
+
+    <!-- 职位 -->
+    <view class="card between">
+      <text class="label">职位</text>
+      <view class="value">
+        <text>店长</text>
+      </view>
+    </view>
+
+    <!-- 工号 -->
+    <view class="card between">
+      <text class="label">工号</text>
+      <view class="value">
+        <text>12345</text>
+      </view>
+    </view>
+
+    <!-- 修改密码 -->
+    <view class="item_title">
+      <text>修改密码</text>
+    </view>
+    <view class="card between" @click="goTo('password')">
+      <text class="label">修改密码</text>
+      <view class="value arrow-right">
+        <wd-icon name="arrow-right" size="20" />
+      </view>
+    </view>
+
+    <!-- 关联门店 -->
+    <view class="item_title">
+      <text>关联门店</text>
+    </view>
+    <view v-for="item in itemList">
+      <view class="store-card" :key="item.id">
+        <view class="store-name">{{ item.name }}</view>
+        <view class="store-address">{{ item.address }}</view>
       </view>
     </view>
   </view>
@@ -55,6 +124,18 @@ import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { toast } from '@/utils/toast'
 
+const itemList = ref([
+  { id: 1, name: '101门店', address: '地址Axxxxxxxxxxxxx' },
+  { id: 2, name: '102门店', address: '地址Bxxxxxxxxxxxxxxxxxxx' },
+  { id: 3, name: '103门店', address: '地址Cxxxxxxxxxxxxx' },
+  { id: 4, name: '104门店', address: '地址Dxxxxxxxxxxxxxxxxxxx' },
+  { id: 5, name: '105门店', address: '地址Exxxxxxxxxxxxxxx' },
+  {
+    id: 6,
+    name: '106门店',
+    address: '地址word1word2word3word4word5word6word7word8wor-d9word10xxxxxxxxxxxxxx',
+  },
+])
 // 表单引用
 const formRef = ref()
 
@@ -68,9 +149,21 @@ const formData = ref({
   name: userInfo.value.name,
   gender: userInfo.value.gender,
 })
+// 跳转到其他页面
+const goTo = (type) => {
+  const routeMap = {
+    avatar: '/pages/user/avatar',
+    username: '/pages/user/username',
+    phone: '/pages/user/phone',
+    password: '/pages/user/password',
+  }
+  uni.navigateTo({
+    url: routeMap[type],
+  })
+}
 </script>
 
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 .profile-info-container {
   min-height: 100vh;
   background-color: #f5f7fa;
@@ -174,6 +267,80 @@ const formData = ref({
   &:active {
     transform: translateY(2rpx);
     box-shadow: 0 4rpx 8rpx rgba(74, 123, 255, 0.15);
+  }
+}
+</style> -->
+<style lang="scss" scoped>
+.personal-info-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+  background-color: #f5f5f5;
+
+  .item_title {
+    font-size: 24rpx;
+    color: #333;
+    margin-top: 20rpx;
+    margin-bottom: 10rpx;
+    padding-left: 10rpx;
+  }
+
+  .between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card {
+    background-color: #fff;
+    padding: 30rpx 20rpx;
+    border-radius: 12rpx;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+
+    .label {
+      font-size: 28rpx;
+      color: #333;
+    }
+
+    .value {
+      display: flex;
+      align-items: center;
+      font-size: 28rpx;
+      color: #666;
+
+      .avatar {
+        width: 60rpx;
+        height: 60rpx;
+        border-radius: 50%;
+        margin-right: 10rpx;
+      }
+    }
+
+    .arrow-right wd-icon {
+      margin-left: 10rpx;
+    }
+  }
+
+  .store-card {
+    background-color: #fff;
+    padding: 10rpx 20rpx;
+    border-radius: 12rpx;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+
+    .store-name {
+      font-size: 28rpx;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .store-address {
+      font-size: 24rpx;
+      color: #999;
+      word-break: break-all;
+    }
   }
 }
 </style>
