@@ -37,6 +37,7 @@
       <view class="test-buttons">
         <button class="test-button reset" @click="resetAnimation">重置动画状态</button>
         <button class="test-button trigger" @click="triggerLayoutAnimation">触发布局动画</button>
+        <button @click="toManualInspection">跳人工巡检</button>
       </view>
     </view>
   </view>
@@ -77,6 +78,11 @@ const resetAnimation = () => {
 
 const triggerLayoutAnimation = () => {
   tabbarStore.triggerLayoutAnimation()
+}
+const toManualInspection = () => {
+  uni.navigateTo({
+    url: '/pages/manual-inspection/index',
+  })
 }
 </script>
 

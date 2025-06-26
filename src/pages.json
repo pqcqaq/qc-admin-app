@@ -89,6 +89,15 @@
       "type": "page"
     },
     {
+      "path": "pages/manual-inspection/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "人工巡检项报告",
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/mine/index",
       "type": "page",
       "style": {

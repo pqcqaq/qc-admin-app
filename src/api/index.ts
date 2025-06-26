@@ -17,7 +17,7 @@ export * from './auth'
 export interface IBaseResponse<T = any> {
   success: boolean
   serverTime: number
-  code?: string
+  code?: number
   message?: string
   data: T
 }
