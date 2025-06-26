@@ -16,5 +16,15 @@
   "please_enter_your_password": "please enter your password",
   "please_enter_your_phone_number": "please enter your phone number",
   "please_enter_your_verification_code": "please enter your verification code",
-  "send_a_verification_code": "send a verification code"
+  "send_a_verification_code": "send a verification code",
+  "avatar": "avatar",
+  "username": "username",
+  "contact_number": "contact number",
+  "gender": "gender",
+  "position": "position",
+  "employee_number": "employee number",
+  "change_password": "change password",
+  "related_stores": "related stores",
+  "country_region": "country/region",
+  "phone_number": "phone number"
 }

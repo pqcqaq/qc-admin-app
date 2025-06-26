@@ -118,8 +118,36 @@
       }
     },
     {
-      "path": "pages/mine/username/index",
-      "type": "page"
+      "path": "pages/mine/info/phone/index",
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "修改手机号",
+        "navigationBarLeftText": "取消",
+        "navigationBarTitleAlign": "center",
+        "navigationBarRightButtonList": [
+          {
+            "text": "完成",
+            "color": "#007aff",
+            "fontSize": "16"
+          }
+        ]
+      }
+    },
+    {
+      "path": "pages/mine/info/username/index",
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "用户名",
+        "navigationBarLeftText": "取消",
+        "navigationBarTitleAlign": "center",
+        "navigationBarRightButtonList": [
+          {
+            "text": "完成",
+            "color": "#007aff",
+            "fontSize": "16"
+          }
+        ]
+      }
     }
   ],
   "subPackages": []

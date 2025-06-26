@@ -44,27 +44,27 @@
 <template>
   <view class="personal-info-container">
     <!-- 头像 -->
-    <view class="card between" @click="goTo('avatar')">
-      <text class="label">头像</text>
-      <view class="value arrow-right">
+    <view class="card between">
+      <text class="label">{{ t('avatar') }}</text>
+      <view class="value arrow-right" @click="goTo('avatar')">
         <image class="avatar" src="/src/static/icon/user_icon.svg" />
         <wd-icon name="arrow-right" size="20" />
       </view>
     </view>
 
     <!-- 用户名 -->
-    <view class="card between" @click="goTo('username')">
-      <text class="label">用户名</text>
-      <view class="value arrow-right">
+    <view class="card between">
+      <text class="label">{{ t('username') }}</text>
+      <view class="value arrow-right" @click="goTo('username')">
         <text>王先生</text>
         <wd-icon name="arrow-right" size="20" />
       </view>
     </view>
 
     <!-- 联系电话 -->
-    <view class="card between" @click="goTo('phone')">
-      <text class="label">联系电话</text>
-      <view class="value arrow-right">
+    <view class="card between">
+      <text class="label">{{ t('contact_number') }}</text>
+      <view class="value arrow-right" @click="goTo('phone')">
         <text>+86 199xxxxxxx</text>
         <wd-icon name="arrow-right" size="20" />
       </view>
@@ -72,7 +72,7 @@
 
     <!-- 性别（不可点） -->
     <view class="card between">
-      <text class="label">性别</text>
+      <text class="label">{{ t('gender') }}</text>
       <view class="value">
         <text>男</text>
       </view>
@@ -80,7 +80,7 @@
 
     <!-- 职位 -->
     <view class="card between">
-      <text class="label">职位</text>
+      <text class="label">{{ t('position') }}</text>
       <view class="value">
         <text>店长</text>
       </view>
@@ -88,7 +88,7 @@
 
     <!-- 工号 -->
     <view class="card between">
-      <text class="label">工号</text>
+      <text class="label">{{ t('employee_number') }}</text>
       <view class="value">
         <text>12345</text>
       </view>
@@ -96,18 +96,18 @@
 
     <!-- 修改密码 -->
     <view class="item_title">
-      <text>修改密码</text>
+      <text>{{ t('change_password') }}</text>
     </view>
-    <view class="card between" @click="goTo('password')">
-      <text class="label">修改密码</text>
-      <view class="value arrow-right">
+    <view class="card between">
+      <text class="label">{{ t('change_password') }}</text>
+      <view class="value arrow-right" @click="goTo('password')">
         <wd-icon name="arrow-right" size="20" />
       </view>
     </view>
 
     <!-- 关联门店 -->
     <view class="item_title">
-      <text>关联门店</text>
+      <text>{{ t('related_stores') }}</text>
     </view>
     <view v-for="item in itemList">
       <view class="store-card" :key="item.id">
@@ -123,6 +123,10 @@ import { ref } from 'vue'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { toast } from '@/utils/toast'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
+const t = i18n.t
 
 const itemList = ref([
   { id: 1, name: '101门店', address: '地址Axxxxxxxxxxxxx' },
@@ -150,11 +154,11 @@ const formData = ref({
   gender: userInfo.value.gender,
 })
 // 跳转到其他页面
-const goTo = (type) => {
+const goTo = (type: string) => {
   const routeMap = {
     avatar: '/pages/user/avatar',
-    username: '/pages/user/username',
-    phone: '/pages/user/phone',
+    username: '/pages/mine/info/username/index',
+    phone: '/pages/mine/info/phone/index',
     password: '/pages/user/password',
   }
   uni.navigateTo({
