@@ -31,5 +31,7 @@
   "finish": "完成",
   "cancel": "取消",
   "change-password": "修改密码",
-  "username_cannot_be_empty": "用户名不能为空"
+  "username_cannot_be_empty": "用户名不能为空",
+  "change_phone_number": "修改手机号",
+  "select_country_region": "选择国家/地区"
 }

@@ -9,10 +9,10 @@
   <view class="container">
     <StatusBar>
       <template #title>
-        <text class="status_bar_title">{{ t('change_username') }}</text>
+        <text class="status-bar-title">{{ t('change_username') }}</text>
       </template>
       <template #right>
-        <button class="status_bar_confirm_button" @click="finish">{{ t('finish') }}</button>
+        <button class="status-bar-confirm-button" @click="finish">{{ t('finish') }}</button>
       </template>
     </StatusBar>
     <view class="username-container">
@@ -59,12 +59,12 @@ $font2-color: #536387;
 $bg-color: #f5f5f5;
 $card-bg-color: #ffffff;
 .container {
-  .status_bar_title {
+  .status-bar-title {
     font-size: large;
     font-weight: bold;
     color: $font2-color;
   }
-  .status_bar_confirm_button {
+  .status-bar-confirm-button {
     display: flex;
     width: 95rpx;
     height: 50rpx;
