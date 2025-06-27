@@ -88,6 +88,7 @@ $card-bg-color: #ffffff;
       padding: 30rpx 35rpx;
       border-radius: 12rpx;
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      outline: medium;
     }
   }
 }

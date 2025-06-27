@@ -269,6 +269,10 @@ $card-bg-color: #ffffff;
     font-weight: bold;
     color: $font2-color;
   }
+
+  .form-input {
+    font-size: 30rpx;
+  }
   .status_bar_confirm_button {
     display: flex;
     width: 95rpx;
