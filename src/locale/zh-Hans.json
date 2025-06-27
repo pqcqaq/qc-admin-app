@@ -29,5 +29,6 @@
   "phone_number": "手机号",
   "change_username": "修改用户名",
   "finish": "完成",
-  "cancel": "取消"
+  "cancel": "取消",
+  "change-password": "修改密码"
 }

@@ -1,7 +1,9 @@
 <template>
   <view class="status_bar">
     <view class="status-bar-left">
-      <slot name="left" />
+      <wd-button type="text" class="status_bar_back_button" @click="back">
+        {{ t('cancel') }}
+      </wd-button>
     </view>
     <view class="status-bar-title">
       <slot name="title" />
@@ -11,6 +13,18 @@
     </view>
   </view>
 </template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+const i18n = useI18n()
+const t = i18n.t
+
+// 返回上一页
+const back = () => {
+  uni.navigateBack()
+}
+</script>
+
 <style lang="scss" scoped>
 $background-color: rgb(248, 248, 248);
 .status_bar {

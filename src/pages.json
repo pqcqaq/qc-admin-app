@@ -111,10 +111,10 @@
       }
     },
     {
-      "path": "pages/mine/password/index",
+      "path": "pages/mine/info/password/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "修改密码"
+        "navigationStyle": "custom"
       }
     },
     {

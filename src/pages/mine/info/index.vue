@@ -159,7 +159,7 @@ const goTo = (type: string) => {
     avatar: '/pages/user/avatar',
     username: '/pages/mine/info/username/index',
     phone: '/pages/mine/info/phone/index',
-    password: '/pages/user/password',
+    password: '/pages/mine/info/password/index',
   }
   uni.navigateTo({
     url: routeMap[type],

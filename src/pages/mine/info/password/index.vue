@@ -1,13 +1,26 @@
 <route lang="json5">
 {
   style: {
-    navigationBarTitleText: '修改密码',
+    navigationStyle: 'custom',
   },
 }
 </route>
 
 <template>
   <view class="profile-info-container">
+    <StatusBar>
+      <template #left>
+        <wd-button type="text" class="status_bar_back_button" @click="back">
+          {{ t('cancel') }}
+        </wd-button>
+      </template>
+      <template #title>
+        <text class="status_bar_title">{{ t('change-password') }}</text>
+      </template>
+      <template #right>
+        <button class="status_bar_confirm_button" @click="finish">{{ t('finish') }}</button>
+      </template>
+    </StatusBar>
     <view class="profile-card">
       <view class="form-wrapper">
         <wd-form ref="formRef" :model="formData" label-width="160rpx" class="profile-form">
@@ -51,11 +64,6 @@
             </view>
           </wd-cell-group>
         </wd-form>
-
-        <!-- 操作按钮 -->
-        <view class="form-actions">
-          <wd-button type="primary" size="large" @click="handleSubmit">保存修改</wd-button>
-        </view>
       </view>
     </view>
   </view>
@@ -66,7 +74,62 @@ import { ref } from 'vue'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { toast } from '@/utils/toast'
+import StatusBar from '@/components/status-bar/StatusBar.vue'
+import { useI18n } from 'vue-i18n'
 // import { updateInfo, updateUserPassword } from '@/api/login'
+
+const i18n = useI18n()
+const t = i18n.t
+
+// 返回上一页
+const back = () => {
+  uni.navigateBack()
+}
+
+// 完成修改
+const finish = async () => {
+  // 表单校验
+  const valid = await formRef.value?.validate?.()
+  if (!valid) return
+
+  const { oldPassword, newPassword, confirmPassword } = formData.value
+
+  if (!oldPassword || !newPassword || !confirmPassword) {
+    uni.showToast({
+      title: '请填写所有密码',
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
+  if (newPassword !== confirmPassword) {
+    uni.showToast({
+      title: '两次输入的新密码不一致',
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
+  if (oldPassword === newPassword) {
+    uni.showToast({
+      title: '新密码不能与旧密码相同',
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
+
+  // 这里可以调用后端接口进行密码修改
+  // uni.showToast({
+  //   title: '修改成功',
+  //   icon: 'success',
+  //   duration: 2000,
+  //   mask: true,
+  // })
+}
 
 // 表单引用
 const formRef = ref()
@@ -82,23 +145,36 @@ const formData = ref({
   newPassword: '',
   confirmPassword: '',
 })
-
-// 提交表单
-const handleSubmit = async () => {
-  // 表单验证
-  const valid = await formRef.value.validate()
-  if (!valid) return
-  // const { message } = await updateUserPassword(formData.value)
-  // await useUserStore().logout()
-  // toast.success('修改成功，请重新登录')
-}
 </script>
 
 <style lang="scss" scoped>
+$primary-color: #3daa9a;
+$font1-color: #ffffff; //
+$font2-color: #536387;
 .profile-info-container {
   min-height: 100vh;
   background-color: #f5f7fa;
   padding: 30rpx;
+  .status_bar_title {
+    font-size: large;
+    font-weight: bold;
+    color: $font2-color;
+  }
+  .status_bar_confirm_button {
+    display: flex;
+    width: 95rpx;
+    height: 50rpx;
+    background-color: $primary-color;
+    color: $font1-color;
+    border-radius: 5rpx;
+    padding: 10rpx 20rpx;
+    font-size: 24rpx;
+    align-items: center;
+    justify-content: center;
+  }
+  .status_bar_back_button {
+    color: $font2-color;
+  }
 }
 
 .profile-card {

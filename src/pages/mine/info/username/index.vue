@@ -64,7 +64,7 @@ const finish = () => {
 </script>
 <style lang="scss" scoped>
 $primary-color: #3daa9a;
-$font1-color: #ffffff;
+$font1-color: #ffffff; //
 $font2-color: #536387;
 .container {
   .status_bar_title {

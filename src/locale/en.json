@@ -29,5 +29,6 @@
   "phone_number": "phone number",
   "change_username": "change username",
   "finish": "finish",
-  "cancel": "cancel"
+  "cancel": "cancel",
+  "change-password": "change-password"
 }
