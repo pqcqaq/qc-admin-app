@@ -19,7 +19,7 @@ export const http = <T>(options: CustomRequestOptions) => {
           const responseData = res.data as IBaseResponse<any>
 
           // 判断业务状态码
-          if (responseData.success === true) {
+          if (responseData.success === true || responseData.code === 0) {
             // 2.1 业务成功，提取核心数据
             // 他妈的接口没什么规范，只能直接返回这个了，类型每个接口自己写吧
             resolve(responseData as T)
