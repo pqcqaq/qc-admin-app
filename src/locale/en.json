@@ -26,5 +26,8 @@
   "change_password": "change password",
   "related_stores": "related stores",
   "country_region": "country/region",
-  "phone_number": "phone number"
+  "phone_number": "phone number",
+  "change_username": "change username",
+  "finish": "finish",
+  "cancel": "cancel"
 }

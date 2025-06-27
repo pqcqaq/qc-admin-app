@@ -26,5 +26,8 @@
   "change_password": "修改密码",
   "related_stores": "关联门店",
   "country_region": "国家/地区",
-  "phone_number": "手机号"
+  "phone_number": "手机号",
+  "change_username": "修改用户名",
+  "finish": "完成",
+  "cancel": "取消"
 }
