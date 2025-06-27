@@ -90,14 +90,14 @@ $card-bg-color: #ffffff;
 
     .card {
       background-color: $card-bg-color;
-      // padding: 10rpx 35rpx;
+      padding: 30rpx 35rpx;
       border-radius: 12rpx;
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
       // display: flex;
       justify-content: space-between;
-      // align-items: center;
+      align-items: center;
       margin-bottom: 20rpx;
-      width: 100%;
+
       .label {
         color: $font3-color;
       }

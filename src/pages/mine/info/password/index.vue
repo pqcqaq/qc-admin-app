@@ -270,11 +270,15 @@ $card-bg-color: #ffffff;
     font-weight: bold;
     color: $font2-color;
   }
+<<<<<<< HEAD
 
   .form-input {
     font-size: 30rpx;
   }
   .status_bar_confirm_button {
+=======
+  .status-bar-confirm-button {
+>>>>>>> 7693bae08e414485aede8014c2c2c12616cb98b0
     display: flex;
     width: 95rpx;
     height: 50rpx;
