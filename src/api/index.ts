@@ -13,6 +13,9 @@ export * from './user'
 // ==================== 认证和组织管理 ====================
 export * from './auth'
 
+// =========== 任务管理，任务看板及任务历史记录 ===============
+export * from './task'
+
 // ==================== 常用类型导出 ====================
 export interface IBaseResponse<T = any> {
   success: boolean

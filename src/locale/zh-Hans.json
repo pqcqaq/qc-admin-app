@@ -16,5 +16,17 @@
   "please_enter_your_password": "请输入登录密码",
   "please_enter_your_phone_number": "请输入手机号",
   "please_enter_your_verification_code": "请输入短信验证码",
-  "send_a_verification_code": "发送验证码"
+  "send_a_verification_code": "发送验证码",
+  "task_board": "任务看板",
+  "task_item": "项",
+  "task_pending_check_item": "待检查项",
+  "task_rectify_item": "待整改项",
+  "task_pending_review_appeal_item": "申诉待审核项",
+  "task_pending_appeal_item": "待审核项",
+  "task_extended_item": "已延期项",
+  "task_view_history_record": "查看历史记录",
+  "task_history_date": "日期",
+  "task_item_store": "门店",
+  "task_item_question": "问题",
+  "task_item_waiting": "等待"
 }
