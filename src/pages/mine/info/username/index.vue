@@ -54,8 +54,10 @@ const finish = () => {
 </script>
 <style lang="scss" scoped>
 $primary-color: #3daa9a;
-$font1-color: #ffffff; //
+$font1-color: #ffffff;
 $font2-color: #536387;
+$bg-color: #f5f5f5;
+$card-bg-color: #ffffff;
 .container {
   .status_bar_title {
     font-size: large;
@@ -74,18 +76,15 @@ $font2-color: #536387;
     align-items: center;
     justify-content: center;
   }
-  .status_bar_back_button {
-    color: $font2-color;
-  }
   .username-container {
     height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 20rpx;
-    background-color: #f5f5f5;
+    background-color: $bg-color;
 
     .card {
-      background-color: #fff;
+      background-color: $card-bg-color;
       padding: 30rpx 35rpx;
       border-radius: 12rpx;
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);

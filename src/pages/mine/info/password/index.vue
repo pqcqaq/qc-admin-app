@@ -7,13 +7,8 @@
 </route>
 
 <template>
-  <view class="profile-info-container">
+  <view class="container">
     <StatusBar>
-      <template #left>
-        <wd-button type="text" class="status_bar_back_button" @click="back">
-          {{ t('cancel') }}
-        </wd-button>
-      </template>
       <template #title>
         <text class="status_bar_title">{{ t('change-password') }}</text>
       </template>
@@ -21,49 +16,39 @@
         <button class="status_bar_confirm_button" @click="finish">{{ t('finish') }}</button>
       </template>
     </StatusBar>
-    <view class="profile-card">
-      <view class="form-wrapper">
-        <wd-form ref="formRef" :model="formData" label-width="160rpx" class="profile-form">
-          <wd-cell-group class="form-group">
-            <!-- 昵称 -->
-            <view class="sex-field">
-              <text class="field-label">旧密码</text>
-              <wd-input
-                prop="oldPassword"
-                clearable
-                v-model="formData.oldPassword"
-                placeholder="请输入旧密码"
-                show-password
-                :rules="[{ required: true, message: '请填写旧密码' }]"
-                class="form-input"
-              />
-            </view>
-            <view class="sex-field">
-              <text class="field-label">新密码</text>
-              <wd-input
-                prop="newPassword"
-                clearable
-                v-model="formData.newPassword"
-                placeholder="请输入新密码"
-                show-password
-                :rules="[{ required: true, message: '请填写新密码' }]"
-                class="form-input"
-              />
-            </view>
-            <view class="sex-field">
-              <text class="field-label">确认密码</text>
-              <wd-input
-                prop="confirmPassword"
-                clearable
-                v-model="formData.confirmPassword"
-                placeholder="请输入新密码"
-                show-password
-                :rules="[{ required: true, message: '请填写新密码' }]"
-                class="form-input"
-              />
-            </view>
-          </wd-cell-group>
-        </wd-form>
+    <view class="password-container">
+      <view class="card">
+        <text class="label">旧密码</text>
+        <wd-input
+          v-model="formData.oldPassword"
+          show-password
+          placeholder="请输入旧密码"
+          clearable
+          :rules="[{ required: true, message: '旧密码不能为空' }]"
+          class="form-input"
+        ></wd-input>
+      </view>
+      <view class="card">
+        <text class="label">新密码</text>
+        <wd-input
+          v-model="formData.newPassword"
+          show-password
+          placeholder="请输入新密码"
+          clearable
+          :rules="[{ required: true, message: '新密码不能为空' }]"
+          class="form-input"
+        ></wd-input>
+      </view>
+      <view class="card">
+        <text class="label">确认密码</text>
+        <wd-input
+          v-model="formData.confirmPassword"
+          show-password
+          placeholder="请再次输入新密码"
+          clearable
+          :rules="[{ required: true, message: '请确认新密码' }]"
+          class="form-input"
+        ></wd-input>
       </view>
     </view>
   </view>
@@ -80,11 +65,6 @@ import { useI18n } from 'vue-i18n'
 
 const i18n = useI18n()
 const t = i18n.t
-
-// 返回上一页
-const back = () => {
-  uni.navigateBack()
-}
 
 // 完成修改
 const finish = async () => {
@@ -147,7 +127,7 @@ const formData = ref({
 })
 </script>
 
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 $primary-color: #3daa9a;
 $font1-color: #ffffff; //
 $font2-color: #536387;
@@ -274,6 +254,50 @@ $font2-color: #536387;
   &:active {
     transform: translateY(2rpx);
     box-shadow: 0 4rpx 8rpx rgba(74, 123, 255, 0.15);
+  }
+}
+</style> -->
+<style lang="scss" scoped>
+$primary-color: #3daa9a;
+$font1-color: #ffffff;
+$font2-color: #536387;
+$bg-color: #f5f5f5;
+$card-bg-color: #ffffff;
+.container {
+  .status_bar_title {
+    font-size: large;
+    font-weight: bold;
+    color: $font2-color;
+  }
+  .status_bar_confirm_button {
+    display: flex;
+    width: 95rpx;
+    height: 50rpx;
+    background-color: $primary-color;
+    color: $font1-color;
+    border-radius: 5rpx;
+    padding: 10rpx 20rpx;
+    font-size: 24rpx;
+    align-items: center;
+    justify-content: center;
+  }
+  .password-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20rpx;
+    background-color: $bg-color;
+
+    .card {
+      background-color: $card-bg-color;
+      padding: 30rpx 35rpx;
+      border-radius: 12rpx;
+      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20rpx;
+    }
   }
 }
 </style>
