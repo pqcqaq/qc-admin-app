@@ -33,5 +33,18 @@
   "change-password": "修改密码",
   "username_cannot_be_empty": "用户名不能为空",
   "change_phone_number": "修改手机号",
-  "select_country_region": "选择国家/地区"
+  "select_country_region": "选择国家/地区",
+  "date": "日期",
+  "Inspection statistics": "巡检统计",
+  "Inspection issue ranking": "巡检问题排名",
+  "Top 10": "前十名",
+  "Ranking of inspected stores": "巡检门店排名",
+  "Unqualified": "不合格",
+  "Store name": "门店名称",
+  "Inspection pass rate": "巡检合格率",
+  "Average pass rate": "平均合格率",
+  "Inspection Plan": "巡检计划",
+  "Inspect the store": "巡检门店",
+  "Inspection items": "巡检项",
+  "Qualification items": "合格项"
 }

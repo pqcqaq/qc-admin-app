@@ -33,5 +33,18 @@
   "change-password": "change-password",
   "username_cannot_be_empty": "username cannot be empty",
   "change_phone_number": "change phone number",
-  "select_country_region": "select country region"
+  "select_country_region": "select country region",
+  "date": "date",
+  "Inspection statistics": "Inspection statistics",
+  "Inspection issue ranking": "Inspection issue ranking",
+  "Top 10": "Top 10",
+  "Ranking of inspected stores": "Ranking of inspected stores",
+  "Unqualified": "Unqualified",
+  "Store name": "Store name",
+  "Inspection pass rate": "Inspection pass rate",
+  "Average pass rate": "Average pass rate",
+  "Inspection Plan": "Inspection Plan",
+  "Inspect the store": "Inspect the store",
+  "Inspection items": "Inspection items",
+  "Qualification items": "Qualification items"
 }

@@ -21,13 +21,13 @@
         <view class="page_header_user_type">督导</view>
       </view>
       <view class="page_header_search">
-        <view class="page_header_search_label">日期</view>
+        <view class="page_header_search_label">{{ t('date') }}</view>
         <wd-datetime-picker ellipsis v-model="dateArr" @confirm="handleConfirm" />
       </view>
     </view>
     <view class="page_content">
       <view class="page_content_card">
-        <view class="page_content_card_title">巡检统计</view>
+        <view class="page_content_card_title">{{ t('Inspection statistics') }}</view>
         <view class="page_content_card_content stats_card">
           <view class="page_content_card_content_stats" v-for="(item, index) in stats">
             <view class="img">
@@ -35,7 +35,7 @@
             </view>
             <view class="info">
               <view class="info_title">
-                {{ item.title }}
+                {{ t(item.title) }}
                 <view class="extra" v-if="item.extraKey">{{ data[item.extraKey] }}%</view>
               </view>
               <view class="info_value">
@@ -51,8 +51,8 @@
     <view class="page_content">
       <view class="page_content_card">
         <view class="page_content_card_title">
-          巡检问题排名
-          <view class="page_content_card_title_more">前十名</view>
+          {{ t('Inspection issue ranking') }}
+          <view class="page_content_card_title_more">{{ t('Top 10') }}</view>
         </view>
         <view class="page_content_card_content">
           <view class="page_content_card_content_question">
@@ -62,7 +62,7 @@
               :style="{ width: `${(v.count / maxCount) * 100}%`, minWidth: 'fit-content' }"
             >
               <view class="line">{{ v.detectionRuleName }}</view>
-              <view class="title">不合格{{ v.count }}次</view>
+              <view class="title">{{ t('Unqualified') }}{{ v.count }}次</view>
             </view>
           </view>
         </view>
@@ -71,17 +71,17 @@
     <view class="page_content">
       <view class="page_content_card">
         <view class="page_content_card_title">
-          巡检门店排名
-          <view class="page_content_card_title_more">前十名</view>
+          {{ t('Ranking of inspected stores') }}
+          <view class="page_content_card_title_more">{{ t('Top 10') }}</view>
         </view>
         <view class="page_content_card_content">
           <view class="page_content_card_content_shop">
             <wd-table :data="data?.shopPassRate" :border="false" :index="true">
-              <wd-table-col prop="Name" label="门店名称"></wd-table-col>
-              <wd-table-col prop="PassRateByDatetimeRange" label="巡检合格率">
+              <wd-table-col prop="Name" :label="t('Store name')"></wd-table-col>
+              <wd-table-col prop="PassRateByDatetimeRange" :label="t('Inspection pass rate')">
                 <template #value="{ row }">{{ row.PassRateByDatetimeRange.toFixed(2) }}%</template>
               </wd-table-col>
-              <wd-table-col prop="PassRateByDatetimeAll" label="平均合格率">
+              <wd-table-col prop="PassRateByDatetimeAll" :label="t('Average pass rate')">
                 <template #value="{ row }">{{ row.PassRateByDatetimeAll.toFixed(2) }}%</template>
               </wd-table-col>
             </wd-table>
@@ -93,6 +93,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+
 import { getDashboard } from '@/api'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
@@ -100,6 +102,9 @@ import { storeToRefs } from 'pinia'
 defineOptions({
   name: 'Home',
 })
+const i18n = useI18n()
+const t = i18n.t
+
 const userStore = useUserStore()
 // 使用storeToRefs解构userInfo
 const { userInfo } = storeToRefs(userStore)
@@ -120,22 +125,22 @@ const maxCount = computed(() => {
 })
 const stats = [
   {
-    title: '巡检计划',
+    title: 'Inspection Plan',
     key: 'detectionPlanCount',
     icon: '/src/static/icon/shop.svg',
   },
   {
-    title: '巡检门店',
+    title: 'Inspect the store',
     key: 'shopCount',
     icon: '/src/static/icon/file.svg',
   },
   {
-    title: '巡检项',
+    title: 'Inspection items',
     key: 'detectionTaskCount',
     icon: '/src/static/icon/fileSearch.svg',
   },
   {
-    title: '合格项',
+    title: 'Qualification items',
     key: 'detectionTaskIsPassCount',
     icon: '/src/static/icon/qualified.svg',
     extraKey: 'detectionTaskIsPassCount',
