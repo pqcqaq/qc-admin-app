@@ -30,5 +30,6 @@
   "change_username": "change username",
   "finish": "finish",
   "cancel": "cancel",
-  "change-password": "change-password"
+  "change-password": "change-password",
+  "username_cannot_be_empty": "username cannot be empty"
 }

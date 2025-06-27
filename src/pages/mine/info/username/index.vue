@@ -8,11 +8,6 @@
 <template>
   <view class="container">
     <StatusBar>
-      <template #left>
-        <wd-button type="text" class="status_bar_back_button" @click="back">
-          {{ t('cancel') }}
-        </wd-button>
-      </template>
       <template #title>
         <text class="status_bar_title">{{ t('change_username') }}</text>
       </template>
@@ -24,9 +19,9 @@
       <view class="card">
         <wd-input
           v-model="currentUsername"
-          placeholder="请输入用户名"
+          :placeholder="t('please_enter_your_username')"
           clearable
-          :rules="[{ required: true, message: '用户名不能为空' }]"
+          :rules="[{ required: true, message: t('username_cannot_be_empty') }]"
         ></wd-input>
       </view>
     </view>
@@ -39,17 +34,12 @@ const currentUsername = ref('王先生')
 const i18n = useI18n()
 const t = i18n.t
 
-// 返回上一页
-const back = () => {
-  uni.navigateBack()
-}
-
 // 完成修改
 const finish = () => {
   const username = currentUsername.value.trim()
   if (username === '') {
     uni.showToast({
-      title: '用户名不能为空',
+      title: t('username_cannot_be_empty'),
       icon: 'error',
       duration: 2000,
       mask: true,

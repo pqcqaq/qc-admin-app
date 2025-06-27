@@ -30,5 +30,6 @@
   "change_username": "修改用户名",
   "finish": "完成",
   "cancel": "取消",
-  "change-password": "修改密码"
+  "change-password": "修改密码",
+  "username_cannot_be_empty": "用户名不能为空"
 }

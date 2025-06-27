@@ -21,7 +21,7 @@ const t = i18n.t
 
 // 返回上一页
 const back = () => {
-  uni.navigateBack()
+  uni.navigateTo({ url: '/pages/mine/info/index' })
 }
 </script>
 
