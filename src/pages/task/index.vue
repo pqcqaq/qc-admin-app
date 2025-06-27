@@ -150,11 +150,34 @@ onMounted(async () => {
     loading.value = true
     const [taskRes, statsRes] = await Promise.all([getTaskList(), getDashBoardStats()])
     console.log(taskRes, statsRes)
-    tasks.value = taskRes.data || []
-    taskBoardDate.value = statsRes.data || {}
+    // 打印接口返回数据
+    console.log('任务列表数据:', taskRes)
+    console.log('统计数据:', statsRes)
+
+    // 检查并赋值任务数据
+    if (taskRes && taskRes.data && taskRes.data.result) {
+      tasks.value = taskRes.data.result
+      console.log('成功赋值任务数据，共', tasks.value.length, '条')
+    } else {
+      tasks.value = []
+      console.log('任务数据格式不正确，使用空数组')
+    }
+
+    // 检查并赋值统计数据
+    if (statsRes && statsRes.data && statsRes.data.result) {
+      taskBoardDate.value = statsRes.data.result
+      console.log('成功赋值统计数据')
+    } else {
+      taskBoardDate.value = {}
+      console.log('统计数据格式不正确，使用空对象')
+    }
+    // 已在上方处理，此处不再重复赋值
   } catch (err) {
-    error.value = '数据加载失败，请重试'
+    // 解析错误信息，提供更具体的错误提示
+    const errorMessage = err?.response?.data?.message || err?.message || '未知错误'
+    error.value = `数据加载失败: ${errorMessage}`
     console.error('接口调用失败:', err)
+    console.error('错误详情:', errorMessage)
   } finally {
     loading.value = false
   }
