@@ -16,7 +16,9 @@
         <view class="w-8 flex items-center justify-start">
           <wd-icon name="arrow-left" color="#fff" size="24" @click="onBack" />
         </view>
-        <view class="flex-1 text-center text-white text-lg font-bold">人工巡检项报告</view>
+        <view class="flex-1 text-center text-white text-lg font-bold">
+          {{ t('manual_inspection_item_report') }}
+        </view>
         <view class="w-8"></view>
       </view>
       <view class="flex justify-center items-center mt-2 text-white text-sm">
@@ -37,7 +39,7 @@
       <view class="mt-[-32px]">
         <view class="flex items-center px-6 py-4 bg-white rounded-t-3xl shadow">
           <wd-icon name="bulletpoint" size="24" class="mr-3" />
-          <text class="text-gray-700 text-base mr-3">检查项</text>
+          <text class="text-gray-700 text-base mr-3">{{ t('inspection_item') }}</text>
           <wd-progress
             :percentage="progressPercent"
             color="#26b7a7"
@@ -71,42 +73,41 @@
       </wd-tabs>
       <!-- 底部按钮 -->
       <view class="fixed bottom-0 left-0 w-full bg-white py-4 px-4 z-10">
-        <wd-button
-          block
-          type="primary"
-          size="large"
-          :disabled="checkedCount !== totalCount"
-          @click="onNext"
+        <view
           class="custom-next-btn"
+          :class="{ 'custom-next-btn--disabled': checkedCount !== totalCount }"
+          @click="checkedCount === totalCount && onNext()"
         >
-          下一步
-        </wd-button>
+          {{ t('next') }}
+        </view>
       </view>
     </template>
 
     <template v-else>
       <view class="finish-container">
-        <view class="finish-icon">
-          <!-- 可用svg、iconfont或图片，示例用svg -->
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <rect
-              x="10"
-              y="10"
-              width="60"
-              height="60"
-              rx="10"
-              fill="none"
-              stroke="#3eab9a"
-              stroke-width="4"
-            />
-            <circle cx="40" cy="40" r="18" fill="none" stroke="#3eab9a" stroke-width="4" />
-            <polyline points="32,42 38,48 48,34" fill="none" stroke="#3eab9a" stroke-width="4" />
-          </svg>
-        </view>
-        <view class="finish-text">
-          <text>今日巡检</text>
-          <br />
-          <text>任务已完成！</text>
+        <view class="finish-row">
+          <view class="finish-icon">
+            <!-- 可用svg、iconfont或图片，示例用svg -->
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <rect
+                x="10"
+                y="10"
+                width="60"
+                height="60"
+                rx="10"
+                fill="none"
+                stroke="#3eab9a"
+                stroke-width="4"
+              />
+              <circle cx="40" cy="40" r="18" fill="none" stroke="#3eab9a" stroke-width="4" />
+              <polyline points="32,42 38,48 48,34" fill="none" stroke="#3eab9a" stroke-width="4" />
+            </svg>
+          </view>
+          <view class="finish-text">
+            <text>{{ t('today_inspection') }}</text>
+            <br />
+            <text>{{ t('task_completed') }}</text>
+          </view>
         </view>
       </view>
     </template>
@@ -117,10 +118,15 @@
 import { ref, computed } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import InspectionItemCard from './components/InspectionItemCard.vue'
+import { useI18n } from 'vue-i18n'
+
 import {
   getDetectionRuleListByManualDetectionTaskId,
   createdetectionbatchformanualdetectiontask,
 } from '@/api/manual-inspection'
+
+const i18n = useI18n()
+const t = i18n.t
 
 const activeTab = ref(0)
 const tabList = ref<{ name: string }[]>([])
@@ -199,19 +205,49 @@ function onUpdateUrl(tabIdx, detectionRuleId, url) {
   background: rgb(62, 171, 154) !important;
 }
 .custom-next-btn {
-  border-radius: 0 !important;
-  background-color: #3eab9a !important;
-  border: 1px solid #3eab9a !important;
-  color: #fff !important;
+  width: 100%;
+  text-align: center;
+  padding: 16px 0;
+  border-radius: 12px;
+  background-color: #3eab9a;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 500;
+  border: 1px solid #3eab9a;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  box-shadow: 0 2px 8px rgba(62, 171, 154, 0.08);
+  cursor: pointer;
 }
-.custom-next-btn[plain] {
-  background-color: #fff !important;
-  color: #3eab9a !important;
-  border: 1px solid #3eab9a !important;
-}
-.custom-next-btn[disabled] {
+.custom-next-btn--disabled {
   background-color: #f5f6fa !important;
   color: #bcbcbc !important;
   border: 1px solid #e0e0e0 !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.finish-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+.finish-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.finish-icon {
+  margin-bottom: 0;
+  margin-right: 24px;
+}
+.finish-text {
+  font-size: 22px;
+  color: #222;
+  text-align: center;
+  font-weight: 500;
 }
 </style>

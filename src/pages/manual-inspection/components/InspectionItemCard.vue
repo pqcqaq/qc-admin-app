@@ -12,7 +12,7 @@
         <span class="corner corner-br"></span>
         <wd-icon name="add" size="32" color="#bdbdbd" />
       </view>
-      <image v-else :src="localUrl || url" class="img-box" mode="aspectFill" />
+      <image v-else :src="localUrl || url" class="img-box" mode="aspectFill" @click="onPreview" />
     </view>
   </view>
 </template>
@@ -21,7 +21,7 @@
 import { ref, watch } from 'vue'
 import { uploadManualDetectionImage } from '@/api/manual-inspection'
 
-defineProps<{
+const props = defineProps<{
   detectionRuleName: string
   detectionRuleRequire: string
   url?: string
@@ -63,6 +63,16 @@ function onAdd() {
       })
     },
   })
+}
+
+function onPreview() {
+  const previewUrl = localUrl.value || props.url
+  if (previewUrl) {
+    uni.previewImage({
+      urls: [previewUrl],
+      current: previewUrl,
+    })
+  }
 }
 </script>
 
