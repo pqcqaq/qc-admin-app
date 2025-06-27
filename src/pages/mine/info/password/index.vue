@@ -10,10 +10,10 @@
   <view class="container">
     <StatusBar>
       <template #title>
-        <text class="status_bar_title">{{ t('change-password') }}</text>
+        <text class="status-bar-title">{{ t('change-password') }}</text>
       </template>
       <template #right>
-        <button class="status_bar_confirm_button" @click="finish">{{ t('finish') }}</button>
+        <button class="status-bar-confirm-button" @click="finish">{{ t('finish') }}</button>
       </template>
     </StatusBar>
     <view class="password-container">
@@ -40,7 +40,7 @@
         ></wd-input>
       </view>
       <view class="card">
-        <text class="label">确认密码</text>
+        <text class="label">确认新密码</text>
         <wd-input
           v-model="formData.confirmPassword"
           show-password
@@ -261,15 +261,16 @@ $font2-color: #536387;
 $primary-color: #3daa9a;
 $font1-color: #ffffff;
 $font2-color: #536387;
+$font3-color: #4d515b;
 $bg-color: #f5f5f5;
 $card-bg-color: #ffffff;
 .container {
-  .status_bar_title {
+  .status-bar-title {
     font-size: large;
     font-weight: bold;
     color: $font2-color;
   }
-  .status_bar_confirm_button {
+  .status-bar-confirm-button {
     display: flex;
     width: 95rpx;
     height: 50rpx;
@@ -297,6 +298,10 @@ $card-bg-color: #ffffff;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20rpx;
+
+      .label {
+        color: $font3-color;
+      }
     }
   }
 }

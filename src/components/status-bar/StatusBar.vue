@@ -1,7 +1,7 @@
 <template>
   <view class="status_bar">
     <view class="status-bar-left">
-      <wd-button type="text" class="status_bar_back_button" @click="back">
+      <wd-button type="text" class="status-bar-back-button" @click="back">
         {{ t('cancel') }}
       </wd-button>
     </view>
@@ -49,7 +49,7 @@ $font-color: #536387;
   .status-bar-left {
     margin-left: 25rpx;
 
-    .status_bar_back_button {
+    .status-bar-back-button {
       color: $font-color;
     }
   }

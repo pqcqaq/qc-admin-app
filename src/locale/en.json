@@ -31,5 +31,7 @@
   "finish": "finish",
   "cancel": "cancel",
   "change-password": "change-password",
-  "username_cannot_be_empty": "username cannot be empty"
+  "username_cannot_be_empty": "username cannot be empty",
+  "change_phone_number": "change phone number",
+  "select_country_region": "select country region"
 }
