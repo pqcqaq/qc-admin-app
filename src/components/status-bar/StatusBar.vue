@@ -27,6 +27,7 @@ const back = () => {
 
 <style lang="scss" scoped>
 $background-color: rgb(248, 248, 248);
+$font-color: #536387;
 .status_bar {
   position: relative;
   background: $background-color;
@@ -47,6 +48,10 @@ $background-color: rgb(248, 248, 248);
   }
   .status-bar-left {
     margin-left: 25rpx;
+
+    .status_bar_back_button {
+      color: $font-color;
+    }
   }
   .status-bar-right {
     margin-right: 25rpx;
