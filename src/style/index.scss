@@ -1,18 +1,10 @@
-// @import './iconfont.css';
-
-.test {
-  // 可以通过 @apply 多个样式封装整体样式
-  @apply mt-4 ml-4;
-
-  padding-top: 4px;
-  color: red;
-}
+@use './vars.scss';
 
 :root,
 page {
-  // 修改按主题色
-  // --wot-color-theme: #37c2bc;
+  //修改按主题色
+  --wot-color-theme: var(--color-primary);
 
-  // 修改按钮背景色
-  // --wot-button-primary-bg-color: green;
+  //修改按钮背景色
+  --wot-button-primary-bg-color: var(--color-primary);
 }
