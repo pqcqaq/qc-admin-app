@@ -28,5 +28,18 @@
   "task_history_date": "日期",
   "task_item_store": "门店",
   "task_item_question": "问题",
-  "task_item_waiting": "等待"
+  "task_item_waiting": "等待",
+  "avatar": "头像",
+  "username": "用户名",
+  "contact_number": "联系电话",
+  "gender": "性别",
+  "position": "职位",
+  "employee_number": "工号",
+  "change_password": "修改密码",
+  "related_stores": "关联门店",
+  "country_region": "国家/地区",
+  "phone_number": "手机号",
+  "change_username": "修改用户名",
+  "finish": "完成",
+  "cancel": "取消"
 }

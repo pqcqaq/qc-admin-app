@@ -1,0 +1,105 @@
+<route lang="json5">
+{
+  style: {
+    navigationStyle: 'custom',
+  },
+}
+</route>
+<template>
+  <view class="container">
+    <StatusBar>
+      <template #left>
+        <wd-button type="text" class="status_bar_back_button" @click="back">
+          {{ t('cancel') }}
+        </wd-button>
+      </template>
+      <template #title>
+        <text class="status_bar_title">{{ t('change_username') }}</text>
+      </template>
+      <template #right>
+        <button class="status_bar_confirm_button" @click="finish">{{ t('finish') }}</button>
+      </template>
+    </StatusBar>
+    <view class="username-container">
+      <view class="card">
+        <wd-input
+          v-model="currentUsername"
+          placeholder="请输入用户名"
+          clearable
+          :rules="[{ required: true, message: '用户名不能为空' }]"
+        ></wd-input>
+      </view>
+    </view>
+  </view>
+</template>
+<script lang="ts" setup>
+import StatusBar from '@/components/status-bar/StatusBar.vue'
+import { useI18n } from 'vue-i18n'
+const currentUsername = ref('王先生')
+const i18n = useI18n()
+const t = i18n.t
+
+// 返回上一页
+const back = () => {
+  uni.navigateBack()
+}
+
+// 完成修改
+const finish = () => {
+  const username = currentUsername.value.trim()
+  if (username === '') {
+    uni.showToast({
+      title: '用户名不能为空',
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
+  uni.showToast({
+    title: `${username}`,
+    icon: 'success',
+  })
+}
+</script>
+<style lang="scss" scoped>
+$primary-color: #3daa9a;
+$font1-color: #ffffff;
+$font2-color: #536387;
+.container {
+  .status_bar_title {
+    font-size: large;
+    font-weight: bold;
+    color: $font2-color;
+  }
+  .status_bar_confirm_button {
+    display: flex;
+    width: 95rpx;
+    height: 50rpx;
+    background-color: $primary-color;
+    color: $font1-color;
+    border-radius: 5rpx;
+    padding: 10rpx 20rpx;
+    font-size: 24rpx;
+    align-items: center;
+    justify-content: center;
+  }
+  .status_bar_back_button {
+    color: $font2-color;
+  }
+  .username-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20rpx;
+    background-color: #f5f5f5;
+
+    .card {
+      background-color: #fff;
+      padding: 30rpx 35rpx;
+      border-radius: 12rpx;
+      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+</style>

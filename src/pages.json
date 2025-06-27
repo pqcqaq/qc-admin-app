@@ -100,6 +100,14 @@
       },
       "layout": "tabbar"
     },
+        {
+<<<<<<< HEAD
+      "path": "pages/task/history/index",
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "历史记录"}
+      }
+=======
     {
       "path": "pages/mine/about/index",
       "type": "page",
@@ -122,10 +130,27 @@
       }
     },
     {
-      "path": "pages/task/history/index",
+      "path": "pages/mine/info/phone/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "历史记录"
+        "navigationBarTitleText": "修改手机号",
+        "navigationBarLeftText": "取消",
+        "navigationBarTitleAlign": "center",
+        "navigationBarRightButtonList": [
+          {
+            "text": "完成",
+            "color": "#007aff",
+            "fontSize": "16"
+          }
+        ]
+      }
+    },
+    {
+      "path": "pages/mine/info/username/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom"
+>>>>>>> 6c4d6963c554413d1abe87dba9257575851f28d3
       }
     }
   ],

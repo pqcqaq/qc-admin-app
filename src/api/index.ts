@@ -20,7 +20,7 @@ export * from './task'
 export interface IBaseResponse<T = any> {
   success: boolean
   serverTime: number
-  code?: string
+  code?: number | string
   message?: string
   data: T
 }
