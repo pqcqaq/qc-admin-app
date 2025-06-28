@@ -8,65 +8,6 @@
 </route>
 
 <template>
-  <!-- <view class="profile-container">
-
-    <view class="user-info-section">
-      <button class="avatar-button" open-type="chooseAvatar">
-        <wd-img :src="userInfo.avatarUrl" width="80px" height="80px" radius="50%"></wd-img>
-      </button>
-
-      <view class="user-details">
-        <view class="username">{{ userInfo.nickname }}</view>
-        <view class="user-id">ID: {{ userInfo.id }}</view>
-      </view>
-    </view>
-
-    
-    <view class="function-section">
-      <view class="cell-group">
-        <view class="group-title">账号管理</view>
-        <wd-cell title="个人资料" is-link @click="handleProfileInfo">
-          <template #icon>
-            <wd-icon name="user" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="账号安全" is-link @click="handlePassword">
-          <template #icon>
-            <wd-icon name="lock-on" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-      </view>
-
-      <view class="cell-group">
-        <view class="group-title">通用设置</view>
-        <wd-cell title="消息通知" is-link @click="handleInform">
-          <template #icon>
-            <wd-icon name="notification" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="清理缓存" is-link @click="handleClearCache">
-          <template #icon>
-            <wd-icon name="clear" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="应用更新" is-link @click="handleAppUpdate">
-          <template #icon>
-            <wd-icon name="refresh1" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="关于我们" is-link @click="handleAbout">
-          <template #icon>
-            <wd-icon name="info-circle" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-      </view>
-
-      <view class="logout-button-wrapper">
-        <wd-button type="error" v-if="hasLogin" block @click="handleLogout">退出登录</wd-button>
-        <wd-button type="primary" v-else block @click="handleLogin">登录</wd-button>
-      </view>
-    </view>
-  </view> -->
   <view class="container">
     <view class="user-info-section">
       <wd-img
@@ -172,52 +113,6 @@ const handleClear = () => {
   choice.value = ''
 }
 
-// 消息通知
-const handleInform = () => {
-  // uni.navigateTo({ url: `/pages/mine/inform/index` })
-  toast.show('功能开发中')
-}
-// 应用更新
-const handleAppUpdate = () => {
-  // #ifdef MP
-  // #ifndef MP-HARMONY
-  const updateManager = uni.getUpdateManager()
-  updateManager.onCheckForUpdate(function (res) {
-    // 请求完新版本信息的回调
-    // console.log(res.hasUpdate)
-    if (res.hasUpdate) {
-      toast.show('检测到新版本，正在下载中...')
-    } else {
-      toast.show('已是最新版本')
-    }
-  })
-  updateManager.onUpdateReady(function (res) {
-    uni.showModal({
-      title: '更新提示',
-      content: '新版本已经准备好，是否重启应用？',
-      success(res) {
-        if (res.confirm) {
-          // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-          updateManager.applyUpdate()
-        }
-      },
-    })
-  })
-  updateManager.onUpdateFailed(function (res) {
-    // 新的版本下载失败
-    toast.error('新版本下载失败')
-  })
-  // #endif
-  // #endif
-
-  // #ifndef MP
-  toast.show('功能开发中')
-  // #endif
-}
-// 关于我们
-const handleAbout = () => {
-  uni.navigateTo({ url: `/pages/mine/about/index` })
-}
 // 清除缓存
 const handleClearCache = () => {
   uni.showModal({
@@ -265,7 +160,7 @@ $card-bg-color: #ffffff;
 .container {
   .user-info-section {
     background: $bg1-color;
-    height: 550rpx;
+    height: 35vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -282,13 +177,14 @@ $card-bg-color: #ffffff;
     }
     .company-name {
       margin-top: 20rpx;
+      margin-bottom: 20rpx;
       font-size: 35rpx;
       color: $font1-color;
     }
   }
   .function-section {
     background: $bg2-color;
-    height: 100rpx;
+    height: 65vh;
     padding: 20rpx;
 
     .card {
@@ -310,115 +206,4 @@ $card-bg-color: #ffffff;
     }
   }
 }
-/* 基础样式 */
-// .profile-container {
-//   overflow: hidden;
-//   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-//   background-color: #f7f8fa;
-// }
-// /* 用户信息区域 */
-// .user-info-section {
-//   display: flex;
-//   align-items: center;
-//   padding: 40rpx;
-//   margin: 30rpx 30rpx 20rpx;
-//   background-color: #fff;
-//   border-radius: 24rpx;
-//   box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.08);
-//   transition: all 0.3s ease;
-// }
-
-// .avatar-wrapper {
-//   width: 160rpx;
-//   height: 160rpx;
-//   margin-right: 40rpx;
-//   overflow: hidden;
-//   border: 4rpx solid #f5f5f5;
-//   border-radius: 50%;
-//   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-// }
-// .avatar-button {
-//   height: 160rpx;
-//   padding: 0;
-//   margin-right: 40rpx;
-//   overflow: hidden;
-//   border: 4rpx solid #f5f5f5;
-//   border-radius: 50%;
-//   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-// }
-// .user-details {
-//   flex: 1;
-// }
-
-// .username {
-//   margin-bottom: 12rpx;
-//   font-size: 38rpx;
-//   font-weight: 600;
-//   color: #333;
-//   letter-spacing: 0.5rpx;
-// }
-
-// .user-id {
-//   font-size: 28rpx;
-//   color: #666;
-// }
-
-// .user-created {
-//   margin-top: 8rpx;
-//   font-size: 24rpx;
-//   color: #999;
-// }
-// /* 功能区块 */
-// .function-section {
-//   padding: 0 20rpx;
-//   margin-top: 20rpx;
-// }
-
-// .cell-group {
-//   margin-bottom: 20rpx;
-//   overflow: hidden;
-//   background-color: #fff;
-//   border-radius: 16rpx;
-//   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
-// }
-
-// .group-title {
-//   padding: 24rpx 30rpx 16rpx;
-//   font-size: 30rpx;
-//   font-weight: 500;
-//   color: #999;
-//   background-color: #fafafa;
-// }
-
-// :deep(.wd-cell) {
-//   border-bottom: 1rpx solid #f5f5f5;
-
-//   &:last-child {
-//     border-bottom: none;
-//   }
-
-//   .wd-cell__title {
-//     margin-left: 5px;
-//     font-size: 32rpx;
-//     color: #333;
-//   }
-
-//   .cell-icon {
-//     margin-right: 20rpx;
-//     font-size: 36rpx;
-//   }
-// }
-// /* 退出登录按钮 */
-// .logout-button-wrapper {
-//   padding: 40rpx 30rpx;
-// }
-
-// :deep(.wd-button--danger) {
-//   height: 88rpx;
-//   font-size: 32rpx;
-//   line-height: 88rpx;
-//   color: #fff;
-//   background-color: #f53f3f;
-//   border-radius: 44rpx;
-// }
 </style>
