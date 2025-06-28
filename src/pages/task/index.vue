@@ -77,17 +77,20 @@
 
     <!-- 任务列表 -->
     <view class="task-list">
+      <view v-if="filteredTasks.length === 0" class="empty-state"></view>
       <TaskItem
-        v-for="(task, index) in tasks"
+        v-for="(task, index) in filteredTasks"
         :key="task.id"
         :type="task.type"
         :id="task.id"
         :label="task.label"
+        :shopName="task.shopName"
         :detectionplanId="task.detectionplanId"
         :detectionPlanLabel="task.detectionPlanLabel"
-        :detectionRuleldList="task.detectionRuleldList"
+        :detectionRuleIdList="task.detectionRuleIdList"
         :stateEnum="task.stateEnum"
         :createdAt="task.createdAt"
+        :role="userRole"
         @submit="handleTaskSubmit(task)"
       />
     </view>
@@ -104,6 +107,16 @@ import TaskItem from '@/components/taskItem/index.vue'
 import { useI18n } from 'vue-i18n'
 import { getTaskList, getDashBoardStats } from '@/api'
 import { ref, computed, onMounted } from 'vue'
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
+
+// 使用storeToRefs解构userInfo
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
+// 正式使用
+const userRole = userInfo.value?.role || ''
+// 测试使用
+// const userRole = 'clerk'
 // 国际化
 const i18n = useI18n()
 const t = i18n.t
@@ -113,33 +126,44 @@ const handlerViewHistory = () => {
     url: '/pages/task/history/index',
   })
 }
-enum role {
-  'manage',
-  'area-manage',
-  'store-manage',
-  'clerk',
+
+enum EnumRole {
+  MNAGE = 'manage',
+  AREAMANAGE = 'area-manage',
+  STOREMANAGE = 'store-manage',
+  CLERK = 'clerk',
 }
-//整改的状态枚举
-enum taskState {
-  'todo', //代办
-  'extended', //已延期
-  'rectified_submitted', //整改已提交，
-  'appeal_submitted', //申诉已提交
-  'rectified success', //整改通过
-  'appeal_success', //申诉通过
-  'rectified_fail', //整改驳回
-  'appeal_fail', //申诉驳回
-}
-enum state {
-  'todo', //`待办，
-  'extended', //已延期ai
-  'reviewAl', //审核中，
-  'ai_review_finish', //`Al已审核
-}
+
 // 任务数据
 const tasks = ref([])
+// 过滤后的任务列表
+const filteredTasks = computed(() => {
+  // 获取用户角色
+
+  // 根据用户角色过滤任务
+  return tasks.value.filter((task) => {
+    // 店长和店员可以看到所有类型的任务
+    if (userRole === EnumRole.STOREMANAGE || userRole === EnumRole.CLERK) {
+      return true
+    }
+    // 督导只看到问题整改类型的任务
+    else if (userRole === EnumRole.AREAMANAGE || userRole === EnumRole.MNAGE) {
+      return task.type === 'detection_task_rectified'
+    }
+    return true
+  })
+})
+// 统计数据接口定义
+interface TaskBoardStats {
+  detectionTaskRectifiedStateEnumAppealingAppealSuccessCount?: number
+  detectionTaskRectifiedStateEnumAppealingCount?: number
+  detectionTaskRectifiedStateEnumTodoExtendedAppealFailCount?: number
+  manualDetectionTaskStateEnumTodoExtendedCount?: number
+  [key: string]: any
+}
+
 // 统计数据
-const taskBoardDate = ref({})
+const taskBoardDate = ref<TaskBoardStats>({})
 // 加载状态
 const loading = ref(true)
 const error = ref('')
@@ -149,21 +173,14 @@ onMounted(async () => {
   try {
     loading.value = true
     const [taskRes, statsRes] = await Promise.all([getTaskList(), getDashBoardStats()])
-    console.log(taskRes, statsRes)
-    // 打印接口返回数据
-    console.log('任务列表数据:', taskRes)
-    console.log('统计数据:', statsRes)
-
     // 检查并赋值任务数据
+    console.log(userInfo.value)
     if (taskRes && taskRes.data && taskRes.data.result) {
       tasks.value = taskRes.data.result
-      console.log('成功赋值任务数据，共', tasks.value.length, '条')
     } else {
       tasks.value = []
-      console.log('任务数据格式不正确，使用空数组')
     }
 
-    // 检查并赋值统计数据
     if (statsRes && statsRes.data && statsRes.data.result) {
       taskBoardDate.value = statsRes.data.result
       console.log('成功赋值统计数据')
@@ -171,7 +188,6 @@ onMounted(async () => {
       taskBoardDate.value = {}
       console.log('统计数据格式不正确，使用空对象')
     }
-    // 已在上方处理，此处不再重复赋值
   } catch (err) {
     // 解析错误信息，提供更具体的错误提示
     const errorMessage = err?.response?.data?.message || err?.message || '未知错误'
@@ -190,8 +206,14 @@ const handleTaskSubmit = (task: any) => {
 </script>
 
 <style scoped lang="scss">
-$primary-color: #3dab9a;
+$primary-color: #3daa9a;
 
+$font1-color: #ffffff;
+$font2-color: #536387;
+$font3-color: #999;
+$font4-color: #333;
+$font5-color: #7d7d7d;
+$input-border-color: #e2e7f5;
 .task-page {
   min-height: 100vh;
   padding-bottom: 20rpx;
@@ -205,7 +227,7 @@ $primary-color: #3dab9a;
   align-items: flex-start;
 
   .task-board {
-    background-color: #fff;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -225,7 +247,7 @@ $primary-color: #3dab9a;
 
       .board-title {
         font-size: 36rpx;
-        color: #333;
+        color: $font4-color;
         font-weight: bold;
       }
     }
@@ -238,7 +260,7 @@ $primary-color: #3dab9a;
         display: flex;
         align-items: center;
         padding: 20rpx;
-        background-color: #fff;
+        background-color: white;
         border-radius: 8rpx;
         box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
 
@@ -257,7 +279,7 @@ $primary-color: #3dab9a;
             font-size: 12px;
             line-height: 20px;
             letter-spacing: 0%;
-            color: #000;
+            color: black;
             padding-bottom: 15rpx;
           }
 
@@ -271,13 +293,13 @@ $primary-color: #3dab9a;
               font-size: 18px;
               line-height: 20px;
               letter-spacing: 0%;
-              color: #000;
+              color: black;
               margin-right: 10px;
             }
 
             text {
               font-size: 12px;
-              color: #7d7d7d;
+              color: $font3-color;
             }
           }
         }
@@ -289,6 +311,9 @@ $primary-color: #3dab9a;
 /* 任务列表样式 */
 .task-list {
   padding: 40rpx 40rpx 0rpx 40rpx;
+  .empty-state {
+    height: 520rpx;
+  }
 }
 
 /* 历史记录链接 */
@@ -296,7 +321,7 @@ $primary-color: #3dab9a;
   text-align: center;
 
   text {
-    color: #86909c;
+    color: $font3-color;
     font-size: 28rpx;
   }
 }

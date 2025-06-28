@@ -29,6 +29,8 @@
   "task_item_store": "门店",
   "task_item_question": "问题",
   "task_item_waiting": "等待",
+  "task_no_record": "暂无任务记录",
+  "history_record": "历史记录",
   "avatar": "头像",
   "username": "用户名",
   "contact_number": "联系电话",

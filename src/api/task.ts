@@ -45,7 +45,9 @@ export const getDashBoardStats = () => {
 
 /**
  * 查询任务历史记录
+ * @param params 查询参数
+ * @param params.successDatetime 时间范围数组 [startTime, endTime]
  */
-export const getHistoryTaskList = () => {
-  return http.post<IBaseResponse>('/app/getsuccess')
+export const getHistoryTaskList = (params: { successDatetime: string[] }) => {
+  return http.post<IBaseResponse<ITask>>('/app/getsuccess', params)
 }
