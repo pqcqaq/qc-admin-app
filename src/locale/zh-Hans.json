@@ -65,5 +65,15 @@
   "please_fill_it_out_completely": "请完整填写。",
   "new_password_cannot_be_same_as_old": "新密码不能与旧密码相同",
   "new_passwords_do_not_match": "新密码两次输入不一致",
-  "old_password_incorrect": "旧密码不正确"
+  "old_password_incorrect": "旧密码不正确",
+  "personal_info": "个人资料",
+  "help_and_feedback": "帮助与反馈",
+  "please_enter_your_opinions_and_suggestions": "请输入您的意见和建议。",
+  "submit": "提交",
+  "feedback_cannot_be_empty": "反馈内容不能为空",
+  "feedback_submitted_successfully": "反馈提交成功",
+  "scan_the_QR_code_to_add_our_WeChat_for_business": "扫描二维码添加我们的企业微信",
+  "and": "和",
+  "feedback_submission_failed": "反馈提交失败",
+  "privacy_protocols": "隐私与协议"
 }

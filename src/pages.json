@@ -76,17 +76,22 @@
       "path": "pages/login/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "登录",
         "navigationStyle": "custom"
       }
     },
     {
       "path": "pages/login/privacy",
-      "type": "page"
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "请仔细阅读"
+      }
     },
     {
       "path": "pages/login/service",
-      "type": "page"
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "请仔细阅读"
+      }
     },
     {
       "path": "pages/mine/index",
@@ -101,6 +106,13 @@
       "type": "page",
       "style": {
         "navigationBarTitleText": "关于我们"
+      }
+    },
+    {
+      "path": "pages/mine/feedback/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom"
       }
     },
     {

@@ -1,7 +1,6 @@
 <route lang="json5" type="page">
 {
   style: {
-    navigationBarTitleText: '登录',
     navigationStyle: 'custom',
   },
 }
@@ -143,7 +142,7 @@
           <text class="agreement-link" @click.stop="handleAgreement('user')">
             《{{ t('user_protocol') }}》
           </text>
-          和
+          {{ t('and') }}
           <text class="agreement-link" @click.stop="handleAgreement('privacy')">
             《{{ t('privacy_policy') }}》
           </text>

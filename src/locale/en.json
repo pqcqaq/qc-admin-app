@@ -65,5 +65,15 @@
   "please_fill_it_out_completely": "Please fill it out completely.",
   "new_password_cannot_be_same_as_old": "New password cannot be same as old.",
   "new_passwords_do_not_match": "New passwords do not match.",
-  "old_password_incorrect": "Old password incorrect."
+  "old_password_incorrect": "Old password incorrect.",
+  "personal_info": "personal information",
+  "help_and_feedback": "help and feedback",
+  "please_enter_your_opinions_and_suggestions": "Please enter your opinions and suggestions.",
+  "submit": "submit",
+  "feedback_cannot_be_empty": "feedback cannot be empty",
+  "feedback_submitted_successfully": "feedback submitted successfully",
+  "scan_the_QR_code_to_add_our_WeChat_for_business": "scan the QR code to add our WeChat for business",
+  "and": "and",
+  "feedback_submission_failed": "feedback submission failed",
+  "privacy_protocols": "privacy & protocols"
 }

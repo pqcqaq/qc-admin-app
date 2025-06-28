@@ -1,3 +1,10 @@
+<route lang="json5">
+{
+  style: {
+    navigationBarTitleText: '请仔细阅读',
+  },
+}
+</route>
 <template>
   <view class="markdown-demo">
     <view class="demo-section">

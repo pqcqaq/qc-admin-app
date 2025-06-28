@@ -80,10 +80,44 @@
         <text>{{ userInfo.row.nickname }}</text>
       </view>
       <view class="company-name">
-        <text>ccc</text>
+        <text>{{ userInfo.row.customerOrganization.name }}</text>
       </view>
     </view>
-    <view class="function-section"></view>
+    <view class="function-section">
+      <!-- 个人资料 -->
+      <view class="card">
+        <view class="label">
+          <wd-icon name="note" size="25px" />
+          <text class="text">{{ t('personal_info') }}</text>
+        </view>
+        <wd-icon name="arrow-right" size="20px" @click="handleProfileInfo" />
+      </view>
+      <!-- 帮助与反馈 -->
+      <view class="card">
+        <view class="label">
+          <wd-icon name="evaluation" size="25px" />
+          <text class="text">{{ t('help_and_feedback') }}</text>
+        </view>
+        <wd-icon name="arrow-right" size="20px" @click="handleFeedback" />
+      </view>
+      <!-- 隐私与协议 -->
+      <view class="card">
+        <view class="label">
+          <wd-icon name="spool" size="25px" />
+          <text class="text">{{ t('privacy_protocols') }}</text>
+        </view>
+        <wd-select-picker
+          v-model="choice"
+          use-default-slot
+          :columns="columns"
+          @confirm="handleConfirm"
+          @clear="handleClear"
+          type="radio"
+        >
+          <wd-icon name="arrow-right" size="20px" />
+        </wd-select-picker>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -92,6 +126,10 @@ import { useUserStore } from '@/store'
 import { useToast } from 'wot-design-uni'
 import { useUpload } from '@/utils/uploadFile'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
+const t = i18n.t
 
 const userStore = useUserStore()
 // 使用storeToRefs解构userInfo
@@ -108,10 +146,32 @@ onShow((options) => {
 const handleProfileInfo = () => {
   uni.navigateTo({ url: `/pages/mine/info/index` })
 }
-// 账号安全
-const handlePassword = () => {
-  uni.navigateTo({ url: `/pages/mine/password/index` })
+
+// 帮助与反馈
+const handleFeedback = () => {
+  uni.navigateTo({ url: `/pages/mine/feedback/index` })
 }
+
+// 隐私与协议
+const choice = ref('')
+const columns = ref<Record<string, any>[]>([
+  {
+    value: '/pages/login/privacy',
+    label: '隐私政策',
+  },
+  {
+    value: '/pages/login/service',
+    label: '用户协议',
+  },
+])
+const handleConfirm = () => {
+  uni.navigateTo({ url: choice.value })
+  choice.value = '' // 清空选择
+}
+const handleClear = () => {
+  choice.value = ''
+}
+
 // 消息通知
 const handleInform = () => {
   // uni.navigateTo({ url: `/pages/mine/inform/index` })
@@ -201,6 +261,7 @@ const handleLogout = () => {
 $bg1-color: #3daa9a;
 $bg2-color: #f5f5f5;
 $font1-color: #ffffff;
+$card-bg-color: #ffffff;
 .container {
   .user-info-section {
     background: $bg1-color;
@@ -228,6 +289,25 @@ $font1-color: #ffffff;
   .function-section {
     background: $bg2-color;
     height: 100rpx;
+    padding: 20rpx;
+
+    .card {
+      background-color: $card-bg-color;
+      padding: 30rpx 20rpx;
+      border-radius: 12rpx;
+      margin-bottom: 20rpx;
+      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .label {
+        display: flex;
+        .text {
+          margin-left: 60rpx;
+          font-size: large;
+        }
+      }
+    }
   }
 }
 /* 基础样式 */
