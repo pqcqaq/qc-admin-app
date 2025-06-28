@@ -120,22 +120,22 @@ const { userInfo } = storeToRefs(userStore)
 
 // 表单数据
 const gender = ref('')
-if (userInfo.value.gender === 1) {
+if (userInfo.value.row.gender === 1) {
   gender.value = '男'
-} else if (userInfo.value.gender === 0) {
+} else if (userInfo.value.row.gender === 0) {
   gender.value = '女'
 } else {
   gender.value = '未填写'
 }
 
 const formData = ref({
-  id: userInfo.value.id,
-  avatar: userInfo.value.avatarUrl,
-  nickname: userInfo.value.nickname,
-  phoneNumber: userInfo.value.phoneNumber, //国际电话的问题，先写死+86
+  id: userInfo.value.row.id,
+  avatar: userInfo.value.row.avatarUrl,
+  nickname: userInfo.value.row.nickname,
+  phoneNumber: userInfo.value.row.phoneNumber, //国际电话的问题，先写死+86
   gender: gender.value,
   //TODO:职位
-  employeeStringId: userInfo.value.employeeStringId,
+  employeeStringId: userInfo.value.row.employeeStringId,
   //TODO:关联门店，用shopIdList想办法解决
 })
 // 跳转到其他页面

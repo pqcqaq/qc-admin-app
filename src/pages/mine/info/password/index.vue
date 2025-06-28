@@ -82,16 +82,6 @@ const finish = () => {
     return
   }
 
-  if (password !== formData.value.oldPassword) {
-    uni.showToast({
-      title: t('old_password_incorrect'),
-      icon: 'error',
-      duration: 2000,
-      mask: true,
-    })
-    return
-  }
-
   if (formData.value.oldPassword === formData.value.newPassword) {
     uni.showToast({
       title: t('new_password_cannot_be_same_as_old'),
@@ -120,12 +110,9 @@ const finish = () => {
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 
-//获取用户原来的密码
-const password = userInfo.value.password
-
 // 表单数据
 const formData = ref({
-  id: userInfo.value.id,
+  id: userInfo.value.row.id,
   oldPassword: '',
   newPassword: '',
   confirmPassword: '',

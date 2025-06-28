@@ -70,14 +70,14 @@
   <view class="container">
     <view class="user-info-section">
       <wd-img
-        :src="userInfo.avatarUrl"
+        :src="userInfo.row.avatarUrl"
         width="200rpx"
         height="200rpx"
         radius="50%"
         class="avatar-wrapper"
       />
       <view class="nick-name">
-        <text>{{ userInfo.nickname }}</text>
+        <text>{{ userInfo.row.nickname }}</text>
       </view>
       <view class="company-name">
         <text>ccc</text>
