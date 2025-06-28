@@ -16,19 +16,44 @@
       </template>
     </StatusBar>
     <view class="phone-container">
+      <text class="label">{{ t('country_region') }}</text>
       <view class="card">
         <wd-select-picker
-          :label="t('country_region')"
           :columns="columns"
-          v-model="value"
+          v-model="regionNumber"
           type="radio"
           :title="t('select_country_region')"
-          required
-          align-right
           filterable
+          size="large"
+          required
         />
       </view>
-      <view class="card"></view>
+      <text class="label">{{ t('phone_number') }}</text>
+      <view class="card">
+        <wd-input
+          v-model="phoneNumber"
+          :placeholder="regionNumber + '  ' + t('please_enter_your_phone_number')"
+          clearable
+          :rules="[{ required: true, message: t('phone_number_cannot_be_empty') }]"
+          :no-border="true"
+          placeholderStyle="font-size: 30rpx;"
+        >
+          <template #suffix>
+            <wd-button type="text" size="large">{{ t('send_verification_code') }}</wd-button>
+          </template>
+        </wd-input>
+      </view>
+      <text class="label">{{ t('verification_code') }}</text>
+      <view class="card">
+        <wd-input
+          v-model="verificationCode"
+          :placeholder="t('please_enter_your_verification_code')"
+          clearable
+          :rules="[{ required: true, message: t('verification_code_cannot_be_empty') }]"
+          :no-border="true"
+          placeholderStyle="font-size: 30rpx;"
+        />
+      </view>
     </view>
   </view>
 </template>
@@ -50,7 +75,10 @@ const columns = ref<Record<string, any>[]>([
     label: '日本',
   },
 ])
-const value = ref<string>('+86')
+const regionNumber = ref<string>('+86')
+
+const phoneNumber = ref<string>('')
+const verificationCode = ref<string>('')
 
 const i18n = useI18n()
 const t = i18n.t
@@ -93,14 +121,12 @@ $card-bg-color: #ffffff;
       padding: 30rpx 35rpx;
       border-radius: 12rpx;
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
-      // display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: 20rpx;
-
-      .label {
-        color: $font3-color;
-      }
+    }
+    .label {
+      color: $font3-color;
+      font-size: small;
+      margin-bottom: 20rpx;
     }
   }
 }

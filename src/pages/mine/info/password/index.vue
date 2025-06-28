@@ -17,37 +17,37 @@
       </template>
     </StatusBar>
     <view class="password-container">
+      <text class="label">{{ t('old_password') }}</text>
       <view class="card">
-        <text class="label">旧密码</text>
         <wd-input
           v-model="formData.oldPassword"
           show-password
-          placeholder="请输入旧密码"
+          :placeholder="t('please_enter_your_old_password')"
           clearable
-          :rules="[{ required: true, message: '旧密码不能为空' }]"
-          class="form-input"
+          :rules="[{ required: true, message: t('old_password_cannot_be empty') }]"
+          :no-border="true"
         ></wd-input>
       </view>
+      <text class="label">{{ t('new_password') }}</text>
       <view class="card">
-        <text class="label">新密码</text>
         <wd-input
           v-model="formData.newPassword"
           show-password
-          placeholder="请输入新密码"
+          :placeholder="t('please_enter_your_new_password')"
           clearable
-          :rules="[{ required: true, message: '新密码不能为空' }]"
-          class="form-input"
+          :rules="[{ required: true, message: t('new_password_cannot_be_empty') }]"
+          :no-border="true"
         ></wd-input>
       </view>
+      <text class="label">{{ t('confirm_your_new_password') }}</text>
       <view class="card">
-        <text class="label">确认新密码</text>
         <wd-input
           v-model="formData.confirmPassword"
           show-password
-          placeholder="请再次输入新密码"
+          :placeholder="t('please_enter_your_new_password_again')"
           clearable
-          :rules="[{ required: true, message: '请确认新密码' }]"
-          class="form-input"
+          :rules="[{ required: true, message: t('new_password_cannot_be_empty') }]"
+          :no-border="true"
         ></wd-input>
       </view>
     </view>
@@ -69,39 +69,36 @@ const t = i18n.t
 // 完成修改
 const finish = async () => {
   // 表单校验
-  const valid = await formRef.value?.validate?.()
-  if (!valid) return
-
-  const { oldPassword, newPassword, confirmPassword } = formData.value
-
-  if (!oldPassword || !newPassword || !confirmPassword) {
-    uni.showToast({
-      title: '请填写所有密码',
-      icon: 'error',
-      duration: 2000,
-      mask: true,
-    })
-    return
-  }
-  if (newPassword !== confirmPassword) {
-    uni.showToast({
-      title: '两次输入的新密码不一致',
-      icon: 'error',
-      duration: 2000,
-      mask: true,
-    })
-    return
-  }
-  if (oldPassword === newPassword) {
-    uni.showToast({
-      title: '新密码不能与旧密码相同',
-      icon: 'error',
-      duration: 2000,
-      mask: true,
-    })
-    return
-  }
-
+  // const valid = await formRef.value?.validate?.()
+  // if (!valid) return
+  // const { oldPassword, newPassword, confirmPassword } = formData.value
+  // if (!oldPassword || !newPassword || !confirmPassword) {
+  //   uni.showToast({
+  //     title: '请填写所有密码',
+  //     icon: 'error',
+  //     duration: 2000,
+  //     mask: true,
+  //   })
+  //   return
+  // }
+  // if (newPassword !== confirmPassword) {
+  //   uni.showToast({
+  //     title: '两次输入的新密码不一致',
+  //     icon: 'error',
+  //     duration: 2000,
+  //     mask: true,
+  //   })
+  //   return
+  // }
+  // if (oldPassword === newPassword) {
+  //   uni.showToast({
+  //     title: '新密码不能与旧密码相同',
+  //     icon: 'error',
+  //     duration: 2000,
+  //     mask: true,
+  //   })
+  //   return
+  // }
   // 这里可以调用后端接口进行密码修改
   // uni.showToast({
   //   title: '修改成功',
@@ -270,15 +267,7 @@ $card-bg-color: #ffffff;
     font-weight: bold;
     color: $font2-color;
   }
-<<<<<<< HEAD
-
-  .form-input {
-    font-size: 30rpx;
-  }
-  .status_bar_confirm_button {
-=======
   .status-bar-confirm-button {
->>>>>>> 7693bae08e414485aede8014c2c2c12616cb98b0
     display: flex;
     width: 95rpx;
     height: 50rpx;
@@ -302,14 +291,13 @@ $card-bg-color: #ffffff;
       padding: 30rpx 35rpx;
       border-radius: 12rpx;
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: 20rpx;
+    }
 
-      .label {
-        color: $font3-color;
-      }
+    .label {
+      color: $font3-color;
+      margin-bottom: 20rpx;
+      font-size: small;
     }
   }
 }

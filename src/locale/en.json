@@ -33,5 +33,20 @@
   "change-password": "change-password",
   "username_cannot_be_empty": "username cannot be empty",
   "change_phone_number": "change phone number",
-  "select_country_region": "select country region"
+  "select_country_region": "select country region",
+  "change_avatar": "change avatar",
+  "old_password": "old password",
+  "please_enter_your_old_password": "please enter your old password",
+  "old_password_cannot_be empty": "old password cannot be empty",
+  "new_password": "new password",
+  "please_enter_your_new_password": "please enter your new password",
+  "new_password_cannot_be_empty": "new password cannot be empty",
+  "confirm_your_new_password": "confirm your new password",
+  "please_enter_your_new_password_again": "please enter your new password again",
+  "phone_number_cannot_be_empty": "phone_number_cannot_be_empty",
+  "send_verification_code": "send verification code",
+  "verification_code": "send verification code",
+  "verification_code_cannot_be_empty": "verification code cannot be empty",
+  "change": "change",
+  "personal_information": "personal information"
 }

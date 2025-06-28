@@ -107,7 +107,14 @@
       "path": "pages/mine/info/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "个人资料"
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/mine/info/avatar/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom"
       }
     },
     {

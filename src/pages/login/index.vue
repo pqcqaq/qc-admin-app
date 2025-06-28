@@ -40,7 +40,7 @@
                   </view>
                 </template>
               </wd-input>
-              <view class="input-bottom-line"></view>
+              <!-- <view class="input-bottom-line"></view> -->
             </view>
             <view class="input-wrapper">
               <wd-input
@@ -77,7 +77,7 @@
                     <img src="@/static/icon/phone_icon.svg" class="icon" />
                     <text class="prefix-text">
                       +86
-                      <wd-divider vertical :hairline="false" />
+                      <wd-divider vertical />
                     </text>
                   </view>
                 </template>
@@ -97,7 +97,7 @@
                   </view>
                 </template>
                 <template #suffix>
-                  <wd-divider vertical :hairline="false" />
+                  <wd-divider vertical />
                   <text>{{ t('send_a_verification_code') }}</text>
                 </template>
               </wd-input>
@@ -250,43 +250,43 @@ watch(
 <style lang="scss" scoped>
 $primary-color: #3daa9a;
 /* 验证码输入框样式 */
-.captcha-wrapper {
-  .captcha-input {
-    :deep(.wd-input__suffix) {
-      margin-right: 0;
-      padding-right: 0;
-    }
-  }
+// .captcha-wrapper {
+//   .captcha-input {
+//     :deep(.wd-input__suffix) {
+//       margin-right: 0;
+//       padding-right: 0;
+//     }
+//   }
 
-  .captcha-image {
-    width: 100rpx;
-    height: 36rpx;
-    margin-left: 10rpx;
-    border-radius: 8rpx;
-    cursor: pointer;
-    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+//   .captcha-image {
+//     width: 100rpx;
+//     height: 36rpx;
+//     margin-left: 10rpx;
+//     border-radius: 8rpx;
+//     cursor: pointer;
+//     box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+//     transition: all 0.3s ease;
+//     position: relative;
+//     overflow: hidden;
 
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
-      pointer-events: none;
-    }
+//     &::after {
+//       content: '';
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       right: 0;
+//       bottom: 0;
+//       background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+//       pointer-events: none;
+//     }
 
-    &:active {
-      opacity: 0.8;
-      transform: scale(0.96);
-      box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
-    }
-  }
-}
+//     &:active {
+//       opacity: 0.8;
+//       transform: scale(0.96);
+//       box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
+//     }
+//   }
+// }
 
 .login-container {
   box-sizing: border-box;
@@ -460,36 +460,36 @@ $primary-color: #3daa9a;
         // }
       }
 
-      .input-bottom-line {
-        position: absolute;
-        bottom: -2rpx;
-        left: 5%;
-        width: 90%;
-        height: 2rpx;
-        background: linear-gradient(
-          to right,
-          transparent,
-          var(--wot-color-theme, #1989fa),
-          transparent
-        );
-        transition: transform 0.4s ease;
-        transform: scaleX(0);
-        opacity: 0.8;
-      }
+      // .input-bottom-line {
+      //   position: absolute;
+      //   bottom: -2rpx;
+      //   left: 5%;
+      //   width: 90%;
+      //   height: 2rpx;
+      //   background: linear-gradient(
+      //     to right,
+      //     transparent,
+      //     var(--wot-color-theme, #1989fa),
+      //     transparent
+      //   );
+      //   transition: transform 0.4s ease;
+      //   transform: scaleX(0);
+      //   opacity: 0.8;
+      // }
 
-      &:focus-within .input-bottom-line {
-        transform: scaleX(1);
-      }
+      // &:focus-within .input-bottom-line {
+      //   transform: scaleX(1);
+      // }
 
-      .input-icon {
-        margin-right: 16rpx;
-        color: #666666;
-        transition: color 0.3s ease;
-      }
+      // .input-icon {
+      //   margin-right: 16rpx;
+      //   color: #666666;
+      //   transition: color 0.3s ease;
+      // }
 
-      &:focus-within .input-icon {
-        color: var(--wot-color-theme, #1989fa);
-      }
+      // &:focus-within .input-icon {
+      //   color: var(--wot-color-theme, #1989fa);
+      // }
     }
   }
 
@@ -532,11 +532,11 @@ $primary-color: #3daa9a;
       align-items: center;
       margin: 24rpx 0;
 
-      .divider-line {
-        flex: 1;
-        height: 1px;
-        background-color: #eeeeee;
-      }
+      // .divider-line {
+      //   flex: 1;
+      //   height: 1px;
+      //   background-color: #eeeeee;
+      // }
 
       .divider-text {
         padding: 0 24rpx;
@@ -586,7 +586,7 @@ $primary-color: #3daa9a;
       text-decoration: underline;
       padding: 0 4rpx;
       font-weight: 500;
-      color: var(--wot-color-theme, #ffffff);
+      color: #ffffff;
       transition: all 0.3s ease;
 
       &:active {
