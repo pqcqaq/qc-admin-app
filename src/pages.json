@@ -106,6 +106,24 @@
       "layout": "tabbar"
     },
     {
+      "path": "pages/rectification-appeal/appealOrRectify",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "每日AI早检",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/rectification-appeal/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "每日AI早检",
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/mine/about/index",
       "type": "page",
       "style": {

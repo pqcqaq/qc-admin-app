@@ -78,10 +78,10 @@ function onPreview() {
 
 <style scoped>
 .add-img-box {
-  width: 84px;
-  height: 64px;
+  width: 120rpx;
+  height: 104rpx;
   background: #fafafa;
-  border-radius: 12px;
+  border-radius: 12rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,40 +91,40 @@ function onPreview() {
 }
 .corner {
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 14rpx;
+  height: 14rpx;
   border-color: #e0e0e0;
   border-style: solid;
 }
 .corner-tl {
   left: 0;
   top: 0;
-  border-left-width: 2px;
-  border-top-width: 2px;
+  border-left-width: 2rpx;
+  border-top-width: 2rpx;
   border-right-width: 0;
   border-bottom-width: 0;
 }
 .corner-tr {
   right: 0;
   top: 0;
-  border-right-width: 2px;
-  border-top-width: 2px;
+  border-right-width: 2rpx;
+  border-top-width: 2rpx;
   border-left-width: 0;
   border-bottom-width: 0;
 }
 .corner-bl {
   left: 0;
   bottom: 0;
-  border-left-width: 2px;
-  border-bottom-width: 2px;
+  border-left-width: 2rpx;
+  border-bottom-width: 2rpx;
   border-right-width: 0;
   border-top-width: 0;
 }
 .corner-br {
   right: 0;
   bottom: 0;
-  border-right-width: 2px;
-  border-bottom-width: 2px;
+  border-right-width: 2rpx;
+  border-bottom-width: 2rpx;
   border-left-width: 0;
   border-top-width: 0;
 }
@@ -132,9 +132,9 @@ function onPreview() {
   border-color: #bdbdbd;
 }
 .img-box {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
+  width: 120rpx;
+  height: 104rpx;
+  border-radius: 12rpx;
   object-fit: cover;
 }
 </style>

@@ -21,5 +21,20 @@
   "inspection_item": "检查项",
   "next": "下一步",
   "today_inspection": "今日巡检",
-  "task_completed": "任务已完成!"
+  "task_completed": "任务已完成!",
+  "daily_ai_early_inspection": "每日AI早检",
+  "rectification_item": "整改项",
+  "audit_rejected": "审核驳回",
+  "appeal_item": "申诉项",
+  "rectification_passed": "整改通过",
+  "ai": "AI",
+  "comment": "点评",
+  "unqualified": "不合格",
+  "appeal_description": "申诉说明",
+  "rectification_description": "整改说明",
+  "upload_photo": "上传图片",
+  "please_enter_description": "请输入说明",
+  "submit": "提交",
+  "appeal": "申诉",
+  "rectify": "去整改"
 }

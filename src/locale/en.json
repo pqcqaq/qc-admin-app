@@ -21,5 +21,20 @@
   "inspection_item": "inspection item",
   "next": "next",
   "today_inspection": "today inspection",
-  "task_completed": "task completed!"
+  "task_completed": "task completed!",
+  "daily_ai_early_inspection": "daily ai early inspection",
+  "rectification_item": "rectification item",
+  "audit_rejected": "audit rejected",
+  "appeal_item": "appeal item",
+  "rectification_passed": "rectification passed",
+  "ai": "AI",
+  "comment": "comment",
+  "unqualified": "unqualified",
+  "appeal_description": "appeal description",
+  "rectification_description": "rectification description",
+  "upload_photo": "upload photo",
+  "please_enter_description": "please enter description",
+  "submit": "submit",
+  "appeal": "appeal",
+  "rectify": "rectify"
 }

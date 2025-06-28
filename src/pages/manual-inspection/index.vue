@@ -198,8 +198,8 @@ function onUpdateUrl(tabIdx, detectionRuleId, url) {
   background-color: rgb(62, 171, 154);
 }
 .rounded-b-3xl {
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24rpx;
+  border-bottom-right-radius: 24rpx;
 }
 ::v-deep .wd-tabs__line {
   background: rgb(62, 171, 154) !important;
@@ -207,23 +207,23 @@ function onUpdateUrl(tabIdx, detectionRuleId, url) {
 .custom-next-btn {
   width: 100%;
   text-align: center;
-  padding: 16px 0;
-  border-radius: 12px;
+  padding: 10rpx 0;
+  border-radius: 12rpx;
   background-color: #3eab9a;
   color: #fff;
-  font-size: 22px;
+  font-size: 40rpx;
   font-weight: 500;
-  border: 1px solid #3eab9a;
+  border: 1rpx solid #3eab9a;
   transition:
     background 0.2s,
     color 0.2s;
-  box-shadow: 0 2px 8px rgba(62, 171, 154, 0.08);
+  box-shadow: 0 2rpx 8rpx rgba(62, 171, 154, 0.08);
   cursor: pointer;
 }
 .custom-next-btn--disabled {
   background-color: #f5f6fa !important;
   color: #bcbcbc !important;
-  border: 1px solid #e0e0e0 !important;
+  border: 1rpx solid #e0e0e0 !important;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -242,10 +242,10 @@ function onUpdateUrl(tabIdx, detectionRuleId, url) {
 }
 .finish-icon {
   margin-bottom: 0;
-  margin-right: 24px;
+  margin-right: 24rpx;
 }
 .finish-text {
-  font-size: 22px;
+  font-size: 22rpx;
   color: #222;
   text-align: center;
   font-weight: 500;
