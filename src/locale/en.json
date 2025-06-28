@@ -61,5 +61,9 @@
   "verification_code": "send verification code",
   "verification_code_cannot_be_empty": "verification code cannot be empty",
   "change": "change",
-  "personal_information": "personal information"
+  "personal_information": "personal information",
+  "please_fill_it_out_completely": "Please fill it out completely.",
+  "new_password_cannot_be_same_as_old": "New password cannot be same as old.",
+  "new_passwords_do_not_match": "New passwords do not match.",
+  "old_password_incorrect": "Old password incorrect."
 }

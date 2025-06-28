@@ -67,53 +67,61 @@ const i18n = useI18n()
 const t = i18n.t
 
 // 完成修改
-const finish = async () => {
-  // 表单校验
-  // const valid = await formRef.value?.validate?.()
-  // if (!valid) return
-  // const { oldPassword, newPassword, confirmPassword } = formData.value
-  // if (!oldPassword || !newPassword || !confirmPassword) {
-  //   uni.showToast({
-  //     title: '请填写所有密码',
-  //     icon: 'error',
-  //     duration: 2000,
-  //     mask: true,
-  //   })
-  //   return
-  // }
-  // if (newPassword !== confirmPassword) {
-  //   uni.showToast({
-  //     title: '两次输入的新密码不一致',
-  //     icon: 'error',
-  //     duration: 2000,
-  //     mask: true,
-  //   })
-  //   return
-  // }
-  // if (oldPassword === newPassword) {
-  //   uni.showToast({
-  //     title: '新密码不能与旧密码相同',
-  //     icon: 'error',
-  //     duration: 2000,
-  //     mask: true,
-  //   })
-  //   return
-  // }
-  // 这里可以调用后端接口进行密码修改
-  // uni.showToast({
-  //   title: '修改成功',
-  //   icon: 'success',
-  //   duration: 2000,
-  //   mask: true,
-  // })
+const finish = () => {
+  if (
+    formData.value.oldPassword === '' ||
+    formData.value.newPassword === '' ||
+    formData.value.confirmPassword === ''
+  ) {
+    uni.showToast({
+      title: t('please_fill_it_out_completely'),
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
+
+  if (password !== formData.value.oldPassword) {
+    uni.showToast({
+      title: t('old_password_incorrect'),
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
+
+  if (formData.value.oldPassword === formData.value.newPassword) {
+    uni.showToast({
+      title: t('new_password_cannot_be_same_as_old'),
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
+
+  if (formData.value.newPassword !== formData.value.confirmPassword) {
+    uni.showToast({
+      title: t('new_passwords_do_not_match'),
+      icon: 'error',
+      duration: 2000,
+      mask: true,
+    })
+    return
+  }
 }
 
 // 表单引用
-const formRef = ref()
+// const formRef = ref()
 
 // 用户信息
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
+
+//获取用户原来的密码
+const password = userInfo.value.password
 
 // 表单数据
 const formData = ref({

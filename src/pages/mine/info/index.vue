@@ -6,41 +6,6 @@
 }
 </route>
 
-<!-- <template>
-  <view class="profile-info-container">
-    <view class="profile-card">
-      <view class="form-wrapper">
-        <wd-form ref="formRef" :model="formData" label-width="160rpx" class="profile-form">
-          <wd-cell-group class="form-group">
-            <view class="sex-field">
-              <text class="field-label">昵称</text>
-              <wd-input
-                prop="name"
-                clearable
-                v-model="formData.name"
-                placeholder="请输入昵称"
-                :rules="[{ required: true, message: '请填写昵称' }]"
-                class="form-input"
-              />
-            </view>
-
-            <view class="sex-field">
-              <text class="field-label">性别</text>
-              <wd-radio-group
-                v-model="formData.gender"
-                shape="button"
-                :rules="[{ required: true, message: '请选择性别' }]"
-              >
-                <wd-radio :value="'1'">男</wd-radio>
-                <wd-radio :value="'0'">女</wd-radio>
-              </wd-radio-group>
-            </view>
-          </wd-cell-group>
-        </wd-form>
-      </view>
-    </view>
-  </view>
-</template> -->
 <template>
   <view class="container">
     <MineBar>
@@ -53,7 +18,7 @@
       <view class="card between">
         <text class="label">{{ t('avatar') }}</text>
         <view class="value arrow-right" @click="goTo('avatar')">
-          <image class="avatar" src="/src/static/icon/user_icon.svg" />
+          <image class="avatar" :src="formData.avatar" />
           <wd-icon name="arrow-right" size="20" />
         </view>
       </view>
@@ -62,7 +27,7 @@
       <view class="card between">
         <text class="label">{{ t('username') }}</text>
         <view class="value arrow-right" @click="goTo('username')">
-          <text>王先生</text>
+          <text>{{ formData.nickname }}</text>
           <wd-icon name="arrow-right" size="20" />
         </view>
       </view>
@@ -71,7 +36,7 @@
       <view class="card between">
         <text class="label">{{ t('contact_number') }}</text>
         <view class="value arrow-right" @click="goTo('phone')">
-          <text>+86 199xxxxxxx</text>
+          <text>+86 {{ formData.phoneNumber }}</text>
           <wd-icon name="arrow-right" size="20" />
         </view>
       </view>
@@ -80,7 +45,7 @@
       <view class="card between">
         <text class="label">{{ t('gender') }}</text>
         <view class="value">
-          <text>男</text>
+          <text>{{ formData.gender }}</text>
         </view>
       </view>
 
@@ -148,18 +113,30 @@ const itemList = ref([
     address: '地址word1word2word3word4word5word6word7word8wor-d9word10xxxxxxxxxxxxxx',
   },
 ])
-// 表单引用
-const formRef = ref()
 
 // 用户信息
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 
 // 表单数据
+const gender = ref('')
+if (userInfo.value.gender === 1) {
+  gender.value = '男'
+} else if (userInfo.value.gender === 0) {
+  gender.value = '女'
+} else {
+  gender.value = '未填写'
+}
+
 const formData = ref({
   id: userInfo.value.id,
-  name: userInfo.value.name,
-  gender: userInfo.value.gender,
+  avatar: userInfo.value.avatarUrl,
+  nickname: userInfo.value.nickname,
+  phoneNumber: userInfo.value.phoneNumber, //国际电话的问题，先写死+86
+  gender: gender.value,
+  //TODO:职位
+  employeeStringId: userInfo.value.employeeStringId,
+  //TODO:关联门店，用shopIdList想办法解决
 })
 // 跳转到其他页面
 const goTo = (type: string) => {
@@ -175,113 +152,6 @@ const goTo = (type: string) => {
 }
 </script>
 
-<!-- <style lang="scss" scoped>
-.profile-info-container {
-  min-height: 100vh;
-  background-color: #f5f7fa;
-  padding: 30rpx;
-}
-
-.profile-card {
-  background-color: #ffffff;
-  border-radius: 24rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
-  overflow: hidden;
-}
-
-.card-header {
-  padding: 40rpx 30rpx 20rpx;
-  border-bottom: 2rpx solid #f0f0f0;
-}
-
-.card-title {
-  font-size: 36rpx;
-  font-weight: 600;
-  color: #333;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 16rpx;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60rpx;
-    height: 6rpx;
-    background: linear-gradient(90deg, #4a7bff, #6a5acd);
-    border-radius: 6rpx;
-  }
-}
-
-.form-wrapper {
-  padding: 30rpx;
-}
-
-.form-group {
-  border-radius: 16rpx;
-  overflow: hidden;
-  margin-bottom: 40rpx;
-}
-
-.form-input {
-  font-size: 30rpx;
-}
-
-.sex-field {
-  display: flex;
-  align-items: center;
-  padding: 24rpx 30rpx;
-  background-color: #ffffff;
-}
-
-.field-label {
-  width: 160rpx;
-  font-size: 30rpx;
-  color: #333;
-}
-
-.radio-group {
-  flex: 1;
-  display: flex;
-  gap: 20rpx;
-}
-
-.radio-btn {
-  flex: 1;
-  height: 80rpx;
-  line-height: 80rpx;
-  text-align: center;
-  font-size: 30rpx;
-  border-radius: 12rpx;
-  background-color: #f5f7fa;
-
-  &:active {
-    opacity: 0.8;
-  }
-}
-
-.form-actions {
-  display: flex;
-  flex-direction: row;
-  gap: 20rpx;
-}
-
-.submit-btn {
-  height: 90rpx;
-  border-radius: 45rpx;
-  font-size: 32rpx;
-  font-weight: 500;
-  background: linear-gradient(135deg, #4a7bff, #6a5acd);
-  box-shadow: 0 8rpx 16rpx rgba(74, 123, 255, 0.2);
-  transition: all 0.3s ease;
-
-  &:active {
-    transform: translateY(2rpx);
-    box-shadow: 0 4rpx 8rpx rgba(74, 123, 255, 0.15);
-  }
-}
-</style> -->
 <style lang="scss" scoped>
 $title-color: #536387;
 .container {

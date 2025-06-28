@@ -92,7 +92,7 @@
       "path": "pages/mine/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "我的"
+        "navigationStyle": "custom"
       },
       "layout": "tabbar"
     },

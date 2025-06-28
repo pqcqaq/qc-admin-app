@@ -61,5 +61,9 @@
   "verification_code": "验证码",
   "verification_code_cannot_be_empty": "验证码不能为空",
   "change": "更换",
-  "personal_information": "个人资料"
+  "personal_information": "个人资料",
+  "please_fill_it_out_completely": "请完整填写。",
+  "new_password_cannot_be_same_as_old": "新密码不能与旧密码相同",
+  "new_passwords_do_not_match": "新密码两次输入不一致",
+  "old_password_incorrect": "旧密码不正确"
 }

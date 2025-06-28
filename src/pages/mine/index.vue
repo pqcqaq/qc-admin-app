@@ -1,43 +1,27 @@
 <route lang="json5">
 {
   style: {
-    navigationBarTitleText: '我的',
+    navigationStyle: 'custom',
   },
   layout: 'tabbar',
 }
 </route>
 
 <template>
-  <view class="profile-container">
-    <!-- 用户信息区域 -->
+  <!-- <view class="profile-container">
+
     <view class="user-info-section">
-      <!-- #ifdef MP-WEIXIN -->
       <button class="avatar-button" open-type="chooseAvatar">
         <wd-img :src="userInfo.avatarUrl" width="80px" height="80px" radius="50%"></wd-img>
       </button>
-      <!-- #endif -->
-      <!-- #ifndef MP-WEIXIN -->
-      <view class="avatar-wrapper">
-        <wd-img :src="userInfo.avatarUrl" width="100%" height="100%" radius="50%"></wd-img>
-      </view>
-      <!-- #endif -->
+
       <view class="user-details">
-        <!-- #ifdef MP-WEIXIN -->
-        <input
-          type="nickname"
-          class="weui-input"
-          placeholder="请输入昵称"
-          v-model="userInfo.nickname"
-        />
-        <!-- #endif -->
-        <!-- #ifndef MP-WEIXIN -->
         <view class="username">{{ userInfo.nickname }}</view>
-        <!-- #endif -->
         <view class="user-id">ID: {{ userInfo.id }}</view>
       </view>
     </view>
 
-    <!-- 功能区块 -->
+    
     <view class="function-section">
       <view class="cell-group">
         <view class="group-title">账号管理</view>
@@ -82,6 +66,24 @@
         <wd-button type="primary" v-else block @click="handleLogin">登录</wd-button>
       </view>
     </view>
+  </view> -->
+  <view class="container">
+    <view class="user-info-section">
+      <wd-img
+        :src="userInfo.avatarUrl"
+        width="200rpx"
+        height="200rpx"
+        radius="50%"
+        class="avatar-wrapper"
+      />
+      <view class="nick-name">
+        <text>{{ userInfo.nickname }}</text>
+      </view>
+      <view class="company-name">
+        <text>ccc</text>
+      </view>
+    </view>
+    <view class="function-section"></view>
   </view>
 </template>
 
@@ -101,59 +103,6 @@ onShow((options) => {
   hasLogin.value = !!uni.getStorageSync('token')
   console.log('个人中心onShow', hasLogin.value, options)
 })
-// // #ifndef MP-WEIXIN
-// // 上传头像
-// const { run } = useUpload<IUploadSuccessInfo>(
-//   import.meta.env.VITE_UPLOAD_BASEURL,
-//   {},
-//   {
-//     onSuccess: (res) => {
-//       console.log('h5头像上传成功', res)
-//       useUserStore().setUserAvatar(res.url)
-//     },
-//   },
-// )
-// // #endif
-
-// 微信小程序下登录
-const handleLogin = async () => {
-  // #ifdef MP-WEIXIN
-
-  // 微信登录
-  // await userStore.wxLogin()
-  // hasLogin.value = true
-  // #endif
-  // #ifndef MP-WEIXIN
-  uni.navigateTo({ url: '/pages/login/index' })
-  // #endif
-}
-
-// #ifdef MP-WEIXIN
-
-// // 微信小程序下选择头像事件
-// const onChooseAvatar = (e: any) => {
-//   console.log('选择头像', e.detail)
-//   const { avatarUrl } = e.detail
-//   const { run } = useUpload<IUploadSuccessInfo>(
-//     import.meta.env.VITE_UPLOAD_BASEURL,
-//     {},
-//     {
-//       onSuccess: (res) => {
-//         console.log('wx头像上传成功', res)
-//         useUserStore().setUserAvatar(res.url)
-//       },
-//     },
-//     avatarUrl,
-//   )
-//   run()
-// }
-// #endif
-// #ifdef MP-WEIXIN
-// 微信小程序下设置用户名
-const getUserInfo = (e: any) => {
-  console.log(e.detail)
-}
-// #endif
 
 // 个人资料
 const handleProfileInfo = () => {
@@ -242,14 +191,6 @@ const handleLogout = () => {
         hasLogin.value = false
         // 执行退出登录逻辑
         toast.show('退出登录成功')
-        // #ifdef MP-WEIXIN
-        // 微信小程序，去首页
-        // uni.reLaunch({ url: '/pages/index/index' })
-        // #endif
-        // #ifndef MP-WEIXIN
-        // 非微信小程序，去登录页
-        // uni.reLaunch({ url: '/pages/login/index' })
-        // #endif
       }
     },
   })
@@ -257,115 +198,147 @@ const handleLogout = () => {
 </script>
 
 <style lang="scss" scoped>
+$bg1-color: #3daa9a;
+$bg2-color: #f5f5f5;
+$font1-color: #ffffff;
+.container {
+  .user-info-section {
+    background: $bg1-color;
+    height: 550rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .avatar-wrapper {
+      box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+      margin-top: 100rpx;
+    }
+    .nick-name {
+      margin-top: 50rpx;
+      font-size: 40rpx;
+      color: $font1-color;
+      font-weight: bold;
+    }
+    .company-name {
+      margin-top: 20rpx;
+      font-size: 35rpx;
+      color: $font1-color;
+    }
+  }
+  .function-section {
+    background: $bg2-color;
+    height: 100rpx;
+  }
+}
 /* 基础样式 */
-.profile-container {
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  background-color: #f7f8fa;
-}
-/* 用户信息区域 */
-.user-info-section {
-  display: flex;
-  align-items: center;
-  padding: 40rpx;
-  margin: 30rpx 30rpx 20rpx;
-  background-color: #fff;
-  border-radius: 24rpx;
-  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
+// .profile-container {
+//   overflow: hidden;
+//   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+//   background-color: #f7f8fa;
+// }
+// /* 用户信息区域 */
+// .user-info-section {
+//   display: flex;
+//   align-items: center;
+//   padding: 40rpx;
+//   margin: 30rpx 30rpx 20rpx;
+//   background-color: #fff;
+//   border-radius: 24rpx;
+//   box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.08);
+//   transition: all 0.3s ease;
+// }
 
-.avatar-wrapper {
-  width: 160rpx;
-  height: 160rpx;
-  margin-right: 40rpx;
-  overflow: hidden;
-  border: 4rpx solid #f5f5f5;
-  border-radius: 50%;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-}
-.avatar-button {
-  height: 160rpx;
-  padding: 0;
-  margin-right: 40rpx;
-  overflow: hidden;
-  border: 4rpx solid #f5f5f5;
-  border-radius: 50%;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-}
-.user-details {
-  flex: 1;
-}
+// .avatar-wrapper {
+//   width: 160rpx;
+//   height: 160rpx;
+//   margin-right: 40rpx;
+//   overflow: hidden;
+//   border: 4rpx solid #f5f5f5;
+//   border-radius: 50%;
+//   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+// }
+// .avatar-button {
+//   height: 160rpx;
+//   padding: 0;
+//   margin-right: 40rpx;
+//   overflow: hidden;
+//   border: 4rpx solid #f5f5f5;
+//   border-radius: 50%;
+//   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+// }
+// .user-details {
+//   flex: 1;
+// }
 
-.username {
-  margin-bottom: 12rpx;
-  font-size: 38rpx;
-  font-weight: 600;
-  color: #333;
-  letter-spacing: 0.5rpx;
-}
+// .username {
+//   margin-bottom: 12rpx;
+//   font-size: 38rpx;
+//   font-weight: 600;
+//   color: #333;
+//   letter-spacing: 0.5rpx;
+// }
 
-.user-id {
-  font-size: 28rpx;
-  color: #666;
-}
+// .user-id {
+//   font-size: 28rpx;
+//   color: #666;
+// }
 
-.user-created {
-  margin-top: 8rpx;
-  font-size: 24rpx;
-  color: #999;
-}
-/* 功能区块 */
-.function-section {
-  padding: 0 20rpx;
-  margin-top: 20rpx;
-}
+// .user-created {
+//   margin-top: 8rpx;
+//   font-size: 24rpx;
+//   color: #999;
+// }
+// /* 功能区块 */
+// .function-section {
+//   padding: 0 20rpx;
+//   margin-top: 20rpx;
+// }
 
-.cell-group {
-  margin-bottom: 20rpx;
-  overflow: hidden;
-  background-color: #fff;
-  border-radius: 16rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
-}
+// .cell-group {
+//   margin-bottom: 20rpx;
+//   overflow: hidden;
+//   background-color: #fff;
+//   border-radius: 16rpx;
+//   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+// }
 
-.group-title {
-  padding: 24rpx 30rpx 16rpx;
-  font-size: 30rpx;
-  font-weight: 500;
-  color: #999;
-  background-color: #fafafa;
-}
+// .group-title {
+//   padding: 24rpx 30rpx 16rpx;
+//   font-size: 30rpx;
+//   font-weight: 500;
+//   color: #999;
+//   background-color: #fafafa;
+// }
 
-:deep(.wd-cell) {
-  border-bottom: 1rpx solid #f5f5f5;
+// :deep(.wd-cell) {
+//   border-bottom: 1rpx solid #f5f5f5;
 
-  &:last-child {
-    border-bottom: none;
-  }
+//   &:last-child {
+//     border-bottom: none;
+//   }
 
-  .wd-cell__title {
-    margin-left: 5px;
-    font-size: 32rpx;
-    color: #333;
-  }
+//   .wd-cell__title {
+//     margin-left: 5px;
+//     font-size: 32rpx;
+//     color: #333;
+//   }
 
-  .cell-icon {
-    margin-right: 20rpx;
-    font-size: 36rpx;
-  }
-}
-/* 退出登录按钮 */
-.logout-button-wrapper {
-  padding: 40rpx 30rpx;
-}
+//   .cell-icon {
+//     margin-right: 20rpx;
+//     font-size: 36rpx;
+//   }
+// }
+// /* 退出登录按钮 */
+// .logout-button-wrapper {
+//   padding: 40rpx 30rpx;
+// }
 
-:deep(.wd-button--danger) {
-  height: 88rpx;
-  font-size: 32rpx;
-  line-height: 88rpx;
-  color: #fff;
-  background-color: #f53f3f;
-  border-radius: 44rpx;
-}
+// :deep(.wd-button--danger) {
+//   height: 88rpx;
+//   font-size: 32rpx;
+//   line-height: 88rpx;
+//   color: #fff;
+//   background-color: #f53f3f;
+//   border-radius: 44rpx;
+// }
 </style>
