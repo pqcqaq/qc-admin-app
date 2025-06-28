@@ -15,7 +15,19 @@ export interface ITask {
     createdAt: string
   }>
 }
-
+export interface ITaskHistory {
+  rows: Array<{
+    id: number
+    type: string
+    label: string
+    shopName: string
+    detectionPlanld: number
+    detectionPlanLabel: string
+    detectionRuleldList: string
+    stateEnum: string
+    createdAt: string
+  }>
+}
 export interface ITaskBoardDate {
   result: {
     manualDetectionTaskStateEnumTodoExtendedCount: number
@@ -49,5 +61,5 @@ export const getDashBoardStats = () => {
  * @param params.successDatetime 时间范围数组 [startTime, endTime]
  */
 export const getHistoryTaskList = (params: { successDatetime: string[] }) => {
-  return http.post<IBaseResponse<ITask>>('/app/getsuccess', params)
+  return http.post<IBaseResponse<ITaskHistory>>('/app/getsuccess', params)
 }

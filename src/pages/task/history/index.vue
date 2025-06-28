@@ -71,7 +71,10 @@ const t = i18n.t
 // 使用storeToRefs解构userInfo
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
+// 正式使用
 const userRole = userInfo.value?.role || ''
+// 测试使用
+// const userRole = 'clerk'
 
 // 设置默认一个月的时间范围
 const now = new Date()
@@ -123,8 +126,8 @@ const fetchTaskHistory = async () => {
     }
     console.log('请求参数:', params)
     const res = await getHistoryTaskList(params)
-    if (res && res.data && res.data.result) {
-      tasks.value = res.data.result
+    if (res && res.data && res.data.rows) {
+      tasks.value = res.data.rows
       console.log('成功获取历史任务数据，共', tasks.value.length, '条')
     } else {
       tasks.value = []
@@ -145,24 +148,34 @@ onMounted(() => {
 
 <style scoped lang="scss">
 $primary-color: #3daa9a;
+$secondary-color: #98e1d6;
+$background-color: #f5f5f5;
 $date-picker-color: #ffffff;
 $font1-color: #ffffff;
 $font2-color: #536387;
 $font3-color: #999;
 $input-border-color: #e2e7f5;
 
-/* 修改选中日期的颜色 */
-.wd-calendar .blue-element {
+:deep(.wd-month__day.is-start .wd-month__day-container) {
+  background-color: $primary-color !important;
+}
+/* 修改“确定”按钮的颜色 */
+:deep(.is-middle) {
+  background-color: $secondary-color !important;
+}
+:deep(.wd-month__day.is-end .wd-month__day-container) {
+  background-color: $primary-color !important;
+}
+:deep(.wd-month__day.is-current) {
+  color: $primary-color !important;
+}
+:deep(.wd-button.is-primary) {
   background-color: $primary-color !important;
 }
 
-/* 修改“确定”按钮的颜色 */
-.wd-calendar .confirm-button {
-  background-color: green !important;
-  color: white !important; /* 如果需要改变文字颜色 */
-}
-
 .history_page {
+  height: 100vh;
+  background-color: $background-color;
   .bar_contaner {
     background-color: $primary-color;
     border: none;
@@ -187,10 +200,12 @@ $input-border-color: #e2e7f5;
   }
 
   .date_picker_container {
-    position: relative;
+    position: sticky;
+    z-index: 100;
+    width: 100vw;
     top: -1rpx;
-    padding-top: 10rpx;
-    padding-bottom: 40rpx;
+    padding-top: 30rpx;
+    padding-bottom: 30rpx;
     background-color: $primary-color;
     display: flex;
     justify-content: center;

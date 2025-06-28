@@ -26,7 +26,7 @@
               <view class="stat-label">{{ t('task_pending_check_item') }}</view>
               <view class="stat-value-wrap">
                 <text class="stat-value">
-                  {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingCount }}
+                  {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingAppealSuccessCount }}
                 </text>
                 <text>{{ t('task_item') }}</text>
               </view>
@@ -52,7 +52,7 @@
               <view class="stat-label">{{ t('task_extended_item') }}</view>
               <view class="stat-value-wrap">
                 <text class="stat-value">
-                  {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingCount }}
+                  {{ taskBoardDate?.manualDetectionTaskStateEnumTodoExtendedCount }}
                 </text>
                 <text>{{ t('task_item') }}</text>
               </view>
@@ -65,7 +65,7 @@
               <view class="stat-label">{{ t('task_pending_appeal_item') }}</view>
               <view class="stat-value-wrap">
                 <text class="stat-value">
-                  {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingCount }}
+                  {{ taskBoardDate?.detectionTaskRectifiedStateEnumTodoExtendedAppealFailCount }}
                 </text>
                 <text>{{ t('task_item') }}</text>
               </view>
@@ -207,7 +207,7 @@ const handleTaskSubmit = (task: any) => {
 
 <style scoped lang="scss">
 $primary-color: #3daa9a;
-
+$background-color: #f5f5f5;
 $font1-color: #ffffff;
 $font2-color: #536387;
 $font3-color: #999;
@@ -215,8 +215,10 @@ $font4-color: #333;
 $font5-color: #7d7d7d;
 $input-border-color: #e2e7f5;
 .task-page {
-  min-height: 100vh;
-  padding-bottom: 20rpx;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $background-color;
 }
 /* task board */
 .task-board-container {
@@ -225,6 +227,10 @@ $input-border-color: #e2e7f5;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
 
   .task-board {
     background-color: white;
@@ -310,15 +316,17 @@ $input-border-color: #e2e7f5;
 
 /* 任务列表样式 */
 .task-list {
+  margin-top: 500rpx; // 增加顶部边距避免被看板覆盖
   padding: 40rpx 40rpx 0rpx 40rpx;
   .empty-state {
-    height: 520rpx;
+    height: 550rpx;
   }
 }
 
 /* 历史记录链接 */
 .history-link {
   text-align: center;
+  padding: 0 0 30rpx 0;
 
   text {
     color: $font3-color;
