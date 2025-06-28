@@ -13,6 +13,9 @@ export * from './user'
 // ==================== 认证和组织管理 ====================
 export * from './auth'
 
+// ==================== 看板 ====================
+export * from './dashboard'
+
 // ==================== 常用类型导出 ====================
 export interface IBaseResponse<T = any> {
   success: boolean
