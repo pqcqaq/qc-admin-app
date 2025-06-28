@@ -33,5 +33,22 @@
   "change-password": "change-password",
   "username_cannot_be_empty": "username cannot be empty",
   "change_phone_number": "change phone number",
-  "select_country_region": "select country region"
+  "select_country_region": "select country region",
+
+  "task_review": "Task Review",
+  "inspection_item": "inspection item",
+  "review_disagrees": "review disagrees",
+  "review_agrees": "review agrees",
+  "appeal_statement": "appeal statement",
+  "rectification_statement": "rectification statement",
+  "review_today": "review today",
+  "completed": "completed ！",
+  "comment": "comment",
+  "unqualified": "unqualified",
+  "loading_failure": "failure",
+  "upload_photos": "upload photos",
+  "next": "next",
+  "successful": "successful",
+  "failure": "failure",
+  "ok": "ok"
 }
