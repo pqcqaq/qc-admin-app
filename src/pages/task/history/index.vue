@@ -9,17 +9,17 @@
 <template>
   <view class="history_page">
     <!-- 日期选择器 -->
-    <StatusBar class="bar_contaner">
-      <template #left>
+    <view class="status_bar">
+      <view class="status-bar-left">
         <wd-button type="text" class="status_bar_back_button" @click="back">
           <image src="/static/icon/back.svg"></image>
         </wd-button>
-      </template>
-      <template #title>
+      </view>
+      <view class="status-bar-title">
         <text class="status_bar_title">{{ t('history_record') }}</text>
-      </template>
-    </StatusBar>
-
+      </view>
+      <view class="status-bar-right"></view>
+    </view>
     <view class="date_picker_container">
       <view class="date_picker">
         <view>{{ t('task_history_date') }}</view>
@@ -149,7 +149,7 @@ onMounted(() => {
 <style scoped lang="scss">
 $primary-color: #3daa9a;
 $secondary-color: #98e1d6;
-$background-color: #f5f5f5;
+$background-color: #f7f8fa;
 $date-picker-color: #ffffff;
 $font1-color: #ffffff;
 $font2-color: #536387;
@@ -176,34 +176,57 @@ $input-border-color: #e2e7f5;
 .history_page {
   height: 100vh;
   background-color: $background-color;
-  .bar_contaner {
+  .status_bar {
     background-color: $primary-color;
     border: none;
-    .status_bar_title {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(73rpx + env(safe-area-inset-top));
+    padding: 7rpx 3rpx;
+    display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 998;
+    transition-property: all;
+
+    .status-bar-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       font-size: large;
       font-weight: bold;
       color: $font1-color;
     }
-
-    .status_bar_back_button {
-      color: $font1-color;
-      width: 60rpx;
-      height: 60rpx;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      image {
-        width: 40rpx;
-        height: 40rpx;
+    .status-bar-left {
+      margin-left: 25rpx;
+      .status_bar_back_button {
+        color: $font1-color;
+        width: 60rpx;
+        height: 60rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        image {
+          width: 40rpx;
+          height: 40rpx;
+        }
       }
+    }
+    .status-bar-right {
+      margin-right: 25rpx;
     }
   }
 
   .date_picker_container {
-    position: sticky;
+    position: fixed;
+    top: calc(73rpx + env(safe-area-inset-top));
+    left: 0;
     z-index: 100;
-    width: 100vw;
-    top: -1rpx;
+    width: 100%;
     padding-top: 30rpx;
     padding-bottom: 30rpx;
     background-color: $primary-color;
@@ -237,7 +260,10 @@ $input-border-color: #e2e7f5;
   .task_list {
     border-radius: 16rpx;
     padding: 20rpx;
-    margin: 20rpx;
+    margin-top: calc(73rpx + env(safe-area-inset-top) + 182rpx + 20rpx);
+    margin-right: 20rpx;
+    margin-bottom: 20rpx;
+    margin-left: 20rpx;
 
     /* 移除冗余样式，使用taskItem组件内置样式 */
     .task_item {

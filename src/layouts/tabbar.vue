@@ -58,12 +58,14 @@ const updateTabBarState = () => {
 </script>
 
 <style lang="scss" scoped>
+$background-color: #f7f8fa;
 .tabbar-layout {
   min-height: 100vh;
   position: relative;
 }
 
 .page-content {
+  background-color: $background-color;
   padding-bottom: 50px; /* tabbar高度 */
   padding-bottom: calc(50px + env(safe-area-inset-bottom)); /* 添加安全区域 */
 }

@@ -5,7 +5,10 @@
       <text class="date">{{ timeText }}</text>
       <!-- 人工检查还是问题 -->
       <text class="type">{{ typeText }}</text>
-      <text class="label">{{ props.label }}</text>
+      <text class="label">{{ props.label || '' }}</text>
+      <!-- <text class="label-right" v-if="showAppealLabel">
+        {{ t('task_appeal_item') }}
+      </text> -->
     </view>
 
     <view class="task-info">
@@ -55,8 +58,13 @@ const props = defineProps<TaskItemProps>()
 const emit = defineEmits<{
   (e: 'submit'): void
 }>()
+enum EnumRole {
+  MANAGE = 'manage',
+  AREAMANAGE = 'area-manage',
+  STOREMANAGE = 'store-manage',
+  CLERK = 'clerk',
+}
 // 最上方
-
 const typeText = computed(() => {
   switch (props.type) {
     case 'detection_task_rectified':
@@ -72,6 +80,13 @@ const timeText = computed(() => {
   let date = props.createdAt.split('T')[0].split('-')
   return `${date[1]}月${date[2]}日`
 })
+// 显示申诉标签的条件：任务状态为已提交整改或整改成功，且用户角色为管理员或区域管理员
+// const showAppealLabel = computed(() => {
+//   return (
+//     (props.stateEnum === 'rectified_submitted' || props.stateEnum === 'rectified_success') &&
+//     (props.role === EnumRole.MANAGE || props.role === EnumRole.AREAMANAGE)
+//   )
+// })
 const problemCount = computed(() => {
   return props.detectionRuleIdList.split(',').length
 })
@@ -163,12 +178,7 @@ const statusText = computed(() => {
   }
   return ''
 })
-enum EnumRole {
-  MNAGE = 'manage',
-  AREAMANAGE = 'area-manage',
-  STOREMANAGE = 'store-manage',
-  CLERK = 'clerk',
-}
+
 // 控制提交按钮显示和文本
 const submitBtnConfig = computed(() => {
   // 店长和店员视角
@@ -203,7 +213,7 @@ const submitBtnConfig = computed(() => {
     }
   }
   // 督导视角
-  else if (props.role === EnumRole.MNAGE || props.role === EnumRole.AREAMANAGE) {
+  else if (props.role === EnumRole.MANAGE || props.role === EnumRole.AREAMANAGE) {
     // 只处理问题整改类型
     if (props.type === 'detection_task_rectified') {
       switch (props.stateEnum) {
@@ -238,8 +248,8 @@ $label2-background-color: #e8ffea;
 $label3-color: #eb0000;
 $label3-background-color: #f8d8d8;
 $commit-button-color: #00bfa5;
-$appeal-button-color: #00bfa5;
-$review-button-color: #1890ff;
+$appeal-button-color: #dcdcdc;
+
 .task-item {
   background-color: $item-color;
   border-radius: 8rpx;
@@ -248,6 +258,7 @@ $review-button-color: #1890ff;
   box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
 
   .task-header {
+    position: relative;
     margin-bottom: 16rpx;
     .date,
     .type {
@@ -260,7 +271,19 @@ $review-button-color: #1890ff;
       font-weight: 400;
       font-size: 26rpx;
       color: $toplabel-color;
-      padding-left: 48rpx;
+      padding-left: 24rpx;
+      display: inline-block;
+      max-width: calc(100% - 120rpx);
+      z-index: 1;
+    }
+    .label-right {
+      position: absolute;
+      right: 0;
+      background-color: $label1-background-color;
+      color: $label1-color;
+      font-size: 24rpx;
+      padding: 8rpx 16rpx;
+      border-radius: 8rpx;
     }
   }
 

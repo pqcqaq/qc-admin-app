@@ -117,6 +117,7 @@ const { userInfo } = storeToRefs(userStore)
 const userRole = userInfo.value?.role || ''
 // 测试使用
 // const userRole = 'clerk'
+//const userRole = 'area-manage'
 // 国际化
 const i18n = useI18n()
 const t = i18n.t
@@ -148,9 +149,12 @@ const filteredTasks = computed(() => {
     }
     // 督导只看到问题整改类型的任务
     else if (userRole === EnumRole.AREAMANAGE || userRole === EnumRole.MNAGE) {
-      return task.type === 'detection_task_rectified'
+      return (
+        task.type === 'detection_task_rectified' &&
+        (task.stateEnum === 'rectified_submitted' || task.stateEnum === 'rectified_success')
+      )
     }
-    return true
+    return false
   })
 })
 // 统计数据接口定义
@@ -207,7 +211,7 @@ const handleTaskSubmit = (task: any) => {
 
 <style scoped lang="scss">
 $primary-color: #3daa9a;
-$background-color: #f5f5f5;
+$background-color: #f7f8fa;
 $font1-color: #ffffff;
 $font2-color: #536387;
 $font3-color: #999;
@@ -215,7 +219,6 @@ $font4-color: #333;
 $font5-color: #7d7d7d;
 $input-border-color: #e2e7f5;
 .task-page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: $background-color;
