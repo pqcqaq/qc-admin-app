@@ -24,12 +24,12 @@
       <view class="flex justify-center items-center mt-2 text-white text-sm">
         <view class="flex items-center">
           <wd-icon name="calendar" size="16" class="mr-1" />
-          <text>2025年6月9日</text>
+          <text>{{ time }}</text>
         </view>
         <view class="mx-4"></view>
         <view class="flex items-center">
           <wd-icon name="shop" size="16" class="mr-1" />
-          <text>黄龙体育中心店</text>
+          <text>{{ shopName }}</text>
         </view>
       </view>
     </view>
@@ -95,7 +95,7 @@ function handleAppeal(item) {
   store.totalCount = totalCount.value
   store.checkedCount = checkedCount.value
   uni.navigateTo({
-    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=1`,
+    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=1&time=${time}&shopName=${shopName}`,
   })
 }
 
@@ -105,12 +105,15 @@ function handleRectify(item) {
   store.totalCount = totalCount.value
   store.checkedCount = checkedCount.value
   uni.navigateTo({
-    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=0`,
+    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=0&time=${time}&shopName=${shopName}`,
   })
 }
-
+const time = ref('')
+const shopName = ref('')
 onLoad(async (options) => {
   const id = options?.id ? Number(options.id) : 49
+  time.value = options?.time ? options.time : ''
+  shopName.value = options?.shopName ? options.shopName : ''
   const res = await getdetectiontaskrectifieddetailbydetectiontaskrectifiedid(id)
   items.value = res.data?.rows || []
   totalCount.value = items.value.length

@@ -24,12 +24,12 @@
       <view class="flex justify-center items-center mt-2 text-white text-sm">
         <view class="flex items-center">
           <wd-icon name="calendar" size="16" class="mr-1" />
-          <text>2025年6月9日</text>
+          <text>{{ time }}</text>
         </view>
         <view class="mx-4"></view>
         <view class="flex items-center">
           <wd-icon name="shop" size="16" class="mr-1" />
-          <text>黄龙体育中心店</text>
+          <text>{{ shopName }}</text>
         </view>
       </view>
     </view>
@@ -164,8 +164,11 @@ const canSubmit = computed(() => {
 function onBack() {
   uni.navigateBack()
 }
-
+const time = ref('')
+const shopName = ref('')
 onLoad((options) => {
+  time.value = options?.time ? options.time : ''
+  shopName.value = options?.shopName ? options.shopName : ''
   isAppeal.value = String(options.appealState) === '1'
   detectionTaskRectifiedDetailId.value = options.id
 })
