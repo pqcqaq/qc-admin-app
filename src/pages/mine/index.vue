@@ -1,85 +1,77 @@
 <route lang="json5">
 {
   style: {
-    navigationBarTitleText: '我的',
+    navigationStyle: 'custom',
   },
   layout: 'tabbar',
 }
 </route>
 
 <template>
-  <view class="profile-container">
-    <!-- 用户信息区域 -->
+  <view class="container">
     <view class="user-info-section">
-      <!-- #ifdef MP-WEIXIN -->
-      <button class="avatar-button" open-type="chooseAvatar">
-        <wd-img :src="userInfo.avatarUrl" width="80px" height="80px" radius="50%"></wd-img>
-      </button>
-      <!-- #endif -->
-      <!-- #ifndef MP-WEIXIN -->
-      <view class="avatar-wrapper">
-        <wd-img :src="userInfo.avatarUrl" width="100%" height="100%" radius="50%"></wd-img>
+      <wd-img
+        :src="userInfo.row.avatarUrl"
+        width="200rpx"
+        height="200rpx"
+        radius="50%"
+        class="avatar-wrapper"
+      />
+      <view class="nick-name">
+        <text>{{ userInfo.row.nickname }}</text>
       </view>
-      <!-- #endif -->
-      <view class="user-details">
-        <!-- #ifdef MP-WEIXIN -->
-        <input
-          type="nickname"
-          class="weui-input"
-          placeholder="请输入昵称"
-          v-model="userInfo.nickname"
-        />
-        <!-- #endif -->
-        <!-- #ifndef MP-WEIXIN -->
-        <view class="username">{{ userInfo.nickname }}</view>
-        <!-- #endif -->
-        <view class="user-id">ID: {{ userInfo.id }}</view>
+      <view class="company-name">
+        <text>{{ userInfo.row.customerOrganization.name }}</text>
       </view>
     </view>
-
-    <!-- 功能区块 -->
     <view class="function-section">
-      <view class="cell-group">
-        <view class="group-title">账号管理</view>
-        <wd-cell title="个人资料" is-link @click="handleProfileInfo">
-          <template #icon>
-            <wd-icon name="user" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="账号安全" is-link @click="handlePassword">
-          <template #icon>
-            <wd-icon name="lock-on" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
+      <!-- 个人资料 -->
+      <view class="card" @click="handleProfileInfo">
+        <view class="label">
+          <wd-icon name="note" size="25px" />
+          <text class="text">{{ t('personal_info') }}</text>
+        </view>
+        <wd-icon name="arrow-right" size="20px" />
+      </view>
+      <!-- 帮助与反馈 -->
+      <view class="card" @click="handleFeedback">
+        <view class="label">
+          <wd-icon name="evaluation" size="25px" />
+          <text class="text">{{ t('help_and_feedback') }}</text>
+        </view>
+        <wd-icon name="arrow-right" size="20px" />
+      </view>
+      <!-- 隐私与协议 -->
+      <view class="picker-card">
+        <wd-select-picker
+          class="picker"
+          v-model="choice"
+          use-default-slot
+          :columns="columns"
+          @confirm="handleConfirm"
+          @clear="handleClear"
+          type="radio"
+        >
+          <view class="picker-content">
+            <view class="picker-label">
+              <wd-icon name="spool" size="25px" />
+              <text class="picker-text">{{ t('privacy_protocols') }}</text>
+            </view>
+            <wd-icon name="arrow-right" size="20px" />
+          </view>
+        </wd-select-picker>
       </view>
 
-      <view class="cell-group">
-        <view class="group-title">通用设置</view>
-        <wd-cell title="消息通知" is-link @click="handleInform">
-          <template #icon>
-            <wd-icon name="notification" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="清理缓存" is-link @click="handleClearCache">
-          <template #icon>
-            <wd-icon name="clear" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="应用更新" is-link @click="handleAppUpdate">
-          <template #icon>
-            <wd-icon name="refresh1" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
-        <wd-cell title="关于我们" is-link @click="handleAbout">
-          <template #icon>
-            <wd-icon name="info-circle" size="20px"></wd-icon>
-          </template>
-        </wd-cell>
+      <!-- 退出登录 -->
+      <view class="button">
+        <wd-button class="button-section" type="info" @click="handleLogout">
+          <text>{{ t('logout') }}</text>
+        </wd-button>
       </view>
 
-      <view class="logout-button-wrapper">
-        <wd-button type="error" v-if="hasLogin" block @click="handleLogout">退出登录</wd-button>
-        <wd-button type="primary" v-else block @click="handleLogin">登录</wd-button>
+      <!-- 版本 -->
+      <view class="version">
+        <text>{{ t('version') }}:V 1.4.21</text>
       </view>
     </view>
   </view>
@@ -90,6 +82,10 @@ import { useUserStore } from '@/store'
 import { useToast } from 'wot-design-uni'
 import { useUpload } from '@/utils/uploadFile'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
+const t = i18n.t
 
 const userStore = useUserStore()
 // 使用storeToRefs解构userInfo
@@ -101,155 +97,52 @@ onShow((options) => {
   hasLogin.value = !!uni.getStorageSync('token')
   console.log('个人中心onShow', hasLogin.value, options)
 })
-// // #ifndef MP-WEIXIN
-// // 上传头像
-// const { run } = useUpload<IUploadSuccessInfo>(
-//   import.meta.env.VITE_UPLOAD_BASEURL,
-//   {},
-//   {
-//     onSuccess: (res) => {
-//       console.log('h5头像上传成功', res)
-//       useUserStore().setUserAvatar(res.url)
-//     },
-//   },
-// )
-// // #endif
-
-// 微信小程序下登录
-const handleLogin = async () => {
-  // #ifdef MP-WEIXIN
-
-  // 微信登录
-  // await userStore.wxLogin()
-  // hasLogin.value = true
-  // #endif
-  // #ifndef MP-WEIXIN
-  uni.navigateTo({ url: '/pages/login/index' })
-  // #endif
-}
-
-// #ifdef MP-WEIXIN
-
-// // 微信小程序下选择头像事件
-// const onChooseAvatar = (e: any) => {
-//   console.log('选择头像', e.detail)
-//   const { avatarUrl } = e.detail
-//   const { run } = useUpload<IUploadSuccessInfo>(
-//     import.meta.env.VITE_UPLOAD_BASEURL,
-//     {},
-//     {
-//       onSuccess: (res) => {
-//         console.log('wx头像上传成功', res)
-//         useUserStore().setUserAvatar(res.url)
-//       },
-//     },
-//     avatarUrl,
-//   )
-//   run()
-// }
-// #endif
-// #ifdef MP-WEIXIN
-// 微信小程序下设置用户名
-const getUserInfo = (e: any) => {
-  console.log(e.detail)
-}
-// #endif
 
 // 个人资料
 const handleProfileInfo = () => {
   uni.navigateTo({ url: `/pages/mine/info/index` })
 }
-// 账号安全
-const handlePassword = () => {
-  uni.navigateTo({ url: `/pages/mine/password/index` })
-}
-// 消息通知
-const handleInform = () => {
-  // uni.navigateTo({ url: `/pages/mine/inform/index` })
-  toast.show('功能开发中')
-}
-// 应用更新
-const handleAppUpdate = () => {
-  // #ifdef MP
-  // #ifndef MP-HARMONY
-  const updateManager = uni.getUpdateManager()
-  updateManager.onCheckForUpdate(function (res) {
-    // 请求完新版本信息的回调
-    // console.log(res.hasUpdate)
-    if (res.hasUpdate) {
-      toast.show('检测到新版本，正在下载中...')
-    } else {
-      toast.show('已是最新版本')
-    }
-  })
-  updateManager.onUpdateReady(function (res) {
-    uni.showModal({
-      title: '更新提示',
-      content: '新版本已经准备好，是否重启应用？',
-      success(res) {
-        if (res.confirm) {
-          // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-          updateManager.applyUpdate()
-        }
-      },
-    })
-  })
-  updateManager.onUpdateFailed(function (res) {
-    // 新的版本下载失败
-    toast.error('新版本下载失败')
-  })
-  // #endif
-  // #endif
 
-  // #ifndef MP
-  toast.show('功能开发中')
-  // #endif
+// 帮助与反馈
+const handleFeedback = () => {
+  uni.navigateTo({ url: `/pages/mine/feedback/index` })
 }
-// 关于我们
-const handleAbout = () => {
-  uni.navigateTo({ url: `/pages/mine/about/index` })
+
+// 隐私与协议
+const choice = ref('')
+const columns = ref<Record<string, any>[]>([
+  {
+    value: '/pages/login/privacy',
+    label: t('privacy_policy'),
+  },
+  {
+    value: '/pages/login/service',
+    label: t('user_protocol'),
+  },
+])
+const handleConfirm = () => {
+  uni.navigateTo({ url: choice.value })
+  choice.value = '' // 清空选择
 }
-// 清除缓存
-const handleClearCache = () => {
-  uni.showModal({
-    title: '清除缓存',
-    content: '确定要清除所有缓存吗？\n清除后需要重新登录',
-    success: (res) => {
-      if (res.confirm) {
-        try {
-          // 清除所有缓存
-          uni.clearStorageSync()
-          // 清除用户信息并跳转到登录页
-          useUserStore().logout()
-          toast.show('清除缓存成功')
-        } catch (err) {
-          console.error('清除缓存失败:', err)
-          toast.error('清除缓存失败')
-        }
-      }
-    },
-  })
+const handleClear = () => {
+  choice.value = ''
 }
+
 // 退出登录
 const handleLogout = () => {
   uni.showModal({
-    title: '提示',
-    content: '确定要退出登录吗？',
+    title: t('tip'),
+    content: t('are_you_sure_you_want_to_logout'),
     success: (res) => {
       if (res.confirm) {
         // 清空用户信息
         useUserStore().logout()
         hasLogin.value = false
         // 执行退出登录逻辑
-        toast.show('退出登录成功')
-        // #ifdef MP-WEIXIN
-        // 微信小程序，去首页
-        // uni.reLaunch({ url: '/pages/index/index' })
-        // #endif
-        // #ifndef MP-WEIXIN
-        // 非微信小程序，去登录页
-        // uni.reLaunch({ url: '/pages/login/index' })
-        // #endif
+        toast.show(t('logout_successful'))
+        uni.navigateTo({
+          url: '/pages/login/index',
+        })
       }
     },
   })
@@ -257,40 +150,114 @@ const handleLogout = () => {
 </script>
 
 <style lang="scss" scoped>
-/* 基础样式 */
-.profile-container {
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  background-color: #f7f8fa;
-}
-/* 用户信息区域 */
-.user-info-section {
-  display: flex;
-  align-items: center;
-  padding: 40rpx;
-  margin: 30rpx 30rpx 20rpx;
-  background-color: #fff;
-  border-radius: 24rpx;
-  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+$bg1-color: #3daa9a;
+$bg2-color: #f5f5f5;
+$font1-color: #ffffff;
+$font2-color: #536387;
+$font3-color: #767e8c;
+$card-bg-color: #ffffff;
+.container {
+  .user-info-section {
+    background: $bg1-color;
+    height: 35vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .avatar-wrapper {
+      box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+      margin-top: 100rpx;
+    }
+    .nick-name {
+      margin-top: 50rpx;
+      font-size: 40rpx;
+      color: $font1-color;
+      font-weight: bold;
+    }
+    .company-name {
+      margin-top: 20rpx;
+      margin-bottom: 20rpx;
+      font-size: 35rpx;
+      color: $font1-color;
+    }
+  }
+  .function-section {
+    background: $bg2-color;
+    height: 65vh;
+    padding: 60rpx 20rpx 0rpx;
+
+    .card {
+      background-color: $card-bg-color;
+      padding: 30rpx 20rpx;
+      border-radius: 12rpx;
+      margin-bottom: 20rpx;
+      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .label {
+        display: flex;
+        .text {
+          margin-left: 60rpx;
+          font-size: large;
+          color: $font2-color;
+        }
+      }
+    }
+
+    .picker-card {
+      background-color: $card-bg-color;
+      padding: 30rpx 20rpx;
+      border-radius: 12rpx;
+      margin-bottom: 20rpx;
+      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .picker {
+        width: 100%;
+        .picker-content {
+          display: flex;
+          justify-content: space-between;
+          .picker-label {
+            display: flex;
+            .picker-text {
+              margin-left: 60rpx;
+              font-size: large;
+              color: $font2-color;
+            }
+          }
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: center;
+      margin-top: 130rpx;
+      .button-section {
+        color: $font2-color;
+        background: $card-bg-color;
+        font-size: 35rpx;
+        width: 70%;
+        height: 120rpx;
+      }
+    }
+    .version {
+      display: flex;
+      justify-content: center;
+      margin-top: 50rpx;
+      font-size: 30rpx;
+      color: $font3-color;
+    }
+  }
 }
 
-.avatar-wrapper {
-  width: 160rpx;
-  height: 160rpx;
-  margin-right: 40rpx;
-  overflow: hidden;
-  border: 4rpx solid #f5f5f5;
-  border-radius: 50%;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-}
-.avatar-button {
-  height: 160rpx;
+::v-deep .page-content {
   padding: 0;
-  margin-right: 40rpx;
   overflow: hidden;
-  border: 4rpx solid #f5f5f5;
-  border-radius: 50%;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
 }
 .user-details {

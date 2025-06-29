@@ -71,23 +71,28 @@
       "path": "pages/login/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "登录",
         "navigationStyle": "custom"
       }
     },
     {
       "path": "pages/login/privacy",
-      "type": "page"
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "请仔细阅读"
+      }
     },
     {
       "path": "pages/login/service",
-      "type": "page"
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "请仔细阅读"
+      }
     },
     {
       "path": "pages/mine/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "我的"
+        "navigationStyle": "custom"
       },
       "layout": "tabbar"
     },
@@ -101,17 +106,17 @@
       "layout": "tabbar"
     },
     {
-      "path": "pages/mine/about/index",
+      "path": "pages/mine/feedback/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "关于我们"
+        "navigationStyle": "custom"
       }
     },
     {
       "path": "pages/mine/info/index",
       "type": "page",
       "style": {
-        "navigationBarTitleText": "个人资料"
+        "navigationStyle": "custom"
       }
     },
     {
@@ -120,6 +125,17 @@
       "style": {
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/mine/info/avatar/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/mine/info/avatar/temp",
+      "type": "page"
     },
     {
       "path": "pages/mine/info/password/index",

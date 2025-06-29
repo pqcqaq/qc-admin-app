@@ -1,5 +1,5 @@
 import { http } from '@/utils/http'
-import { IPaginationParams, IBaseResponse } from '.'
+import { IPaginationParams, IBaseResponse, IShop } from '.'
 
 // ==================== 用户相关类型 ====================
 export interface IUser {
@@ -40,6 +40,10 @@ export interface IUserListParams extends IPaginationParams {
 
 export interface IUserDetailParams {
   id: number
+}
+
+export interface INicknameParams {
+  nickname: string // 昵称
 }
 
 export interface IUserUpdateParams {
@@ -103,4 +107,49 @@ export const getUserAuditList = (params: IUserAuditListParams) => {
  */
 export const commitUserAudit = (params: IUserAuditCommitParams) => {
   return http.post<IBaseResponse>('/customer/customer/commitcustomerinformationaudit', params)
+}
+
+export type IOrganization = {
+  id: number
+  dealerId: number
+  name: string
+  enabled: boolean
+  expired: number
+  industryId: number
+  phoneNumber: string
+  contactName: string
+  invitationCode: string
+  license: string
+  licenseImg: string
+  logoImg: string
+  provinceId: number
+  cityId: number
+  address: string
+  nameOfLegalEntity: string
+  created: number
+  updated: number
+}
+
+export type UserInfoWithShop = {
+  row: IUser & {
+    customerOrganization: IOrganization
+  }
+  shops: IShop[]
+}
+
+/**
+ * 查询单个用户带shop信息
+ */
+export const getUserDetailWithShop = (params: IUserDetailParams) => {
+  return http.post<IBaseResponse<UserInfoWithShop>>(
+    '/customer/customer/getonebyidwithshops',
+    params,
+  )
+}
+
+/**
+ * 更新用户昵称
+ */
+export const updateNickname = (params: INicknameParams) => {
+  return http.post<IBaseResponse>('/customer/customer/updatenicknamebyself', params)
 }

@@ -1,9 +1,16 @@
+<route lang="json5">
+{
+  style: {
+    navigationBarTitleText: '请仔细阅读',
+  },
+}
+</route>
 <template>
   <view class="markdown-demo">
     <view class="header"></view>
 
     <view class="demo-section">
-      <view class="section-title">《{{ t('privacy_policy') }}</view>
+      <view class="section-title">{{ t('privacy_policy') }}</view>
       <MarkdownRenderer src="privacy.md" />
     </view>
   </view>
