@@ -26,28 +26,25 @@
     </view>
     <view class="function-section">
       <!-- 个人资料 -->
-      <view class="card">
+      <view class="card" @click="handleProfileInfo">
         <view class="label">
           <wd-icon name="note" size="25px" />
           <text class="text">{{ t('personal_info') }}</text>
         </view>
-        <wd-icon name="arrow-right" size="20px" @click="handleProfileInfo" />
+        <wd-icon name="arrow-right" size="20px" />
       </view>
       <!-- 帮助与反馈 -->
-      <view class="card">
+      <view class="card" @click="handleFeedback">
         <view class="label">
           <wd-icon name="evaluation" size="25px" />
           <text class="text">{{ t('help_and_feedback') }}</text>
         </view>
-        <wd-icon name="arrow-right" size="20px" @click="handleFeedback" />
+        <wd-icon name="arrow-right" size="20px" />
       </view>
       <!-- 隐私与协议 -->
-      <view class="card">
-        <view class="label">
-          <wd-icon name="spool" size="25px" />
-          <text class="text">{{ t('privacy_protocols') }}</text>
-        </view>
+      <view class="picker-card">
         <wd-select-picker
+          class="picker"
           v-model="choice"
           use-default-slot
           :columns="columns"
@@ -55,8 +52,26 @@
           @clear="handleClear"
           type="radio"
         >
-          <wd-icon name="arrow-right" size="20px" />
+          <view class="picker-content">
+            <view class="picker-label">
+              <wd-icon name="spool" size="25px" />
+              <text class="picker-text">{{ t('privacy_protocols') }}</text>
+            </view>
+            <wd-icon name="arrow-right" size="20px" />
+          </view>
         </wd-select-picker>
+      </view>
+
+      <!-- 退出登录 -->
+      <view class="button">
+        <wd-button class="button-section" type="info" @click="handleLogout">
+          <text>{{ t('logout') }}</text>
+        </wd-button>
+      </view>
+
+      <!-- 版本 -->
+      <view class="version">
+        <text>{{ t('version') }}:V 1.4.21</text>
       </view>
     </view>
   </view>
@@ -98,11 +113,11 @@ const choice = ref('')
 const columns = ref<Record<string, any>[]>([
   {
     value: '/pages/login/privacy',
-    label: '隐私政策',
+    label: t('privacy_policy'),
   },
   {
     value: '/pages/login/service',
-    label: '用户协议',
+    label: t('user_protocol'),
   },
 ])
 const handleConfirm = () => {
@@ -113,39 +128,21 @@ const handleClear = () => {
   choice.value = ''
 }
 
-// 清除缓存
-const handleClearCache = () => {
-  uni.showModal({
-    title: '清除缓存',
-    content: '确定要清除所有缓存吗？\n清除后需要重新登录',
-    success: (res) => {
-      if (res.confirm) {
-        try {
-          // 清除所有缓存
-          uni.clearStorageSync()
-          // 清除用户信息并跳转到登录页
-          useUserStore().logout()
-          toast.show('清除缓存成功')
-        } catch (err) {
-          console.error('清除缓存失败:', err)
-          toast.error('清除缓存失败')
-        }
-      }
-    },
-  })
-}
 // 退出登录
 const handleLogout = () => {
   uni.showModal({
-    title: '提示',
-    content: '确定要退出登录吗？',
+    title: t('tip'),
+    content: t('are_you_sure_you_want_to_logout'),
     success: (res) => {
       if (res.confirm) {
         // 清空用户信息
         useUserStore().logout()
         hasLogin.value = false
         // 执行退出登录逻辑
-        toast.show('退出登录成功')
+        toast.show(t('logout_successful'))
+        uni.navigateTo({
+          url: '/pages/login/index',
+        })
       }
     },
   })
@@ -156,6 +153,8 @@ const handleLogout = () => {
 $bg1-color: #3daa9a;
 $bg2-color: #f5f5f5;
 $font1-color: #ffffff;
+$font2-color: #536387;
+$font3-color: #767e8c;
 $card-bg-color: #ffffff;
 .container {
   .user-info-section {
@@ -185,7 +184,7 @@ $card-bg-color: #ffffff;
   .function-section {
     background: $bg2-color;
     height: 65vh;
-    padding: 20rpx;
+    padding: 60rpx 20rpx 0rpx;
 
     .card {
       background-color: $card-bg-color;
@@ -196,14 +195,67 @@ $card-bg-color: #ffffff;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       .label {
         display: flex;
         .text {
           margin-left: 60rpx;
           font-size: large;
+          color: $font2-color;
         }
       }
     }
+
+    .picker-card {
+      background-color: $card-bg-color;
+      padding: 30rpx 20rpx;
+      border-radius: 12rpx;
+      margin-bottom: 20rpx;
+      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .picker {
+        width: 100%;
+        .picker-content {
+          display: flex;
+          justify-content: space-between;
+          .picker-label {
+            display: flex;
+            .picker-text {
+              margin-left: 60rpx;
+              font-size: large;
+              color: $font2-color;
+            }
+          }
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: center;
+      margin-top: 130rpx;
+      .button-section {
+        color: $font2-color;
+        background: $card-bg-color;
+        font-size: 35rpx;
+        width: 70%;
+        height: 120rpx;
+      }
+    }
+    .version {
+      display: flex;
+      justify-content: center;
+      margin-top: 50rpx;
+      font-size: 30rpx;
+      color: $font3-color;
+    }
   }
+}
+
+::v-deep .page-content {
+  padding: 0;
 }
 </style>

@@ -26,7 +26,7 @@
           {{ t('submit') }}
         </wd-button>
       </view>
-      <view class="qr-code">
+      <view class="qr-code" @click="handleImageClick">
         <img :src="qrCode" />
       </view>
       <view class="font">
@@ -93,6 +93,67 @@ const changeButtonColor = () => {
   }
 }
 watch(() => feedback.value, changeButtonColor)
+
+//保存图片
+const handleImageClick = () => {
+  uni.showActionSheet({
+    itemList: ['保存图片到相册'],
+    success: (res) => {
+      if (res.tapIndex === 0) {
+        saveImage()
+      }
+    },
+    fail: (err) => {
+      console.error('操作取消', err)
+    },
+  })
+}
+
+const saveImage = () => {
+  uni.downloadFile({
+    url: '/src/static/qrcode-qiyeweixin.png',
+    success: (res) => {
+      if (res.statusCode === 200) {
+        uni.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: () => {
+            uni.showToast({
+              title: '保存成功',
+              icon: 'success',
+            })
+          },
+          fail: (err) => {
+            if (err.errMsg.includes('auth deny') || err.errMsg.includes('authorize')) {
+              // 引导用户授权
+              uni.showModal({
+                title: '提示',
+                content: '需要授权保存到相册，是否前往设置？',
+                success: (res) => {
+                  if (res.confirm) {
+                    uni.openSetting()
+                  }
+                },
+              })
+            } else {
+              uni.showToast({
+                title: '保存失败',
+                icon: 'none',
+              })
+              console.error('保存失败', err)
+            }
+          },
+        })
+      }
+    },
+    fail: (err) => {
+      uni.showToast({
+        title: '下载失败',
+        icon: 'none',
+      })
+      console.error('下载失败', err)
+    },
+  })
+}
 </script>
 <style lang="scss" scoped>
 $title-color: #536387;
@@ -137,5 +198,8 @@ $font-color: #4d515b;
       color: $font-color;
     }
   }
+}
+::v-deep .page-content {
+  padding: 0;
 }
 </style>

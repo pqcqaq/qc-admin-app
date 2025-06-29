@@ -15,27 +15,27 @@
     </MineBar>
     <view class="personal-info-container">
       <!-- 头像 -->
-      <view class="card between">
+      <view class="card between" @click="goTo('avatar')">
         <text class="label">{{ t('avatar') }}</text>
-        <view class="value arrow-right" @click="goTo('avatar')">
+        <view class="value arrow-right">
           <image class="avatar" :src="formData.avatar" />
           <wd-icon name="arrow-right" size="20" />
         </view>
       </view>
 
       <!-- 用户名 -->
-      <view class="card between">
+      <view class="card between" @click="goTo('username')">
         <text class="label">{{ t('username') }}</text>
-        <view class="value arrow-right" @click="goTo('username')">
+        <view class="value arrow-right">
           <text>{{ formData.nickname }}</text>
           <wd-icon name="arrow-right" size="20" />
         </view>
       </view>
 
       <!-- 联系电话 -->
-      <view class="card between">
+      <view class="card between" @click="goTo('phone')">
         <text class="label">{{ t('contact_number') }}</text>
-        <view class="value arrow-right" @click="goTo('phone')">
+        <view class="value arrow-right">
           <text>+86 {{ formData.phoneNumber }}</text>
           <wd-icon name="arrow-right" size="20" />
         </view>
@@ -53,7 +53,7 @@
       <view class="card between">
         <text class="label">{{ t('position') }}</text>
         <view class="value">
-          <text>店长</text>
+          <text>{{ formData.role }}</text>
         </view>
       </view>
 
@@ -61,7 +61,7 @@
       <view class="card between">
         <text class="label">{{ t('employee_number') }}</text>
         <view class="value">
-          <text>12345</text>
+          <text>{{ formData.employeeStringId }}</text>
         </view>
       </view>
 
@@ -69,9 +69,9 @@
       <view class="item_title">
         <text>{{ t('change_password') }}</text>
       </view>
-      <view class="card between">
+      <view class="card between" @click="goTo('password')">
         <text class="label">{{ t('change_password') }}</text>
-        <view class="value arrow-right" @click="goTo('password')">
+        <view class="value arrow-right">
           <wd-icon name="arrow-right" size="20" />
         </view>
       </view>
@@ -80,7 +80,7 @@
       <view class="item_title">
         <text>{{ t('related_stores') }}</text>
       </view>
-      <view v-for="item in itemList">
+      <view v-for="item in formData.shops">
         <view class="store-card" :key="item.id">
           <view class="store-name">{{ item.name }}</view>
           <view class="store-address">{{ item.address }}</view>
@@ -100,19 +100,6 @@ import MineBar from '@/components/mine-bar/MineBar.vue'
 
 const i18n = useI18n()
 const t = i18n.t
-
-const itemList = ref([
-  { id: 1, name: '101门店', address: '地址Axxxxxxxxxxxxx' },
-  { id: 2, name: '102门店', address: '地址Bxxxxxxxxxxxxxxxxxxx' },
-  { id: 3, name: '103门店', address: '地址Cxxxxxxxxxxxxx' },
-  { id: 4, name: '104门店', address: '地址Dxxxxxxxxxxxxxxxxxxx' },
-  { id: 5, name: '105门店', address: '地址Exxxxxxxxxxxxxxx' },
-  {
-    id: 6,
-    name: '106门店',
-    address: '地址word1word2word3word4word5word6word7word8wor-d9word10xxxxxxxxxxxxxx',
-  },
-])
 
 // 用户信息
 const userStore = useUserStore()
@@ -134,9 +121,9 @@ const formData = ref({
   nickname: userInfo.value.row.nickname,
   phoneNumber: userInfo.value.row.phoneNumber, //国际电话的问题，先写死+86
   gender: gender.value,
-  //TODO:职位
+  role: userInfo.value.row.role,
   employeeStringId: userInfo.value.row.employeeStringId,
-  //TODO:关联门店，用shopIdList想办法解决
+  shops: userInfo.value.shops,
 })
 // 跳转到其他页面
 const goTo = (type: string) => {
@@ -232,5 +219,8 @@ $title-color: #536387;
       }
     }
   }
+}
+::v-deep .page-content {
+  padding: 0;
 }
 </style>

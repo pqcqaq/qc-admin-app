@@ -75,5 +75,11 @@
   "scan_the_QR_code_to_add_our_WeChat_for_business": "扫描二维码添加我们的企业微信",
   "and": "和",
   "feedback_submission_failed": "反馈提交失败",
-  "privacy_protocols": "隐私与协议"
+  "privacy_protocols": "隐私与协议",
+  "logout": "退出登录",
+  "version": "版本",
+  "please_agree_to_the_privacy_policy": "请同意隐私政策",
+  "tip": "提示",
+  "are_you_sure_you_want_to_logout": "确定要退出登录吗？",
+  "logout_successful": "退出登录成功"
 }

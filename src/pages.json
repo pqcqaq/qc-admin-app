@@ -102,13 +102,6 @@
       "layout": "tabbar"
     },
     {
-      "path": "pages/mine/about/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "关于我们"
-      }
-    },
-    {
       "path": "pages/mine/feedback/index",
       "type": "page",
       "style": {
@@ -128,6 +121,10 @@
       "style": {
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/mine/info/avatar/temp",
+      "type": "page"
     },
     {
       "path": "pages/mine/info/password/index",

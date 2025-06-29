@@ -9,11 +9,8 @@
   <view class="login-container">
     <view class="login-header">
       <image class="login-logo" :src="appLogo" mode="aspectFit"></image>
-      <!-- <view class="login-title">{{ appTitle }}</view> -->
     </view>
     <view class="login-form">
-      <!-- <view class="welcome-text">欢迎登录</view> -->
-      <!-- <view class="login-desc">请输入您的账号和密码</view> -->
       <wd-tabs
         v-model="tab"
         animated
@@ -39,7 +36,6 @@
                   </view>
                 </template>
               </wd-input>
-              <!-- <view class="input-bottom-line"></view> -->
             </view>
             <view class="input-wrapper">
               <wd-input
@@ -60,7 +56,7 @@
             </view>
           </view>
         </wd-tab>
-        <wd-tab :title="t('login_by_verification_code')" class="login-tab">
+        <wd-tab :title="t('login_by_verification_code')" class="login-tab" disabled>
           <view class="login-input-group">
             <view class="input-wrapper">
               <wd-input
@@ -97,7 +93,7 @@
                 </template>
                 <template #suffix>
                   <wd-divider vertical />
-                  <text>{{ t('send_a_verification_code') }}</text>
+                  <text class="text">{{ t('send_a_verification_code') }}</text>
                 </template>
               </wd-input>
             </view>
@@ -188,16 +184,16 @@ const agreePrivacy = ref(false)
 // 账号密码登录
 const handleAccountLogin = async () => {
   if (!agreePrivacy.value) {
-    toast.error('请阅读同意协议')
+    toast.error(t('please_agree_to_the_privacy_policy'))
     return
   }
   // 表单验证
   if (!loginForm.value.accountName) {
-    toast.error('请输入用户名')
+    toast.error(t('please_enter_your_username'))
     return
   }
   if (!loginForm.value.password) {
-    toast.error('请输入密码')
+    toast.error(t('please_enter_your_password'))
     return
   }
   // 执行登录
@@ -248,6 +244,10 @@ watch(
 
 <style lang="scss" scoped>
 $primary-color: #3daa9a;
+$form-bg-color: #ffffff;
+$border-color: rgba(238, 238, 238);
+$divider-color: #999999;
+$font1-color: #ffffff;
 /* 验证码输入框样式 */
 // .captcha-wrapper {
 //   .captcha-input {
@@ -301,52 +301,17 @@ $primary-color: #3daa9a;
   );
   position: relative;
   overflow: hidden;
-}
 
-/* 背景装饰元素 */
-// .bg-decoration {
-//   position: absolute;
-//   border-radius: 50%;
-//   background: linear-gradient(135deg, rgba(25, 137, 250, 0.05), rgba(25, 137, 250, 0.1));
-//   z-index: 0;
-//   pointer-events: none;
-// }
+  .login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 120rpx;
+    animation: fadeInDown 0.8s ease-out;
 
-// .bg-circle-1 {
-//   width: 500rpx;
-//   height: 500rpx;
-//   top: -200rpx;
-//   right: -200rpx;
-//   opacity: 0.6;
-// }
-
-// .bg-circle-2 {
-//   width: 400rpx;
-//   height: 400rpx;
-//   bottom: 10%;
-//   left: -200rpx;
-//   opacity: 0.4;
-// }
-
-// .bg-circle-3 {
-//   width: 300rpx;
-//   height: 300rpx;
-//   bottom: -100rpx;
-//   right: 10%;
-//   opacity: 0.3;
-//   background: linear-gradient(135deg, rgba(7, 193, 96, 0.05), rgba(7, 193, 96, 0.1));
-// }
-
-.login-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 120rpx;
-  animation: fadeInDown 0.8s ease-out;
-
-  .login-logo {
-    /*
+    .login-logo {
+      /*
     width: 200rpx;
     height: 200rpx;
     border-radius: 36rpx;
@@ -357,249 +322,248 @@ $primary-color: #3daa9a;
       box-shadow: 0 6rpx 15rpx rgba(0, 0, 0, 0.1);
     }
     **/
-    width: 350rpx;
-    height: 350rpx;
-    top: 20rpx;
+      width: 350rpx;
+      height: 350rpx;
+      top: 20rpx;
+    }
+
+    // .login-title {
+    //   margin-top: 30rpx;
+    //   font-size: 46rpx;
+    //   font-weight: bold;
+    //   color: #333333;
+    //   letter-spacing: 3rpx;
+    //   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
+    // }
   }
 
-  // .login-title {
-  //   margin-top: 30rpx;
-  //   font-size: 46rpx;
-  //   font-weight: bold;
-  //   color: #333333;
-  //   letter-spacing: 3rpx;
-  //   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
-  // }
-}
+  .login-form {
+    flex: 0.2;
+    margin-top: 0rpx;
+    animation: fadeIn 0.8s ease-out 0.2s both;
+    background-color: $form-bg-color;
+    box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.25);
+    padding: 0rpx 24rpx 0rpx 24rpx;
 
-.login-form {
-  flex: 0.2;
-  margin-top: 0rpx;
-  animation: fadeIn 0.8s ease-out 0.2s both;
-  background-color: #ffffff;
-  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.25);
-  padding: 0rpx 24rpx 0rpx 24rpx;
+    .login-tabs {
+      height: 100%;
+    }
 
-  .login-tabs {
-    height: 100%;
-  }
-
-  .forget-password {
-    position: relative;
-    bottom: 10rpx;
-    width: 98%;
-    text-align: right;
-    font-size: 24rpx;
-    color: $primary-color;
-    margin-top: 42rpx;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-
-  // .welcome-text {
-  //   margin-bottom: 16rpx;
-  //   font-size: 48rpx;
-  //   font-weight: bold;
-  //   color: #333333;
-  //   text-align: center;
-  //   letter-spacing: 1rpx;
-  // }
-
-  // .login-desc {
-  //   margin-bottom: 70rpx;
-  //   font-size: 28rpx;
-  //   color: #888888;
-  //   text-align: center;
-  // }
-
-  .login-input-group {
-    margin-top: 50rpx;
-    margin-bottom: 50rpx;
-    position: relative;
-    z-index: 1;
-
-    .input-wrapper {
+    .forget-password {
       position: relative;
-      margin-bottom: 20rpx;
-      transition: all 0.3s ease;
-      border-radius: 16rpx;
-      overflow: hidden;
+      bottom: 10rpx;
+      width: 98%;
+      text-align: right;
+      font-size: 24rpx;
+      color: $primary-color;
+      margin-top: 42rpx;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
 
-      .prefix-container {
-        display: flex;
-        align-items: center; /* 垂直居中对齐 */
-        gap: 8rpx; /* 图标和文字之间的间距，可根据实际调整 */
-      }
+    // .welcome-text {
+    //   margin-bottom: 16rpx;
+    //   font-size: 48rpx;
+    //   font-weight: bold;
+    //   color: #333333;
+    //   text-align: center;
+    //   letter-spacing: 1rpx;
+    // }
 
-      &:last-child {
-        margin-bottom: 0;
-      }
+    // .login-desc {
+    //   margin-bottom: 70rpx;
+    //   font-size: 28rpx;
+    //   color: #888888;
+    //   text-align: center;
+    // }
 
-      .login-input {
-        padding: 12rpx 20rpx;
-        background-color: rgba(245, 247, 250, 0.7);
-        border-radius: 16rpx;
+    .login-input-group {
+      margin-top: 50rpx;
+      margin-bottom: 50rpx;
+      position: relative;
+      z-index: 1;
+
+      .input-wrapper {
+        position: relative;
+        margin-bottom: 20rpx;
         transition: all 0.3s ease;
-        border: 2px rgb(238, 238, 238) solid;
+        border-radius: 16rpx;
+        overflow: hidden;
 
-        // :deep(.wd-input__inner) {
-        //   font-size: 30rpx;
-        //   color: #333333;
+        .prefix-container {
+          display: flex;
+          align-items: center; /* 垂直居中对齐 */
+          gap: 8rpx; /* 图标和文字之间的间距，可根据实际调整 */
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .login-input {
+          padding: 12rpx 20rpx;
+          background-color: rgba(245, 247, 250, 0.7);
+          border-radius: 16rpx;
+          transition: all 0.3s ease;
+          border: 2px $border-color solid;
+
+          .text {
+            color: $primary-color;
+          }
+
+          // :deep(.wd-input__inner) {
+          //   font-size: 30rpx;
+          //   color: #333333;
+          // }
+
+          // :deep(.wd-input__placeholder) {
+          //   font-size: 28rpx;
+          //   color: #aaaaaa;
+          // }
+
+          // &:focus-within {
+          //   background-color: rgba(245, 247, 250, 0.95);
+          //   box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
+          //   transform: translateY(-3rpx);
+          // }
+        }
+
+        // .input-bottom-line {
+        //   position: absolute;
+        //   bottom: -2rpx;
+        //   left: 5%;
+        //   width: 90%;
+        //   height: 2rpx;
+        //   background: linear-gradient(
+        //     to right,
+        //     transparent,
+        //     var(--wot-color-theme, #1989fa),
+        //     transparent
+        //   );
+        //   transition: transform 0.4s ease;
+        //   transform: scaleX(0);
+        //   opacity: 0.8;
         // }
 
-        // :deep(.wd-input__placeholder) {
-        //   font-size: 28rpx;
-        //   color: #aaaaaa;
+        // &:focus-within .input-bottom-line {
+        //   transform: scaleX(1);
         // }
 
-        // &:focus-within {
-        //   background-color: rgba(245, 247, 250, 0.95);
-        //   box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
-        //   transform: translateY(-3rpx);
+        // .input-icon {
+        //   margin-right: 16rpx;
+        //   color: #666666;
+        //   transition: color 0.3s ease;
+        // }
+
+        // &:focus-within .input-icon {
+        //   color: var(--wot-color-theme, #1989fa);
         // }
       }
+    }
 
-      // .input-bottom-line {
-      //   position: absolute;
-      //   bottom: -2rpx;
-      //   left: 5%;
-      //   width: 90%;
-      //   height: 2rpx;
-      //   background: linear-gradient(
-      //     to right,
-      //     transparent,
-      //     var(--wot-color-theme, #1989fa),
-      //     transparent
-      //   );
-      //   transition: transform 0.4s ease;
-      //   transform: scaleX(0);
-      //   opacity: 0.8;
-      // }
+    .login-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 36rpx;
 
-      // &:focus-within .input-bottom-line {
-      //   transform: scaleX(1);
-      // }
+      .account-login-btn {
+        height: 96rpx;
+        width: 100%;
+        margin: 0 auto;
+        font-size: 32rpx;
+        font-weight: 500;
+        letter-spacing: 2rpx;
+        border-radius: 10rpx;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-      // .input-icon {
-      //   margin-right: 16rpx;
-      //   color: #666666;
-      //   transition: color 0.3s ease;
-      // }
+        .login-icon {
+          margin-right: 8rpx;
+          opacity: 0.8;
+          transition: all 0.3s ease;
+        }
 
-      // &:focus-within .input-icon {
-      //   color: var(--wot-color-theme, #1989fa);
+        &:active {
+          box-shadow: 0 5rpx 10rpx rgba(25, 137, 250, 0.2);
+          transform: scale(0.98);
+
+          .login-icon {
+            transform: translateX(3rpx);
+          }
+        }
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        margin: 24rpx 0;
+
+        // .divider-line {
+        //   flex: 1;
+        //   height: 1px;
+        //   background-color: #eeeeee;
+        // }
+
+        .divider-text {
+          padding: 0 24rpx;
+          font-size: 24rpx;
+          color: $divider-color;
+        }
+      }
+
+      // .wechat-login-btn {
+      //   height: 96rpx;
+      //   font-size: 32rpx;
+      //   color: #07c160;
+      //   border-color: #07c160;
+      //   border-radius: 48rpx;
+      //   transition: all 0.3s ease;
+
+      //   .wechat-icon {
+      //     margin-right: 12rpx;
+      //   }
+
+      //   &:active {
+      //     background-color: rgba(7, 193, 96, 0.08);
+      //     transform: scale(0.98);
+      //   }
       // }
     }
   }
 
-  .login-buttons {
+  .privacy-agreement {
     display: flex;
-    flex-direction: column;
-    gap: 36rpx;
+    justify-content: center;
+    margin: 30rpx 0 40rpx;
+    animation: fadeIn 0.8s ease-out 0.4s both;
 
-    .account-login-btn {
-      height: 96rpx;
-      width: 100%;
-      margin: 0 auto;
-      font-size: 32rpx;
-      font-weight: 500;
-      letter-spacing: 2rpx;
-      border-radius: 10rpx;
-      transition: all 0.3s ease;
+    .privacy-checkbox {
       display: flex;
       align-items: center;
-      justify-content: center;
+    }
 
-      .login-icon {
-        margin-right: 8rpx;
-        opacity: 0.8;
+    .agreement-text {
+      font-size: 26rpx;
+      line-height: 1.6;
+      color: $font1-color;
+
+      .agreement-link {
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 0 4rpx;
+        font-weight: 500;
         transition: all 0.3s ease;
-      }
 
-      &:active {
-        box-shadow: 0 5rpx 10rpx rgba(25, 137, 250, 0.2);
-        transform: scale(0.98);
-
-        .login-icon {
-          transform: translateX(3rpx);
+        &:active {
+          opacity: 0.8;
+          transform: scale(0.98);
         }
       }
     }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      margin: 24rpx 0;
-
-      // .divider-line {
-      //   flex: 1;
-      //   height: 1px;
-      //   background-color: #eeeeee;
-      // }
-
-      .divider-text {
-        padding: 0 24rpx;
-        font-size: 24rpx;
-        color: #999999;
-      }
-    }
-
-    // .wechat-login-btn {
-    //   height: 96rpx;
-    //   font-size: 32rpx;
-    //   color: #07c160;
-    //   border-color: #07c160;
-    //   border-radius: 48rpx;
-    //   transition: all 0.3s ease;
-
-    //   .wechat-icon {
-    //     margin-right: 12rpx;
-    //   }
-
-    //   &:active {
-    //     background-color: rgba(7, 193, 96, 0.08);
-    //     transform: scale(0.98);
-    //   }
-    // }
   }
 }
-
-.privacy-agreement {
-  display: flex;
-  justify-content: center;
-  margin: 30rpx 0 40rpx;
-  animation: fadeIn 0.8s ease-out 0.4s both;
-
-  .privacy-checkbox {
-    display: flex;
-    align-items: center;
-  }
-
-  .agreement-text {
-    font-size: 26rpx;
-    line-height: 1.6;
-    color: #ffffff;
-
-    .agreement-link {
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 0 4rpx;
-      font-weight: 500;
-      color: #ffffff;
-      transition: all 0.3s ease;
-
-      &:active {
-        opacity: 0.8;
-        transform: scale(0.98);
-      }
-    }
-  }
-}
-
-// .login-footer {
-//   padding: 50rpx 0;
-//   margin-top: auto;
-// }
 
 /* 添加动画效果 */
 @keyframes fadeIn {
@@ -620,5 +584,9 @@ $primary-color: #3daa9a;
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+::v-deep .page-content {
+  padding: 0;
 }
 </style>

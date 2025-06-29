@@ -75,5 +75,11 @@
   "scan_the_QR_code_to_add_our_WeChat_for_business": "scan the QR code to add our WeChat for business",
   "and": "and",
   "feedback_submission_failed": "feedback submission failed",
-  "privacy_protocols": "privacy & protocols"
+  "privacy_protocols": "privacy & protocols",
+  "logout": "logout",
+  "version": "version",
+  "please_agree_to_the_privacy_policy": "please agree to the privacy policy",
+  "tip": "tip",
+  "are_you_sure_you_want_to_logout": "Are you sure you want to logout?",
+  "logout_successful": "logout successful"
 }

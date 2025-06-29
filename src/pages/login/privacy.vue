@@ -10,7 +10,7 @@
     <view class="header"></view>
 
     <view class="demo-section">
-      <view class="section-title">《{{ t('privacy_policy') }}</view>
+      <view class="section-title">{{ t('privacy_policy') }}</view>
       <MarkdownRenderer src="privacy.md" />
     </view>
   </view>
