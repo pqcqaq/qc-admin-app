@@ -209,9 +209,15 @@ const handleTaskSubmit = (task: any) => {
   const timeText = `${time[1]}月${time[2]}日`
   // 更新任务状态等逻辑...
   if (userRole === EnumRole.CLERK || userRole === EnumRole.STOREMANAGE) {
-    uni.navigateTo({
-      url: `/pages/manual-inspection/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
-    })
+    if (task.type === 'manual_detection_task') {
+      uni.navigateTo({
+        url: `/pages/manual-inspection/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
+      })
+    } else if (task.type === 'detection_task_rectified') {
+      uni.navigateTo({
+        url: `/pages/rectification-appeal/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
+      })
+    }
   } else {
     uni.navigateTo({
       url: `/pages/audit/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
