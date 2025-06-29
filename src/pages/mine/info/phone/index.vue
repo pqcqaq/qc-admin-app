@@ -33,17 +33,21 @@
         <wd-input
           v-model="phoneNumber"
           :placeholder="regionNumber + '  ' + t('please_enter_your_phone_number')"
-          clearable
           :rules="[{ required: true, message: t('phone_number_cannot_be_empty') }]"
           :no-border="true"
           placeholderStyle="font-size: 30rpx;"
         >
           <template #suffix>
-            <wd-button type="text" size="large">{{ t('send_verification_code') }}</wd-button>
+            <wd-button type="text" size="large" @click="send">
+              <wd-divider vertical />
+              {{ t('send_verification_code') }}
+            </wd-button>
           </template>
         </wd-input>
       </view>
-      <text class="label">{{ t('verification_code') }}</text>
+      <text class="label">
+        {{ t('verification_code') }}
+      </text>
       <view class="card">
         <wd-input
           v-model="verificationCode"
@@ -60,6 +64,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import StatusBar from '@/components/status-bar/StatusBar.vue'
+import { sendSMSCode, updatePhone } from '@/api/user'
 
 const columns = ref<Record<string, any>[]>([
   {
@@ -82,7 +87,55 @@ const verificationCode = ref<string>('')
 
 const i18n = useI18n()
 const t = i18n.t
-const finish = () => {}
+
+//发送验证码
+const send = async () => {
+  if (phoneNumber.value.trim() === '') {
+    uni.showToast({
+      title: t('phone_number_cannot_be_empty'),
+      icon: 'error',
+    })
+    return
+  }
+
+  const params = {
+    phoneNumber: phoneNumber.value,
+    regionNumber: regionNumber.value,
+  }
+
+  sendSMSCode(params)
+    .then(() => {
+      uni.showToast({
+        title: t('verification_code_sent'),
+        icon: 'success',
+      })
+    })
+    .catch((error) => {
+      uni.showToast({
+        title: error.message || t('failed'),
+        icon: 'error',
+      })
+    })
+}
+//提交
+const finish = () => {
+  if (phoneNumber.value.trim() === '') {
+    uni.showToast({
+      title: t('phone_number_cannot_be_empty'),
+      icon: 'error',
+    })
+    return
+  }
+  if (verificationCode.value.trim() === '') {
+    uni.showToast({
+      title: t('verification_code_cannot_be_empty'),
+      icon: 'error',
+    })
+    return
+  }
+
+  //TODO: 发送请求更新手机号码
+}
 </script>
 <style lang="scss" scoped>
 $primary-color: #3daa9a;

@@ -42,7 +42,7 @@ export interface IUserDetailParams {
   id: number
 }
 
-export interface INicknameParams {
+export interface IUpdateNicknameParams {
   nickname: string // 昵称
 }
 
@@ -63,6 +63,16 @@ export interface IUserAuditListParams extends IPaginationParams {}
 export interface IUserAuditCommitParams {
   idList: number
   successState: number
+}
+
+export interface ISendSMSCodeParams {
+  phoneNumber: string // 手机号
+}
+
+export interface IUpdatePhoneParams {
+  oldPhoneNumber: string
+  newPhoneNumber: string
+  smsCode: string
 }
 
 // ==================== API 接口函数 ====================
@@ -150,6 +160,20 @@ export const getUserDetailWithShop = (params: IUserDetailParams) => {
 /**
  * 更新用户昵称
  */
-export const updateNickname = (params: INicknameParams) => {
+export const updateNickname = (params: IUpdateNicknameParams) => {
   return http.post<IBaseResponse>('/customer/customer/updatenicknamebyself', params)
+}
+
+/**
+ * 发送短信验证码
+ */
+export const sendSMSCode = (params: ISendSMSCodeParams) => {
+  return http.post<IBaseResponse>('/customer/autth/getsmscode', params)
+}
+
+/**
+ * 更新手机号
+ */
+export const updatePhone = (params: IUpdatePhoneParams) => {
+  return http.post<IBaseResponse>('/customer/customer/updatephonenumberbyself', params)
 }
