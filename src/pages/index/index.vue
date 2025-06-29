@@ -76,12 +76,24 @@
         </view>
         <view class="page_content_card_content">
           <view class="page_content_card_content_shop">
-            <wd-table :data="data?.shopPassRate" :border="false" :index="true">
-              <wd-table-col prop="Name" :label="t('Store name')"></wd-table-col>
-              <wd-table-col prop="PassRateByDatetimeRange" :label="t('Inspection pass rate')">
+            <wd-table :data="data?.shopPassRate" :border="false">
+              <wd-table-col prop="Index" :label="t('Serial number')" width="16%">
+                <template #value="{ row, index }">{{ index + 1 }}</template>
+              </wd-table-col>
+              <wd-table-col prop="Name" :label="t('Store name')" width="28%"></wd-table-col>
+              <wd-table-col
+                prop="PassRateByDatetimeRange"
+                width="28%"
+                :label="t('Inspection pass rate')"
+              >
                 <template #value="{ row }">{{ row.PassRateByDatetimeRange.toFixed(2) }}%</template>
               </wd-table-col>
-              <wd-table-col prop="PassRateByDatetimeAll" :label="t('Average pass rate')">
+              <wd-table-col
+                prop="PassRateByDatetimeAll"
+                width="28%"
+                :label="t('Average pass rate')"
+                fixed
+              >
                 <template #value="{ row }">{{ row.PassRateByDatetimeAll.toFixed(2) }}%</template>
               </wd-table-col>
             </wd-table>
@@ -378,6 +390,8 @@ onLoad(() => {
               background-color: var(--color-primary) !important;
               color: #fff !important;
             }
+          }
+          :deep(.wd-table__content) {
           }
         }
       }
