@@ -205,14 +205,22 @@ onMounted(async () => {
 
 const handleTaskSubmit = (task: any) => {
   console.log(`任务 ${task.id} 已提交`)
+  const time = task.createdAt.split('T')[0].split('-')
+  const timeText = `${time[1]}月${time[2]}日`
   // 更新任务状态等逻辑...
   if (userRole === EnumRole.CLERK || userRole === EnumRole.STOREMANAGE) {
-    uni.navigateTo({
-      url: `/pages/manual-inspection/index?id=${task.id}`,
-    })
+    if (task.type === 'manual_detection_task') {
+      uni.navigateTo({
+        url: `/pages/manual-inspection/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
+      })
+    } else if (task.type === 'detection_task_rectified') {
+      uni.navigateTo({
+        url: `/pages/rectification-appeal/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
+      })
+    }
   } else {
     uni.navigateTo({
-      url: `/pages/audit/index?id=${task.id}`,
+      url: `/pages/audit/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
     })
   }
 }
