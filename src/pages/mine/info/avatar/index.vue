@@ -19,7 +19,7 @@
       <view class="card">
         <img :src="imgPath" :width="200" :height="200" class="avatar" />
         <view class="button">
-          <wd-button type="success">{{ t('change') }}</wd-button>
+          <wd-button type="success" @click="changeAvatar">{{ t('change') }}</wd-button>
         </view>
       </view>
     </view>
@@ -29,12 +29,35 @@
 <script lang="ts" setup>
 import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
+
 const i18n = useI18n()
 const t = i18n.t
-const imgPath =
-  'https://img11.360buyimg.com/imagetools/jfs/t1/143248/37/5695/265818/5f3a8546E98d998a4/745897ca9c9e474b.jpg'
+
+// 用户信息
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
+const imgPath = userInfo.value.row.avatarUrl
 
 const finish = () => {}
+
+const changeAvatar = () => {
+  uni.chooseImage({
+    count: 1,
+    sourceType: ['camera', 'album'],
+    success(res) {
+      const tempFilePath = res.tempFilePaths[0]
+    },
+    fail() {
+      uni.showToast({
+        title: t('failed'),
+        icon: 'error',
+        duration: 2000,
+      })
+    },
+  })
+}
 </script>
 
 <style lang="scss" scoped>

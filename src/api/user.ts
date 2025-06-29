@@ -42,6 +42,10 @@ export interface IUserDetailParams {
   id: number
 }
 
+export interface INicknameParams {
+  nickname: string // 昵称
+}
+
 export interface IUserUpdateParams {
   id: number
   nickname: string
@@ -141,4 +145,11 @@ export const getUserDetailWithShop = (params: IUserDetailParams) => {
     '/customer/customer/getonebyidwithshops',
     params,
   )
+}
+
+/**
+ * 更新用户昵称
+ */
+export const updateNickname = (params: INicknameParams) => {
+  return http.post<IBaseResponse>('/customer/customer/updatenicknamebyself', params)
 }

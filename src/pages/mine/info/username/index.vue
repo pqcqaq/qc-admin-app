@@ -31,14 +31,21 @@
 <script lang="ts" setup>
 import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { useI18n } from 'vue-i18n'
-const currentUsername = ref('王先生')
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import { updateNickname } from '@/api/user'
+
+// 用户信息
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
+const currentUsername = ref(userInfo.value.row.nickname)
 const i18n = useI18n()
 const t = i18n.t
 
 // 完成修改
-const finish = () => {
-  const username = currentUsername.value.trim()
-  if (username === '') {
+const finish = async () => {
+  const nickname = currentUsername.value.trim()
+  if (nickname === '') {
     uni.showToast({
       title: t('username_cannot_be_empty'),
       icon: 'error',
@@ -47,9 +54,28 @@ const finish = () => {
     })
     return
   }
-  uni.showToast({
-    title: `${username}`,
-    icon: 'success',
+  return updateNickname({ nickname: nickname }).then((res) => {
+    if (res.code === 0) {
+      userInfo.value.row.nickname = nickname
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_successfully'),
+        showCancel: false,
+        confirmColor: '#3daa9a',
+        success: () => {
+          uni.navigateTo({
+            url: '/pages/mine/info/index',
+          })
+        },
+      })
+    } else {
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_failed'),
+        showCancel: false,
+        confirmColor: '#8b0000',
+      })
+    }
   })
 }
 </script>

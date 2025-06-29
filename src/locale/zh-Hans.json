@@ -81,5 +81,8 @@
   "please_agree_to_the_privacy_policy": "请同意隐私政策",
   "tip": "提示",
   "are_you_sure_you_want_to_logout": "确定要退出登录吗？",
-  "logout_successful": "退出登录成功"
+  "logout_successful": "退出登录成功",
+  "failed": "失败",
+  "change_successfully": "修改成功",
+  "change_failed": "修改失败"
 }

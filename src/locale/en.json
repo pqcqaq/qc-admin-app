@@ -81,5 +81,8 @@
   "please_agree_to_the_privacy_policy": "please agree to the privacy policy",
   "tip": "tip",
   "are_you_sure_you_want_to_logout": "Are you sure you want to logout?",
-  "logout_successful": "logout successful"
+  "logout_successful": "logout successful",
+  "failed": "failed",
+  "change_successfully": "change successfully",
+  "change_failed": "change failed"
 }
