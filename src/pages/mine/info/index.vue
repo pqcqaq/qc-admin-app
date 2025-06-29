@@ -219,6 +219,10 @@ $shop-address-color: #999;
       margin-bottom: 20rpx;
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
 
+      &:hover {
+        background-color: $press-color;
+      }
+
       .label {
         font-size: 28rpx;
         color: $card-label-color;
