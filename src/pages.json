@@ -89,12 +89,39 @@
       }
     },
     {
+      "path": "pages/manual-inspection/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "人工巡检项报告",
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/mine/index",
       "type": "page",
       "style": {
         "navigationStyle": "custom"
       },
       "layout": "tabbar"
+    },
+    {
+      "path": "pages/rectification-appeal/appealOrRectify",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "每日AI早检",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/rectification-appeal/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "每日AI早检",
+        "navigationStyle": "custom"
+      }
     },
     {
       "path": "pages/task/index",

@@ -17,6 +17,7 @@
   "please_enter_your_phone_number": "please enter your phone number",
   "please_enter_your_verification_code": "please enter your verification code",
   "send_a_verification_code": "send a verification code",
+
   "task_board": "Task Board",
   "task_item": "Item",
   "task_pending_check_item": "Pending Check Items",
@@ -99,5 +100,23 @@
   "logout_successful": "logout successful",
   "failed": "failed",
   "change_successfully": "change successfully",
-  "change_failed": "change failed"
+  "manual_inspection_item_report": "manual_inspection_item_report",
+  "inspection_item": "inspection item",
+  "next": "next",
+  "today_inspection": "today inspection",
+  "task_completed": "task completed!",
+  "daily_ai_early_inspection": "daily ai early inspection",
+  "rectification_item": "rectification item",
+  "audit_rejected": "audit rejected",
+  "appeal_item": "appeal item",
+  "rectification_passed": "rectification passed",
+  "ai": "AI",
+  "comment": "comment",
+  "unqualified": "unqualified",
+  "appeal_description": "appeal description",
+  "rectification_description": "rectification description",
+  "upload_photo": "upload photo",
+  "please_enter_description": "please enter description",
+  "appeal": "appeal",
+  "rectify": "rectify"
 }

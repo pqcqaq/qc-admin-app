@@ -163,9 +163,17 @@ function handleConfirm({ value }) {
   dateArr.value = value
   getDate()
 }
+
 onLoad(() => {
   getDate()
 })
+
+// const toManualInspection = () => {
+//   uni.navigateTo({
+//     url: '/pages/manual-inspection/index',
+//   })
+// }
+// >>>>>>> 0a244849b09297f4e3d692b2e4954f7c1b250c5a
 </script>
 
 <style lang="scss" scoped>

@@ -116,8 +116,8 @@ const { userInfo } = storeToRefs(userStore)
 // 正式使用
 // const userRole = userInfo.value?.role || ''
 // 测试使用
-// const userRole = 'clerk'
-const userRole = 'area-manage'
+const userRole = 'clerk'
+// const userRole = 'area-manage'
 // 国际化
 const i18n = useI18n()
 const t = i18n.t
@@ -204,8 +204,17 @@ onMounted(async () => {
 })
 
 const handleTaskSubmit = (task: any) => {
-  console.log(`任务 ${task.date} 已提交`)
+  console.log(`任务 ${task.id} 已提交`)
   // 更新任务状态等逻辑...
+  if (userRole === EnumRole.CLERK || userRole === EnumRole.STOREMANAGE) {
+    uni.navigateTo({
+      url: `/pages/manual-inspection/index?id=${task.id}`,
+    })
+  } else {
+    uni.navigateTo({
+      url: `/pages/manual-inspection/index?id=${task.id}`,
+    })
+  }
 }
 </script>
 
