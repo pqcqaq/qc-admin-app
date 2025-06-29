@@ -34,7 +34,7 @@
       {
         "iconPath": "/static/tabbar/History.png",
         "selectedIconPath": "/static/tabbar/HistoryHL.png",
-        "pagePath": "pages/history/index",
+        "pagePath": "pages/task/index",
         "text": ""
       },
       {
@@ -68,11 +68,6 @@
       }
     },
     {
-      "path": "pages/history/index",
-      "type": "page",
-      "layout": "tabbar"
-    },
-    {
       "path": "pages/login/index",
       "type": "page",
       "style": {
@@ -97,6 +92,15 @@
       "layout": "tabbar"
     },
     {
+      "path": "pages/task/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "任务看板"
+      },
+      "layout": "tabbar"
+    },
+    {
       "path": "pages/mine/about/index",
       "type": "page",
       "style": {
@@ -108,6 +112,13 @@
       "type": "page",
       "style": {
         "navigationBarTitleText": "个人资料"
+      }
+    },
+    {
+      "path": "pages/task/history/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom"
       }
     },
     {

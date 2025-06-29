@@ -345,7 +345,7 @@ const handleLogout = () => {
   }
 
   .wd-cell__title {
-    margin-left: 5px;
+    margin-left: 10rpx;
     font-size: 32rpx;
     color: #333;
   }

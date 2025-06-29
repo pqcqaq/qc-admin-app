@@ -27,7 +27,7 @@ export const tabList: [TabItem, TabItem, TabItem] = [
   {
     iconPath: '/static/tabbar/History.png',
     selectedIconPath: '/static/tabbar/HistoryHL.png',
-    pagePath: 'pages/history/index',
+    pagePath: 'pages/task/index',
     text: '',
   },
   {
