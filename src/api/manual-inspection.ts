@@ -39,7 +39,7 @@ export const uploadManualDetectionImage = (filePath: string, fileObj?: File) => 
     if (typeof window !== 'undefined' && fileObj) {
       const formData = new FormData()
       formData.append('image', fileObj)
-      fetch('http://localhost:9000/api/customer/manualdetectiontask/imageupload?_token_=' + token, {
+      fetch(baseUrl + '/customer/manualdetectiontask/imageupload?_token_=' + token, {
         method: 'POST',
         body: formData,
       })
@@ -61,7 +61,7 @@ export const uploadManualDetectionImage = (filePath: string, fileObj?: File) => 
     // #endif
     // #ifndef H5
     uni.uploadFile({
-      url: 'http://localhost:9000/api/customer/manualdetectiontask/imageupload?_token_=' + token,
+      url: baseUrl + '/customer/manualdetectiontask/imageupload?_token_=' + token,
       filePath,
       name: 'image',
       success: (uploadFileRes) => {
