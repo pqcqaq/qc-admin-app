@@ -31,6 +31,7 @@ import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
+import { uploadImage, updateavatarbyself } from '@/api/user'
 
 const i18n = useI18n()
 const t = i18n.t
@@ -38,16 +39,25 @@ const t = i18n.t
 // 用户信息
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
-const imgPath = userInfo.value.row.avatarUrl
+const imgPath = ref(userInfo.value.row.avatarUrl)
 
-const finish = () => {}
+const finish = async () => {
+  const res = await updateavatarbyself({ avatarUrl: imgPath.value })
+  if (res.code === 0) {
+    uni.navigateBack()
+  }
+}
 
 const changeAvatar = () => {
   uni.chooseImage({
     count: 1,
     sourceType: ['camera', 'album'],
-    success(res) {
-      const tempFilePath = res.tempFilePaths[0]
+    success: function (chooseImageRes) {
+      const filePath = chooseImageRes.tempFilePaths[0]
+      const fileObj = chooseImageRes.tempFiles ? chooseImageRes.tempFiles[0] : undefined
+      uploadImage(filePath, fileObj).then((url) => {
+        imgPath.value = url
+      })
     },
     fail() {
       uni.showToast({
