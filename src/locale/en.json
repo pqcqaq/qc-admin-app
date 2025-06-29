@@ -118,5 +118,17 @@
   "upload_photo": "upload photo",
   "please_enter_description": "please enter description",
   "appeal": "appeal",
-  "rectify": "rectify"
+  "rectify": "rectify",
+  "task_review": "Task Review",
+  "review_disagrees": "review disagrees",
+  "review_agrees": "review agrees",
+  "appeal_statement": "appeal statement",
+  "rectification_statement": "rectification statement",
+  "review_today": "review today",
+  "completed": "completed",
+  "loading_failure": "failure",
+  "upload_photos": "upload photos",
+  "successful": "successful",
+  "failure": "failure",
+  "ok": "ok"
 }

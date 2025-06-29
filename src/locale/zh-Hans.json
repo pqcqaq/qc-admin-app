@@ -49,7 +49,6 @@
   "change-password": "修改密码",
   "username_cannot_be_empty": "用户名不能为空",
   "change_phone_number": "修改手机号",
-  "select_country_region": "选择国家/地区",
   "date": "日期",
   "Inspection statistics": "巡检统计",
   "Inspection issue ranking": "巡检问题排名",
@@ -119,5 +118,19 @@
   "please_enter_description": "请输入说明",
   "submit": "提交",
   "appeal": "申诉",
-  "rectify": "去整改"
+  "rectify": "去整改",
+
+  "task_review": "任务审核",
+
+  "review_disagrees": "审核不同意",
+  "review_agrees": "审核同意",
+  "appeal_statement": "申诉说明",
+  "rectification_statement": "整改说明",
+  "review_today": "今日审核",
+  "completed": "任务已完成",
+  "loading_failure": "加载失败",
+  "upload_photos": "上传照片",
+  "successful": "成功",
+  "failure": "失败",
+  "ok": "确定"
 }

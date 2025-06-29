@@ -212,7 +212,7 @@ const handleTaskSubmit = (task: any) => {
     })
   } else {
     uni.navigateTo({
-      url: `/pages/manual-inspection/index?id=${task.id}`,
+      url: `/pages/audit/index?id=${task.id}`,
     })
   }
 }

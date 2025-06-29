@@ -68,6 +68,13 @@
       }
     },
     {
+      "path": "pages/audit/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/login/index",
       "type": "page",
       "style": {
