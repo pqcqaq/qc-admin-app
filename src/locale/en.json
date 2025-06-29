@@ -84,5 +84,7 @@
   "logout_successful": "logout successful",
   "failed": "failed",
   "change_successfully": "change successfully",
-  "change_failed": "change failed"
+  "change_failed": "change failed",
+  "verification_code_sent": "verification code sent",
+  "change_successfully_please_relogin": "Change successfully! Please relogin."
 }

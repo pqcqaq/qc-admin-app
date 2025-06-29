@@ -84,5 +84,7 @@
   "logout_successful": "退出登录成功",
   "failed": "失败",
   "change_successfully": "修改成功",
-  "change_failed": "修改失败"
+  "change_failed": "修改失败",
+  "verification_code_sent": "验证码已发送",
+  "change_successfully_please_relogin": "修改成功！请重新登录。"
 }

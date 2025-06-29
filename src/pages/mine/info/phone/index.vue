@@ -65,7 +65,11 @@
 import { useI18n } from 'vue-i18n'
 import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { sendSMSCode, updatePhone } from '@/api/user'
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 const columns = ref<Record<string, any>[]>([
   {
     value: '+86',
@@ -98,12 +102,7 @@ const send = async () => {
     return
   }
 
-  const params = {
-    phoneNumber: phoneNumber.value,
-    regionNumber: regionNumber.value,
-  }
-
-  sendSMSCode(params)
+  sendSMSCode({ phoneNumber: phoneNumber.value })
     .then(() => {
       uni.showToast({
         title: t('verification_code_sent'),
@@ -118,7 +117,7 @@ const send = async () => {
     })
 }
 //提交
-const finish = () => {
+const finish = async () => {
   if (phoneNumber.value.trim() === '') {
     uni.showToast({
       title: t('phone_number_cannot_be_empty'),
@@ -134,7 +133,33 @@ const finish = () => {
     return
   }
 
-  //TODO: 发送请求更新手机号码
+  return updatePhone({
+    oldPhoneNumber: userInfo.value.row.phoneNumber,
+    newPhoneNumber: phoneNumber.value,
+    smsCode: verificationCode.value,
+  }).then((res) => {
+    if (res.code === 0) {
+      userInfo.value.row.phoneNumber = phoneNumber.value
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_successfully'),
+        showCancel: false,
+        confirmColor: '#3daa9a',
+        success: () => {
+          uni.navigateTo({
+            url: '/pages/mine/info/index',
+          })
+        },
+      })
+    } else {
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_failed'),
+        showCancel: false,
+        confirmColor: '#8b0000',
+      })
+    }
+  })
 }
 </script>
 <style lang="scss" scoped>

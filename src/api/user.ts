@@ -75,6 +75,10 @@ export interface IUpdatePhoneParams {
   smsCode: string
 }
 
+export interface IUpdatePasswordParams {
+  oldPassword: string
+  newPassword: string
+}
 // ==================== API 接口函数 ====================
 
 /**
@@ -168,7 +172,7 @@ export const updateNickname = (params: IUpdateNicknameParams) => {
  * 发送短信验证码
  */
 export const sendSMSCode = (params: ISendSMSCodeParams) => {
-  return http.post<IBaseResponse>('/customer/autth/getsmscode', params)
+  return http.post<IBaseResponse>('/customer/auth/getsmscode', params)
 }
 
 /**
@@ -176,4 +180,11 @@ export const sendSMSCode = (params: ISendSMSCodeParams) => {
  */
 export const updatePhone = (params: IUpdatePhoneParams) => {
   return http.post<IBaseResponse>('/customer/customer/updatephonenumberbyself', params)
+}
+
+/**
+ * 更新密码
+ */
+export const updatePassword = (params: IUpdatePasswordParams) => {
+  return http.post<IBaseResponse>('/customer/customer/updatepasswordbyself', params)
 }
