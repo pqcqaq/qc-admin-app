@@ -68,29 +68,28 @@ import { sendSMSCode, updatePhone } from '@/api/user'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 
+const i18n = useI18n()
+const t = i18n.t
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const columns = ref<Record<string, any>[]>([
   {
     value: '+86',
-    label: '中国大陆',
+    label: t('china_mainland'),
   },
   {
     value: '+1',
-    label: '美国',
+    label: t('united_states'),
   },
   {
     value: '+81',
-    label: '日本',
+    label: t('japan'),
   },
 ])
 const regionNumber = ref<string>('+86')
 
 const phoneNumber = ref<string>('')
 const verificationCode = ref<string>('')
-
-const i18n = useI18n()
-const t = i18n.t
 
 //发送验证码
 const send = async () => {

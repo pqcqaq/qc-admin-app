@@ -1,6 +1,13 @@
 <template>
   <view class="status_bar">
-    <view class="status-bar-left">
+    <view
+      class="status-bar-left"
+      :class="{ pressed: isBackPressed }"
+      @touchstart="isBackPressed = true"
+      @touchend="isBackPressed = false"
+      @touchcancel="isBackPressed = false"
+      @click="back"
+    >
       <wd-button type="text" class="status-bar-back-button" @click="back">
         {{ t('cancel') }}
       </wd-button>
@@ -23,6 +30,8 @@ const t = i18n.t
 const back = () => {
   uni.navigateTo({ url: '/pages/mine/info/index' })
 }
+
+const isBackPressed = ref(false)
 </script>
 
 <style lang="scss" scoped>
@@ -52,6 +61,10 @@ $font-color: #536387;
     .status-bar-back-button {
       color: $font-color;
     }
+  }
+
+  .status-bar-left.pressed {
+    background-color: rgba(0, 0, 0, 0.08); // 轻微加深效果
   }
   .status-bar-right {
     margin-right: 25rpx;

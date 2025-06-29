@@ -97,7 +97,7 @@ watch(() => feedback.value, changeButtonColor)
 //保存图片
 const handleImageClick = () => {
   uni.showActionSheet({
-    itemList: ['保存图片到相册'],
+    itemList: [t('save_the_picture_to_the_album')],
     success: (res) => {
       if (res.tapIndex === 0) {
         saveImage()
@@ -118,7 +118,7 @@ const saveImage = () => {
           filePath: res.tempFilePath,
           success: () => {
             uni.showToast({
-              title: '保存成功',
+              title: t('save_successfully'),
               icon: 'success',
             })
           },
@@ -126,8 +126,8 @@ const saveImage = () => {
             if (err.errMsg.includes('auth deny') || err.errMsg.includes('authorize')) {
               // 引导用户授权
               uni.showModal({
-                title: '提示',
-                content: '需要授权保存到相册，是否前往设置？',
+                title: t('tip'),
+                content: t('please_authorize_save_to_album'),
                 success: (res) => {
                   if (res.confirm) {
                     uni.openSetting()
@@ -136,7 +136,7 @@ const saveImage = () => {
               })
             } else {
               uni.showToast({
-                title: '保存失败',
+                title: t('save_failed'),
                 icon: 'none',
               })
               console.error('保存失败', err)
@@ -147,10 +147,10 @@ const saveImage = () => {
     },
     fail: (err) => {
       uni.showToast({
-        title: '下载失败',
+        title: t('save_failed'),
         icon: 'none',
       })
-      console.error('下载失败', err)
+      console.error(t('save_failed'), err)
     },
   })
 }

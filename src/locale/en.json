@@ -86,5 +86,15 @@
   "change_successfully": "change successfully",
   "change_failed": "change failed",
   "verification_code_sent": "verification code sent",
-  "change_successfully_please_relogin": "Change successfully! Please relogin."
+  "change_successfully_please_relogin": "Change successfully! Please relogin.",
+  "not_filled": "not filled",
+  "man": "man",
+  "woman": "woman",
+  "save_the_picture_to_the_album": "save the picture to the album",
+  "save_successfully": "save successfully",
+  "please_authorize_save_to_album": "please authorize save to album",
+  "save_failed": "save failed",
+  "china_mainland": "china  mainland",
+  "united_states": "united states",
+  "japan": "japan"
 }

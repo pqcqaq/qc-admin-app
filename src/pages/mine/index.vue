@@ -26,7 +26,14 @@
     </view>
     <view class="function-section">
       <!-- 个人资料 -->
-      <view class="card" @click="handleProfileInfo">
+      <view
+        class="card"
+        @click="handleProfileInfo"
+        :class="{ pressed: isPressed1 }"
+        @touchstart="isPressed1 = true"
+        @touchend="isPressed1 = false"
+        @touchcancel="isPressed1 = false"
+      >
         <view class="label">
           <wd-icon name="note" size="25px" />
           <text class="text">{{ t('personal_info') }}</text>
@@ -34,7 +41,14 @@
         <wd-icon name="arrow-right" size="20px" />
       </view>
       <!-- 帮助与反馈 -->
-      <view class="card" @click="handleFeedback">
+      <view
+        class="card"
+        @click="handleFeedback"
+        :class="{ pressed: isPressed2 }"
+        @touchstart="isPressed2 = true"
+        @touchend="isPressed2 = false"
+        @touchcancel="isPressed2 = false"
+      >
         <view class="label">
           <wd-icon name="evaluation" size="25px" />
           <text class="text">{{ t('help_and_feedback') }}</text>
@@ -42,7 +56,13 @@
         <wd-icon name="arrow-right" size="20px" />
       </view>
       <!-- 隐私与协议 -->
-      <view class="picker-card">
+      <view
+        class="picker-card"
+        :class="{ pressed: isPressed3 }"
+        @touchstart="isPressed3 = true"
+        @touchend="isPressed3 = false"
+        @touchcancel="isPressed3 = false"
+      >
         <wd-select-picker
           class="picker"
           v-model="choice"
@@ -83,6 +103,10 @@ import { useToast } from 'wot-design-uni'
 import { useUpload } from '@/utils/uploadFile'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
+
+const isPressed1 = ref(false)
+const isPressed2 = ref(false)
+const isPressed3 = ref(false)
 
 const i18n = useI18n()
 const t = i18n.t
@@ -156,6 +180,7 @@ $font1-color: #ffffff;
 $font2-color: #536387;
 $font3-color: #767e8c;
 $card-bg-color: #ffffff;
+$press-color: #e5e5e5;
 .container {
   .user-info-section {
     background: $bg1-color;
@@ -206,6 +231,13 @@ $card-bg-color: #ffffff;
       }
     }
 
+    .card.pressed {
+      background-color: $press-color;
+    }
+
+    .picker-card.pressed {
+      background-color: $press-color;
+    }
     .picker-card {
       background-color: $card-bg-color;
       padding: 30rpx 20rpx;

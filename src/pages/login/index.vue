@@ -248,44 +248,9 @@ $form-bg-color: #ffffff;
 $border-color: rgba(238, 238, 238);
 $divider-color: #999999;
 $font1-color: #ffffff;
-/* 验证码输入框样式 */
-// .captcha-wrapper {
-//   .captcha-input {
-//     :deep(.wd-input__suffix) {
-//       margin-right: 0;
-//       padding-right: 0;
-//     }
-//   }
-
-//   .captcha-image {
-//     width: 100rpx;
-//     height: 36rpx;
-//     margin-left: 10rpx;
-//     border-radius: 8rpx;
-//     cursor: pointer;
-//     box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
-//     transition: all 0.3s ease;
-//     position: relative;
-//     overflow: hidden;
-
-//     &::after {
-//       content: '';
-//       position: absolute;
-//       top: 0;
-//       left: 0;
-//       right: 0;
-//       bottom: 0;
-//       background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
-//       pointer-events: none;
-//     }
-
-//     &:active {
-//       opacity: 0.8;
-//       transform: scale(0.96);
-//       box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
-//     }
-//   }
-// }
+$border-shadow: rgba(0, 0, 0, 0.25);
+$account-login-btn-active-border-shadow: rgba(25, 137, 250, 0.2);
+$logout-input-bg-color: rgba(245, 247, 250, 0.7);
 
 .login-container {
   box-sizing: border-box;
@@ -311,30 +276,10 @@ $font1-color: #ffffff;
     animation: fadeInDown 0.8s ease-out;
 
     .login-logo {
-      /*
-    width: 200rpx;
-    height: 200rpx;
-    border-radius: 36rpx;
-    transition: all 0.3s ease;
-
-    &:active {
-      transform: scale(0.95);
-      box-shadow: 0 6rpx 15rpx rgba(0, 0, 0, 0.1);
-    }
-    **/
       width: 350rpx;
       height: 350rpx;
       top: 20rpx;
     }
-
-    // .login-title {
-    //   margin-top: 30rpx;
-    //   font-size: 46rpx;
-    //   font-weight: bold;
-    //   color: #333333;
-    //   letter-spacing: 3rpx;
-    //   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
-    // }
   }
 
   .login-form {
@@ -342,7 +287,7 @@ $font1-color: #ffffff;
     margin-top: 0rpx;
     animation: fadeIn 0.8s ease-out 0.2s both;
     background-color: $form-bg-color;
-    box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10rpx 20rpx $border-shadow;
     padding: 0rpx 24rpx 0rpx 24rpx;
 
     .login-tabs {
@@ -360,22 +305,6 @@ $font1-color: #ffffff;
       cursor: pointer;
       transition: color 0.3s ease;
     }
-
-    // .welcome-text {
-    //   margin-bottom: 16rpx;
-    //   font-size: 48rpx;
-    //   font-weight: bold;
-    //   color: #333333;
-    //   text-align: center;
-    //   letter-spacing: 1rpx;
-    // }
-
-    // .login-desc {
-    //   margin-bottom: 70rpx;
-    //   font-size: 28rpx;
-    //   color: #888888;
-    //   text-align: center;
-    // }
 
     .login-input-group {
       margin-top: 50rpx;
@@ -402,7 +331,7 @@ $font1-color: #ffffff;
 
         .login-input {
           padding: 12rpx 20rpx;
-          background-color: rgba(245, 247, 250, 0.7);
+          background-color: $logout-input-bg-color;
           border-radius: 16rpx;
           transition: all 0.3s ease;
           border: 2px $border-color solid;
@@ -410,54 +339,7 @@ $font1-color: #ffffff;
           .text {
             color: $primary-color;
           }
-
-          // :deep(.wd-input__inner) {
-          //   font-size: 30rpx;
-          //   color: #333333;
-          // }
-
-          // :deep(.wd-input__placeholder) {
-          //   font-size: 28rpx;
-          //   color: #aaaaaa;
-          // }
-
-          // &:focus-within {
-          //   background-color: rgba(245, 247, 250, 0.95);
-          //   box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
-          //   transform: translateY(-3rpx);
-          // }
         }
-
-        // .input-bottom-line {
-        //   position: absolute;
-        //   bottom: -2rpx;
-        //   left: 5%;
-        //   width: 90%;
-        //   height: 2rpx;
-        //   background: linear-gradient(
-        //     to right,
-        //     transparent,
-        //     var(--wot-color-theme, #1989fa),
-        //     transparent
-        //   );
-        //   transition: transform 0.4s ease;
-        //   transform: scaleX(0);
-        //   opacity: 0.8;
-        // }
-
-        // &:focus-within .input-bottom-line {
-        //   transform: scaleX(1);
-        // }
-
-        // .input-icon {
-        //   margin-right: 16rpx;
-        //   color: #666666;
-        //   transition: color 0.3s ease;
-        // }
-
-        // &:focus-within .input-icon {
-        //   color: var(--wot-color-theme, #1989fa);
-        // }
       }
     }
 
@@ -500,36 +382,12 @@ $font1-color: #ffffff;
         align-items: center;
         margin: 24rpx 0;
 
-        // .divider-line {
-        //   flex: 1;
-        //   height: 1px;
-        //   background-color: #eeeeee;
-        // }
-
         .divider-text {
           padding: 0 24rpx;
           font-size: 24rpx;
           color: $divider-color;
         }
       }
-
-      // .wechat-login-btn {
-      //   height: 96rpx;
-      //   font-size: 32rpx;
-      //   color: #07c160;
-      //   border-color: #07c160;
-      //   border-radius: 48rpx;
-      //   transition: all 0.3s ease;
-
-      //   .wechat-icon {
-      //     margin-right: 12rpx;
-      //   }
-
-      //   &:active {
-      //     background-color: rgba(7, 193, 96, 0.08);
-      //     transform: scale(0.98);
-      //   }
-      // }
     }
   }
 
