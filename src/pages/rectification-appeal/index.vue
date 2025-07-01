@@ -95,7 +95,7 @@ function handleAppeal(item) {
   store.totalCount = totalCount.value
   store.checkedCount = checkedCount.value
   uni.navigateTo({
-    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=1&time=${time}&shopName=${shopName}`,
+    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=1&time=${time.value}&shopName=${shopName.value}`,
   })
 }
 
@@ -105,7 +105,7 @@ function handleRectify(item) {
   store.totalCount = totalCount.value
   store.checkedCount = checkedCount.value
   uni.navigateTo({
-    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=0&time=${time}&shopName=${shopName}`,
+    url: `/pages/rectification-appeal/appealOrRectify?id=${item.id}&appealState=0&time=${time.value}&shopName=${shopName.value}`,
   })
 }
 const time = ref('')
