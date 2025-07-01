@@ -72,7 +72,7 @@
         </wd-tab>
       </wd-tabs>
       <!-- 底部按钮 -->
-      <view class="fixed bottom-0 left-0 w-full bg-white py-4 px-4 z-10">
+      <view class="custom-next">
         <view
           class="custom-next-btn"
           :class="{ 'custom-next-btn--disabled': checkedCount !== totalCount }"
@@ -209,7 +209,9 @@ function onUpdateUrl(tabIdx, detectionRuleId, url) {
   background: rgb(62, 171, 154) !important;
 }
 .custom-next-btn {
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
+  box-sizing: border-box;
   text-align: center;
   padding: 10rpx 0;
   border-radius: 12rpx;
@@ -253,5 +255,13 @@ function onUpdateUrl(tabIdx, detectionRuleId, url) {
   color: #222;
   text-align: center;
   font-weight: 500;
+}
+.custom-next {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 20rpx;
 }
 </style>
