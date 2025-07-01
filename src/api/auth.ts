@@ -6,6 +6,10 @@ export interface ILoginParams {
   accountName: string
   password: string
 }
+export interface IGetSmsCodeParams {
+  phoneNumber: string
+  smsCode: string
+}
 
 export interface ILoginResponse {
   id: number
@@ -32,6 +36,13 @@ export const login = (params: ILoginParams) => {
 }
 
 /**
+ * 验证码登录
+ */
+export const loginBySmsCode = (params: IGetSmsCodeParams) => {
+  return http.post<IBaseResponse<ILoginResponse>>('/customer/auth/loginaccountbysmscode', params)
+}
+
+/**
  * 公司生成邀请码
  * 如果已存在就重新生成覆盖旧的
  */
@@ -48,4 +59,12 @@ export const getInvitationCode = () => {
   return http.post<IBaseResponse<IInvitationCodeResponse>>(
     '/customer/customerorganization/getinvitationcode',
   )
+}
+
+/**
+ * 验证码
+ */
+
+export const getsmscode = (params: { phoneNumber: string }) => {
+  return http.post<IBaseResponse<IInvitationCodeResponse>>('/customer/auth/getsmscode', params)
 }

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { toast } from '@/utils/toast'
 import { getUserDetailWithShop, IUser, UserInfoWithShop } from '@/api'
-import { login as _login } from '@/api'
+import { login as _login, loginBySmsCode as _loginBySmsCode } from '@/api'
 
 const userInfoState: UserInfoWithShop = {
   row: {
@@ -82,6 +82,33 @@ export const useUserStore = defineStore(
         })
     }
 
+    /**
+     * 短信验证码登录
+     * @param credentials 验证码登录参数
+     * @returns R<IUserLogin>
+     */
+    const loginBySmsCode = async (credentials: { phoneNumber: string; smsCode: string }) => {
+      return _loginBySmsCode(credentials)
+        .then((res) => {
+          toast.success('登录成功')
+          token.value = res.data.sid || ''
+          return res
+        })
+        .then((res) => {
+          return getUserDetailWithShop({
+            id: res.data.id,
+          })
+        })
+        .then((res) => {
+          setUserInfo(res.data)
+          return res
+        })
+        .catch((err) => {
+          toast.error(err.message)
+          throw err
+        })
+    }
+
     const logout = () => {
       removeUserInfo()
       toast.success('退出登录成功')
@@ -91,6 +118,7 @@ export const useUserStore = defineStore(
     return {
       userInfo,
       login,
+      loginBySmsCode,
       setUserAvatar,
       logout,
       token,

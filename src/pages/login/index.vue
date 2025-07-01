@@ -56,10 +56,11 @@
             </view>
           </view>
         </wd-tab>
-        <wd-tab :title="t('login_by_verification_code')" class="login-tab" disabled>
+        <wd-tab :title="t('login_by_verification_code')" class="login-tab">
           <view class="login-input-group">
             <view class="input-wrapper">
               <wd-input
+                v-model="smsPhone"
                 prefix-icon="phone"
                 :placeholder="t('please_enter_your_phone_number')"
                 clearable
@@ -80,6 +81,7 @@
             </view>
             <view class="input-wrapper">
               <wd-input
+                v-model="smsCode"
                 class="login-input"
                 :placeholder="t('please_enter_your_verification_code')"
                 clearable
@@ -93,7 +95,18 @@
                 </template>
                 <template #suffix>
                   <wd-divider vertical />
-                  <text class="text">{{ t('send_a_verification_code') }}</text>
+                  <view
+                    class="sms-send-btn"
+                    @click="onSendSmsClick"
+                    :style="{
+                      color: smsCountdown === 0 && isValidPhone(smsPhone) ? '#3daa9a' : '#ccc',
+                      cursor:
+                        smsCountdown === 0 && isValidPhone(smsPhone) ? 'pointer' : 'not-allowed',
+                      userSelect: 'none',
+                    }"
+                  >
+                    {{ smsCountdown > 0 ? smsCountdown + 's' : t('send_a_verification_code') }}
+                  </view>
                 </template>
               </wd-input>
             </view>
@@ -103,12 +116,11 @@
 
       <!-- 登录按钮组 -->
       <view class="login-buttons">
-        <!-- 账号密码登录按钮 -->
         <wd-button
           :type="buttonType"
           size="large"
           block
-          @click="handleAccountLogin"
+          @click="handleLogin"
           class="account-login-btn"
         >
           <wd-icon name="right" size="18rpx" class="login-icon"></wd-icon>
@@ -150,7 +162,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useUserStore } from '@/store/user'
 import { isMpWeixin } from '@/utils/platform'
 import { toast } from '@/utils/toast'
@@ -158,6 +170,7 @@ import { isTableBar } from '@/utils/index'
 import { ILoginParams } from '@/api'
 import { useI18n } from 'vue-i18n'
 import { ButtonType } from 'wot-design-uni/components/wd-button/types'
+import { getsmscode } from '@/api/auth'
 
 const i18n = useI18n()
 const t = i18n.t
@@ -181,29 +194,63 @@ const loginForm = ref<ILoginParams>({
 // 隐私协议勾选状态
 const agreePrivacy = ref(false)
 
-// 账号密码登录
-const handleAccountLogin = async () => {
-  if (!agreePrivacy.value) {
-    toast.error(t('please_agree_to_the_privacy_policy'))
-    return
-  }
-  // 表单验证
-  if (!loginForm.value.accountName) {
-    toast.error(t('please_enter_your_username'))
-    return
-  }
-  if (!loginForm.value.password) {
-    toast.error(t('please_enter_your_password'))
-    return
-  }
-  // 执行登录
-  await userStore.login(loginForm.value)
-  // 跳转到首页或重定向页面
-  const targetUrl = redirectRoute.value || '/pages/index/index'
-  if (isTableBar(targetUrl)) {
-    uni.switchTab({ url: targetUrl })
+// 验证码登录相关变量
+const smsPhone = ref('')
+const smsCode = ref('')
+const smsCountdown = ref(0)
+const smsSending = ref(false)
+
+// 手机号校验方法
+const isValidPhone = (phone: string) => /^1[3-9]\d{9}$/.test(phone)
+
+// 合并登录逻辑
+const handleLogin = async () => {
+  if (tab.value === 0) {
+    // 账号密码登录
+    if (!agreePrivacy.value) {
+      toast.error(t('please_agree_to_the_privacy_policy'))
+      return
+    }
+    if (!loginForm.value.accountName) {
+      toast.error(t('please_enter_your_username'))
+      return
+    }
+    if (!loginForm.value.password) {
+      toast.error(t('please_enter_your_password'))
+      return
+    }
+    await userStore.login(loginForm.value)
+    const targetUrl = redirectRoute.value || '/pages/index/index'
+    if (isTableBar(targetUrl)) {
+      uni.switchTab({ url: targetUrl })
+    } else {
+      uni.redirectTo({ url: targetUrl })
+    }
   } else {
-    uni.redirectTo({ url: targetUrl })
+    // 验证码登录
+    if (!agreePrivacy.value) {
+      toast.error(t('please_agree_to_the_privacy_policy'))
+      return
+    }
+    if (!isValidPhone(smsPhone.value)) {
+      toast.error(t('please_enter_your_phone_number'))
+      return
+    }
+    if (!smsCode.value) {
+      toast.error(t('please_enter_your_verification_code'))
+      return
+    }
+    try {
+      await userStore.loginBySmsCode({ phoneNumber: smsPhone.value, smsCode: smsCode.value })
+      const targetUrl = redirectRoute.value || '/pages/index/index'
+      if (isTableBar(targetUrl)) {
+        uni.switchTab({ url: targetUrl })
+      } else {
+        uni.redirectTo({ url: targetUrl })
+      }
+    } catch (e) {
+      // 错误提示已在store处理
+    }
   }
 }
 
@@ -229,7 +276,13 @@ const forgetPassword = () => {}
 
 // 改变login button颜色
 const changeButtonColor = () => {
-  if (loginForm.value.accountName && loginForm.value.password && agreePrivacy.value) {
+  if (
+    (tab.value === 0 &&
+      loginForm.value.accountName &&
+      loginForm.value.password &&
+      agreePrivacy.value) ||
+    (tab.value === 1 && isValidPhone(smsPhone.value) && smsCode.value && agreePrivacy.value)
+  ) {
     buttonType.value = 'success'
   } else {
     buttonType.value = 'info'
@@ -237,9 +290,48 @@ const changeButtonColor = () => {
 }
 
 watch(
-  () => [loginForm.value.accountName, loginForm.value.password, agreePrivacy.value],
+  [
+    tab,
+    () => loginForm.value.accountName,
+    () => loginForm.value.password,
+    smsPhone,
+    smsCode,
+    agreePrivacy,
+  ],
   changeButtonColor,
+  { immediate: true },
 )
+
+// 发送验证码
+const handleSendSmsCode = async () => {
+  if (smsCountdown.value > 0 || smsSending.value) return
+  if (!isValidPhone(smsPhone.value)) {
+    toast.error(t('please_enter_your_phone_number'))
+    return
+  }
+  smsSending.value = true
+  try {
+    await getsmscode({ phoneNumber: smsPhone.value })
+    toast.success(t('verification_code_sent'))
+    smsCountdown.value = 60
+    const timer = setInterval(() => {
+      smsCountdown.value--
+      if (smsCountdown.value <= 0) {
+        clearInterval(timer)
+      }
+    }, 1000)
+  } catch (e) {
+    toast.error(t('failed_to_send_verification_code'))
+  } finally {
+    smsSending.value = false
+  }
+}
+
+// 新增onSendSmsClick方法
+const onSendSmsClick = () => {
+  if (smsCountdown.value > 0 || !isValidPhone(smsPhone.value)) return
+  handleSendSmsCode()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -446,5 +538,10 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
 
 ::v-deep .page-content {
   padding: 0;
+}
+
+.sms-send-btn {
+  display: inline-block;
+  padding: 0 8rpx;
 }
 </style>
