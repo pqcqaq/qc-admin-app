@@ -33,17 +33,21 @@
         <wd-input
           v-model="phoneNumber"
           :placeholder="regionNumber + '  ' + t('please_enter_your_phone_number')"
-          clearable
           :rules="[{ required: true, message: t('phone_number_cannot_be_empty') }]"
           :no-border="true"
           placeholderStyle="font-size: 30rpx;"
         >
           <template #suffix>
-            <wd-button type="text" size="large">{{ t('send_verification_code') }}</wd-button>
+            <wd-button type="text" size="large" @click="send">
+              <wd-divider vertical />
+              {{ t('send_verification_code') }}
+            </wd-button>
           </template>
         </wd-input>
       </view>
-      <text class="label">{{ t('verification_code') }}</text>
+      <text class="label">
+        {{ t('verification_code') }}
+      </text>
       <view class="card">
         <wd-input
           v-model="verificationCode"
@@ -60,19 +64,26 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import StatusBar from '@/components/status-bar/StatusBar.vue'
+import { sendSMSCode, updatePhone } from '@/api/user'
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
+const i18n = useI18n()
+const t = i18n.t
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 const columns = ref<Record<string, any>[]>([
   {
     value: '+86',
-    label: '中国大陆',
+    label: t('china_mainland'),
   },
   {
     value: '+1',
-    label: '美国',
+    label: t('united_states'),
   },
   {
     value: '+81',
-    label: '日本',
+    label: t('japan'),
   },
 ])
 const regionNumber = ref<string>('+86')
@@ -80,9 +91,75 @@ const regionNumber = ref<string>('+86')
 const phoneNumber = ref<string>('')
 const verificationCode = ref<string>('')
 
-const i18n = useI18n()
-const t = i18n.t
-const finish = () => {}
+//发送验证码
+const send = async () => {
+  if (phoneNumber.value.trim() === '') {
+    uni.showToast({
+      title: t('phone_number_cannot_be_empty'),
+      icon: 'error',
+    })
+    return
+  }
+
+  sendSMSCode({ phoneNumber: phoneNumber.value })
+    .then(() => {
+      uni.showToast({
+        title: t('verification_code_sent'),
+        icon: 'success',
+      })
+    })
+    .catch((error) => {
+      uni.showToast({
+        title: error.message || t('failed'),
+        icon: 'error',
+      })
+    })
+}
+//提交
+const finish = async () => {
+  if (phoneNumber.value.trim() === '') {
+    uni.showToast({
+      title: t('phone_number_cannot_be_empty'),
+      icon: 'error',
+    })
+    return
+  }
+  if (verificationCode.value.trim() === '') {
+    uni.showToast({
+      title: t('verification_code_cannot_be_empty'),
+      icon: 'error',
+    })
+    return
+  }
+
+  return updatePhone({
+    oldPhoneNumber: userInfo.value.row.phoneNumber,
+    newPhoneNumber: phoneNumber.value,
+    smsCode: verificationCode.value,
+  }).then((res) => {
+    if (res.code === 0) {
+      userInfo.value.row.phoneNumber = phoneNumber.value
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_successfully'),
+        showCancel: false,
+        confirmColor: '#3daa9a',
+        success: () => {
+          uni.navigateTo({
+            url: '/pages/mine/info/index',
+          })
+        },
+      })
+    } else {
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_failed'),
+        showCancel: false,
+        confirmColor: '#8b0000',
+      })
+    }
+  })
+}
 </script>
 <style lang="scss" scoped>
 $primary-color: #3daa9a;

@@ -100,6 +100,7 @@
   "logout_successful": "logout successful",
   "failed": "failed",
   "change_successfully": "change successfully",
+
   "manual_inspection_item_report": "manual_inspection_item_report",
   "inspection_item": "inspection item",
   "next": "next",
@@ -131,5 +132,19 @@
   "successful": "successful",
   "failure": "failure",
   "ok": "ok",
-  "Serial number": "NO."
+  "Serial number": "NO.",
+
+  "change_failed": "change failed",
+  "verification_code_sent": "verification code sent",
+  "change_successfully_please_relogin": "Change successfully! Please relogin.",
+  "not_filled": "not filled",
+  "man": "man",
+  "woman": "woman",
+  "save_the_picture_to_the_album": "save the picture to the album",
+  "save_successfully": "save successfully",
+  "please_authorize_save_to_album": "please authorize save to album",
+  "save_failed": "save failed",
+  "china_mainland": "china  mainland",
+  "united_states": "united states",
+  "japan": "japan"
 }

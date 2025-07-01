@@ -13,12 +13,12 @@
     <view class="page_header">
       <view class="page_header_user">
         <view class="page_header_user_avatar">
-          <image class="avatar" :src="userInfo.avatarUrl" />
+          <image class="avatar" :src="userInfo.row.avatarUrl" />
         </view>
         <view class="page_header_user_name">
-          {{ userInfo.nickname }}
+          {{ userInfo.row.nickname }}
         </view>
-        <view class="page_header_user_type">督导</view>
+        <view class="page_header_user_type">{{ displayRole }}</view>
       </view>
       <view class="page_header_search">
         <view class="page_header_search_label">{{ t('date') }}</view>
@@ -178,6 +178,7 @@ function handleConfirm({ value }) {
 
 onLoad(() => {
   getDate()
+  console.log(userInfo.value.row, 11111111111111111)
 })
 
 // const toManualInspection = () => {
@@ -186,6 +187,17 @@ onLoad(() => {
 //   })
 // }
 // >>>>>>> 0a244849b09297f4e3d692b2e4954f7c1b250c5a
+
+const roleMap = {
+  clerk: '店员',
+  manage: '超级管理员',
+  'store-manage': '店长',
+  'area-manage': '督导',
+}
+
+const displayRole = computed(() => {
+  return roleMap[userInfo.value.row.role] || userInfo.value.row.role
+})
 </script>
 
 <style lang="scss" scoped>

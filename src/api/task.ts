@@ -45,7 +45,7 @@ export interface ITaskBoardDate {
  * 查询待办事项列表
  */
 export const getTaskList = () => {
-  return http.post<IBaseResponse<ITask>>('/app/gettodo')
+  return http.post<IBaseResponse<ITask>>('/app/getall')
 }
 
 /**

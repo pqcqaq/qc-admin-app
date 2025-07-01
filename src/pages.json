@@ -168,10 +168,6 @@
       }
     },
     {
-      "path": "pages/mine/info/avatar/temp",
-      "type": "page"
-    },
-    {
       "path": "pages/mine/info/password/index",
       "type": "page",
       "style": {

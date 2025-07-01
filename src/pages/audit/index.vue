@@ -76,9 +76,9 @@
               :width="100"
               :height="100"
               :src="
-                selectItem?.detectionTask.detectionImageUrl === ' '
-                  ? selectItem?.detectionTask.detectionImageUrl
-                  : 'https://null'
+                selectItem?.detectionTask.detection.imageUrl === ''
+                  ? 'https://null'
+                  : selectItem?.detectionTask.detection.imageUrl
               "
             >
               <template #error>

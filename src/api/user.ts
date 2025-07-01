@@ -1,6 +1,9 @@
 import { http } from '@/utils/http'
 import { IPaginationParams, IBaseResponse, IShop } from '.'
-
+import { useUserStore } from '@/store'
+import { getEnvBaseUrl } from '@/utils'
+// 请求基准地址
+const baseUrl = getEnvBaseUrl()
 // ==================== 用户相关类型 ====================
 export interface IUser {
   id: number
@@ -42,7 +45,7 @@ export interface IUserDetailParams {
   id: number
 }
 
-export interface INicknameParams {
+export interface IUpdateNicknameParams {
   nickname: string // 昵称
 }
 
@@ -65,6 +68,20 @@ export interface IUserAuditCommitParams {
   successState: number
 }
 
+export interface ISendSMSCodeParams {
+  phoneNumber: string // 手机号
+}
+
+export interface IUpdatePhoneParams {
+  oldPhoneNumber: string
+  newPhoneNumber: string
+  smsCode: string
+}
+
+export interface IUpdatePasswordParams {
+  oldPassword: string
+  newPassword: string
+}
 // ==================== API 接口函数 ====================
 
 /**
@@ -150,6 +167,95 @@ export const getUserDetailWithShop = (params: IUserDetailParams) => {
 /**
  * 更新用户昵称
  */
-export const updateNickname = (params: INicknameParams) => {
+export const updateNickname = (params: IUpdateNicknameParams) => {
   return http.post<IBaseResponse>('/customer/customer/updatenicknamebyself', params)
+}
+
+/**
+ * 发送短信验证码
+ */
+export const sendSMSCode = (params: ISendSMSCodeParams) => {
+  return http.post<IBaseResponse>('/customer/auth/getsmscode', params)
+}
+
+/**
+ * 更新手机号
+ */
+export const updatePhone = (params: IUpdatePhoneParams) => {
+  return http.post<IBaseResponse>('/customer/customer/updatephonenumberbyself', params)
+}
+
+/**
+ * 更新用户头像
+ */
+export const updateavatarbyself = (params: { avatarUrl: string }) => {
+  return http.post<IBaseResponse>('/customer/customer/updateavatarbyself', params)
+}
+
+/**
+ * 上传图片
+ * @param filePath 本地图片路径
+ * @param fileObj 文件对象
+ * @returns Promise<string> 图片url
+ */
+export const uploadImage = (filePath: string, fileObj?: File) => {
+  const token = useUserStore().token
+  return new Promise<string>((resolve, reject) => {
+    // #ifdef H5
+    if (typeof window !== 'undefined' && fileObj) {
+      const formData = new FormData()
+      formData.append('image', fileObj)
+      fetch(baseUrl + '/customer/customer/imageupload?_token_=' + token, {
+        method: 'POST',
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.code === 0 && res.data?.result) {
+            resolve(res.data.result)
+          } else {
+            uni.showToast({ icon: 'none', title: res.message || '上传失败' })
+            reject(res)
+          }
+        })
+        .catch((err) => {
+          uni.showToast({ icon: 'none', title: '网络错误，上传失败' })
+          reject(err)
+        })
+      return
+    }
+    // #endif
+    // #ifndef H5
+    uni.uploadFile({
+      url: baseUrl + '/customer/customer/imageupload?_token_=' + token,
+      filePath,
+      name: 'image',
+      success: (uploadFileRes) => {
+        try {
+          const res = JSON.parse(uploadFileRes.data)
+          if (res.code === 0 && res.data?.result) {
+            resolve(res.data.result)
+          } else {
+            uni.showToast({ icon: 'none', title: res.message || '上传失败' })
+            reject(res)
+          }
+        } catch (e) {
+          uni.showToast({ icon: 'none', title: '上传失败' })
+          reject(e)
+        }
+      },
+      fail: (err) => {
+        uni.showToast({ icon: 'none', title: '网络错误，上传失败' })
+        reject(err)
+      },
+    })
+    // #endif
+  })
+}
+
+/**
+ * 更新密码
+ */
+export const updatePassword = (params: IUpdatePasswordParams) => {
+  return http.post<IBaseResponse>('/customer/customer/updatepasswordbyself', params)
 }

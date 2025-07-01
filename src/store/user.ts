@@ -37,11 +37,11 @@ export const useUserStore = defineStore(
     const setUserInfo = (val: UserInfoWithShop) => {
       console.log('设置用户信息', val)
       // 若头像为空 则使用默认头像
-      if (!val.row.avatarUrl) {
-        val.row.avatarUrl = userInfoState.row.avatarUrl
-      } else {
-        val.row.avatarUrl = 'http://qiniuyun.ling-shun.com/avatar-default.png'
-      }
+      // if (!val.row.avatarUrl) {
+      //   val.row.avatarUrl = userInfoState.row.avatarUrl
+      // } else {
+      //   val.row.avatarUrl = 'http://qiniuyun.ling-shun.com/avatar-default.png'
+      // }
       userInfo.value = val
     }
     const setUserAvatar = (avatar: string) => {
@@ -49,7 +49,7 @@ export const useUserStore = defineStore(
       console.log('设置用户头像', avatar)
       console.log('userInfo', userInfo.value)
     }
-    // 删除用户信息
+    //删除用户信息
     const removeUserInfo = () => {
       userInfo.value = { ...userInfoState }
       uni.removeStorageSync('userInfo')
@@ -69,12 +69,14 @@ export const useUserStore = defineStore(
           return res
         })
         .then((res) => {
+          console.log(res, 77777)
           return getUserDetailWithShop({
             id: res.data.id,
           })
         })
         .then((res) => {
           console.log('获取用户信息', res)
+          console.log(res.data, 11126211111)
           setUserInfo(res.data)
           return res
         })

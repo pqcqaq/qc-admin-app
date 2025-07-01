@@ -61,13 +61,14 @@ import { storeToRefs } from 'pinia'
 import { toast } from '@/utils/toast'
 import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { useI18n } from 'vue-i18n'
+import { updatePassword } from '@/api/user'
 // import { updateInfo, updateUserPassword } from '@/api/login'
 
 const i18n = useI18n()
 const t = i18n.t
 
 // 完成修改
-const finish = () => {
+const finish = async () => {
   if (
     formData.value.oldPassword === '' ||
     formData.value.newPassword === '' ||
@@ -101,6 +102,34 @@ const finish = () => {
     })
     return
   }
+
+  return updatePassword({
+    oldPassword: formData.value.oldPassword,
+    newPassword: formData.value.newPassword,
+  }).then((res) => {
+    if (res.code === 0) {
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_successfully_please_relogin'),
+        showCancel: false,
+        confirmColor: '#3daa9a',
+        success: () => {
+          // 清空用户信息
+          useUserStore().logout()
+          uni.navigateTo({
+            url: '/pages/login/index',
+          })
+        },
+      })
+    } else {
+      uni.showModal({
+        title: t('tip'),
+        content: t('change_failed'),
+        showCancel: false,
+        confirmColor: '#8b0000',
+      })
+    }
+  })
 }
 
 // 表单引用

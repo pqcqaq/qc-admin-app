@@ -88,7 +88,7 @@ const timeText = computed(() => {
 //   )
 // })
 const problemCount = computed(() => {
-  return props.detectionRuleIdList.split(',').length
+  return props.detectionRuleIdList ? props.detectionRuleIdList.split(',').length : 0
 })
 
 const waitingTime = computed(() => {
@@ -132,7 +132,7 @@ enum EnumQuestionChangeState {
 enum EnumMunalCheckState {
   TODO = 'todo', //待办
   EXTENDED = 'extended', //已延期
-  ReviewAI = 'reviewAI', //AI审核中，
+  ReviewAI = 'ai_review', //AI审核中，
   AIREVIEWFINISH = 'ai_review_finish', //AI已审核
 }
 
@@ -206,7 +206,7 @@ const submitBtnConfig = computed(() => {
           return { show: true, text: '提交任务', state: 'commit' }
         case EnumMunalCheckState.ReviewAI:
         case EnumMunalCheckState.AIREVIEWFINISH:
-          return { show: true, text: '已提交', state: 'appeal' }
+          return { show: false, text: '已提交', state: 'appeal' }
         default:
           return { show: false, text: '' }
       }

@@ -114,7 +114,7 @@ import { storeToRefs } from 'pinia'
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 // 正式使用
-// const userRole = userInfo.value?.role || ''
+// const userRole = userInfo.value?.row.role || ''
 // 测试使用
 const userRole = 'clerk'
 // const userRole = 'area-manage'
