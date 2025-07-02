@@ -104,7 +104,6 @@ $card-bg-color: #ffffff;
     justify-content: center;
   }
   .username-container {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 20rpx;

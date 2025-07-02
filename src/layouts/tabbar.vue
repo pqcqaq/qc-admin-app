@@ -2,7 +2,14 @@
   <wd-config-provider :themeVars="theme">
     <view class="tabbar-layout">
       <!-- 页面内容 -->
-      <view class="page-content">
+      <view
+        class="page-content"
+        :style="{
+          paddingBottom: `${safeAreaInsets.bottom}px`,
+          paddingTop: `${safeAreaInsets.top}px`,
+          height: `calc(100vh - ${safeAreaInsets.bottom}px - ${safeAreaInsets.top}px)`,
+        }"
+      >
         <slot />
       </view>
 
@@ -23,6 +30,8 @@ import { theme } from '@/config/theme'
 
 const tabBarRef = ref()
 const tabbarStore = useTabbarStore()
+
+const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
 
 // 监听页面变化，更新tabbar状态
 onMounted(() => {
@@ -60,13 +69,10 @@ const updateTabBarState = () => {
 <style lang="scss" scoped>
 $background-color: #f7f8fa;
 .tabbar-layout {
-  min-height: 100vh;
   position: relative;
 }
 
 .page-content {
   background-color: $background-color;
-  // padding-bottom: 50px; /* tabbar高度 */
-  // padding-bottom: calc(50px + env(safe-area-inset-bottom)); /* 添加安全区域 */
 }
 </style>

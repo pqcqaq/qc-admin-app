@@ -97,7 +97,6 @@ $card-bg-color: #ffffff;
   }
 
   .avatar-container {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 20rpx;

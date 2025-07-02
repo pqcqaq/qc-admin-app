@@ -200,7 +200,6 @@ $shop-address-color: #999;
     color: $title-color;
   }
   .personal-info-container {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 20rpx;

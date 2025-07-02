@@ -16,12 +16,13 @@ interface GetaAuditDetailResponse {
       type: string
     }
   }
+  rows: any[]
 }
 /**
  * 根据巡检任务整改编号查询巡检任务整改细节列表
  */
 export const getAuditDetail = (params: { id: number }) => {
-  return http.post<IBaseResponse<GetaAuditDetailResponse[]>>(
+  return http.post<IBaseResponse<GetaAuditDetailResponse>>(
     'app/getdetectiontaskrectifieddetailbydetectiontaskrectifiedid',
     params,
   )

@@ -125,7 +125,7 @@ export const getAllPages = (key = 'needLogin') => {
       })
   })
   const result = [...mainPages, ...subPages]
-  // console.log(`getAllPages by ${key} result: `, result)
+  console.log(`getAllPages by ${key} result: `, result)
   return result
 }
 

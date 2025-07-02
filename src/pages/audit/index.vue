@@ -165,8 +165,8 @@
 </template>
 
 <script lang="ts" setup>
-import inspection_statistics from '/src/static/icon/inspection_statistics_qualified_item_icon.svg'
-import rectification_user from '/src/static/icon/rectification_user_icon.svg'
+const inspection_statistics = ref('static/icon/inspection_statistics_qualified_item_icon.svg')
+const rectification_user = ref('static/icon/rectification_user_icon.svg')
 
 import { useI18n } from 'vue-i18n'
 import { getAuditDetail, updateAuditApprovestate } from '@/api/audit'

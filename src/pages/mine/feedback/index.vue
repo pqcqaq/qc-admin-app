@@ -48,7 +48,7 @@ const buttonType = ref<ButtonType>('info') // 按钮类型
 
 const feedback = ref('')
 
-const qrCode = ref('/src/static/qrcode-qiyeweixin.png')
+const qrCode = ref('/static/qrcode-qiyeweixin.png')
 
 // 提交反馈
 const submitFeedback = async () => {
@@ -111,7 +111,7 @@ const handleImageClick = () => {
 
 const saveImage = () => {
   uni.downloadFile({
-    url: '/src/static/qrcode-qiyeweixin.png',
+    url: '/static/qrcode-qiyeweixin.png',
     success: (res) => {
       if (res.statusCode === 200) {
         uni.saveImageToPhotosAlbum({
@@ -166,7 +166,6 @@ $font-color: #4d515b;
     color: $title-color;
   }
   .feedback-container {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 20rpx;

@@ -24,7 +24,6 @@ const { t } = useI18n()
 .markdown-demo {
   padding: 12px;
   background-color: #f5f5f5;
-  min-height: 100vh;
 
   .header {
     text-align: center;

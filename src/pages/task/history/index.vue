@@ -8,18 +8,20 @@
 
 <template>
   <view class="history_page">
-    <!-- 日期选择器 -->
+    <!-- 状态栏 -->
     <view class="status_bar">
       <view class="status-bar-left">
-        <wd-button type="text" class="status_bar_back_button" @click="back">
-          <image src="/static/icon/back.svg"></image>
-        </wd-button>
+        <button class="status_bar_back_button" @click="back">
+          <img src="/static/icon/back.svg"></img>
+        </button>
       </view>
       <view class="status-bar-title">
         <text class="status_bar_title">{{ t('history_record') }}</text>
       </view>
       <view class="status-bar-right"></view>
     </view>
+
+    <!-- 日期选择器 -->
     <view class="date_picker_container">
       <view class="date_picker">
         <view>{{ t('task_history_date') }}</view>
@@ -31,29 +33,32 @@
         />
       </view>
     </view>
-    <!-- 任务列表 -->
-    <view class="task_list">
-      <!-- 空状态显示 -->
-      <view v-if="filteredTasks.length === 0" class="empty_state">
-        <view class="empty_text">{{ t('task_no_record') }}</view>
-      </view>
 
-      <!-- 任务列表 -->
-      <TaskItem
-        v-for="(task, index) in filteredTasks"
-        :key="task.id"
-        :type="task.type"
-        :id="task.id"
-        :label="task.label"
-        :shopName="task.shopName || ''"
-        :detectionplanId="task.detectionplanId"
-        :detectionPlanLabel="task.detectionPlanLabel"
-        :detectionRuleIdList="task.detectionRuleldList || ''"
-        :stateEnum="task.stateEnum"
-        :createdAt="task.createdAt"
-        :role="userRole"
-      />
-    </view>
+    <!-- 任务列表滚动容器 -->
+    <scroll-view class="task-list-scroll" scroll-y>
+      <view class="task_list">
+        <!-- 空状态显示 -->
+        <view v-if="filteredTasks.length === 0" class="empty_state">
+          <view class="empty_text">{{ t('task_no_record') }}</view>
+        </view>
+
+        <!-- 任务列表 -->
+        <TaskItem
+          v-for="(task, index) in filteredTasks"
+          :key="task.id"
+          :type="task.type"
+          :id="task.id"
+          :label="task.label"
+          :shopName="task.shopName || ''"
+          :detectionplanId="task.detectionplanId"
+          :detectionPlanLabel="task.detectionPlanLabel"
+          :detectionRuleIdList="task.detectionRuleldList || ''"
+          :stateEnum="task.stateEnum"
+          :createdAt="task.createdAt"
+          :role="userRole"
+        />
+      </view>
+    </scroll-view>
   </view>
 </template>
 
@@ -159,7 +164,7 @@ $input-border-color: #e2e7f5;
 :deep(.wd-month__day.is-start .wd-month__day-container) {
   background-color: $primary-color !important;
 }
-/* 修改“确定”按钮的颜色 */
+/* 修改"确定"按钮的颜色 */
 :deep(.is-middle) {
   background-color: $secondary-color !important;
 }
@@ -174,23 +179,24 @@ $input-border-color: #e2e7f5;
 }
 
 .history_page {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background-color: $background-color;
+  padding-top: env(safe-area-inset-top);
+
   .status_bar {
     background-color: $primary-color;
     border: none;
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: calc(73rpx + env(safe-area-inset-top));
+    height: 73rpx;
     padding: 7rpx 3rpx;
     display: flex;
     overflow: hidden;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    z-index: 998;
+    flex-shrink: 0;
     transition-property: all;
 
     .status-bar-title {
@@ -205,11 +211,14 @@ $input-border-color: #e2e7f5;
       margin-left: 25rpx;
       .status_bar_back_button {
         color: $font1-color;
-        width: 60rpx;
-        height: 60rpx;
+        width: 80rpx;
+        height: 80rpx;
         display: flex;
         align-items: center;
         justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+
         image {
           width: 40rpx;
           height: 40rpx;
@@ -222,16 +231,12 @@ $input-border-color: #e2e7f5;
   }
 
   .date_picker_container {
-    position: fixed;
-    top: calc(73rpx + env(safe-area-inset-top));
-    left: 0;
-    z-index: 100;
     width: 100%;
-    padding-top: 30rpx;
-    padding-bottom: 30rpx;
+    padding: 30rpx;
     background-color: $primary-color;
     display: flex;
     justify-content: center;
+    flex-shrink: 0;
 
     .date_picker {
       width: 660rpx;
@@ -257,13 +262,14 @@ $input-border-color: #e2e7f5;
     }
   }
 
+  /* 滚动容器 */
+  .task-list-scroll {
+    flex: 1;
+    overflow: hidden;
+  }
+
   .task_list {
-    border-radius: 16rpx;
     padding: 20rpx;
-    margin-top: calc(73rpx + env(safe-area-inset-top) + 182rpx + 20rpx);
-    margin-right: 20rpx;
-    margin-bottom: 20rpx;
-    margin-left: 20rpx;
 
     /* 移除冗余样式，使用taskItem组件内置样式 */
     .task_item {

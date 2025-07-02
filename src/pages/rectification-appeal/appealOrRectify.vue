@@ -235,7 +235,6 @@ function onDeleteImage() {
   border-bottom-right-radius: 36rpx;
 }
 .appeal-rectify-page {
-  min-height: 100vh;
   background: #f7f8fa;
   padding: 0 0 48rpx 0;
 }

@@ -30,6 +30,7 @@ export interface IDashboardResponse {
     PassRateByDatetimeRange: number
     PassRateByDatetimeAll: number
   }[]
+  result: any
 }
 export interface IDashboardParams {
   detectionTimeStart: string[]

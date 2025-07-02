@@ -174,7 +174,6 @@ $card-bg-color: #ffffff;
     justify-content: center;
   }
   .password-container {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 20rpx;

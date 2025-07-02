@@ -53,7 +53,8 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "首页"
       },
-      "layout": "tabbar"
+      "layout": "tabbar",
+      "needLogin": true
     },
     {
       "path": "pages/about/about",
@@ -110,7 +111,8 @@
       "style": {
         "navigationStyle": "custom"
       },
-      "layout": "tabbar"
+      "layout": "tabbar",
+      "needLogin": true
     },
     {
       "path": "pages/rectification-appeal/appealOrRectify",
@@ -137,7 +139,8 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "任务看板"
       },
-      "layout": "tabbar"
+      "layout": "tabbar",
+      "needLogin": true
     },
     {
       "path": "pages/mine/feedback/index",

@@ -4,19 +4,14 @@
     navigationStyle: 'custom',
   },
   layout: 'tabbar',
+  needLogin: true,
 }
 </route>
 
 <template>
   <view class="container">
     <view class="user-info-section">
-      <wd-img
-        :src="userInfo.row.avatarUrl"
-        width="200rpx"
-        height="200rpx"
-        radius="50%"
-        class="avatar-wrapper"
-      />
+      <img :src="userInfo.row.avatarUrl" class="avatar-wrapper" />
       <view class="nick-name">
         <text>{{ userInfo.row.nickname }}</text>
       </view>
@@ -35,10 +30,10 @@
         @touchcancel="isPressed1 = false"
       >
         <view class="label">
-          <wd-icon name="note" size="25px" />
+          <wd-icon name="note" size="50rpx" />
           <text class="text">{{ t('personal_info') }}</text>
         </view>
-        <wd-icon name="arrow-right" size="20px" />
+        <wd-icon name="arrow-right" size="40rpx" />
       </view>
       <!-- 帮助与反馈 -->
       <view
@@ -50,48 +45,42 @@
         @touchcancel="isPressed2 = false"
       >
         <view class="label">
-          <wd-icon name="evaluation" size="25px" />
+          <wd-icon name="evaluation" size="50rpx" />
           <text class="text">{{ t('help_and_feedback') }}</text>
         </view>
-        <wd-icon name="arrow-right" size="20px" />
+        <wd-icon name="arrow-right" size="40rpx" />
       </view>
       <!-- 隐私与协议 -->
       <view
-        class="picker-card"
+        class="card"
+        @click="handlePrivacyProtocols"
         :class="{ pressed: isPressed3 }"
         @touchstart="isPressed3 = true"
         @touchend="isPressed3 = false"
         @touchcancel="isPressed3 = false"
       >
-        <wd-select-picker
-          class="picker"
-          v-model="choice"
-          use-default-slot
-          :columns="columns"
-          @confirm="handleConfirm"
-          @clear="handleClear"
-          type="radio"
-        >
-          <view class="picker-content">
-            <view class="picker-label">
-              <wd-icon name="spool" size="25px" />
-              <text class="picker-text">{{ t('privacy_protocols') }}</text>
-            </view>
-            <wd-icon name="arrow-right" size="20px" />
-          </view>
-        </wd-select-picker>
+        <view class="label">
+          <wd-icon name="spool" size="50rpx" />
+          <text class="text">{{ t('privacy_protocols') }}</text>
+        </view>
+        <wd-icon name="arrow-right" size="40rpx" />
       </view>
 
       <!-- 退出登录 -->
       <view class="button">
-        <wd-button class="button-section" type="info" @click="handleLogout">
+        <wd-button
+          class="button-section"
+          type="info"
+          @click="handleLogout"
+          custom-style="background-color: #ffffff; color: #536387;"
+        >
           <text>{{ t('logout') }}</text>
         </wd-button>
       </view>
 
       <!-- 版本 -->
       <view class="version">
-        <text>{{ t('version') }}:V 1.4.21</text>
+        <text>{{ t('version') }}: V1.4.21</text>
       </view>
     </view>
   </view>
@@ -133,23 +122,14 @@ const handleFeedback = () => {
 }
 
 // 隐私与协议
-const choice = ref('')
-const columns = ref<Record<string, any>[]>([
-  {
-    value: '/pages/login/privacy',
-    label: t('privacy_policy'),
-  },
-  {
-    value: '/pages/login/service',
-    label: t('user_protocol'),
-  },
-])
-const handleConfirm = () => {
-  uni.navigateTo({ url: choice.value })
-  choice.value = '' // 清空选择
-}
-const handleClear = () => {
-  choice.value = ''
+const handlePrivacyProtocols = () => {
+  uni.showActionSheet({
+    itemList: [t('privacy_policy'), t('user_protocol')],
+    success: (res) => {
+      const urls = ['/pages/login/privacy', '/pages/login/service']
+      uni.navigateTo({ url: urls[res.tapIndex] })
+    },
+  })
 }
 
 // 退出登录
@@ -173,7 +153,7 @@ const handleLogout = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $bg1-color: #3daa9a;
 $bg2-color: #f5f5f5;
 $font1-color: #ffffff;
@@ -181,51 +161,76 @@ $font2-color: #536387;
 $font3-color: #767e8c;
 $card-bg-color: #ffffff;
 $press-color: #e5e5e5;
+
 .container {
   .user-info-section {
     background: $bg1-color;
-    height: 35vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 60rpx;
+    padding-bottom: 60rpx;
 
     .avatar-wrapper {
+      /* 小程序兼容的阴影效果 */
+      /* #ifdef MP-WEIXIN */
+      border: 4rpx solid rgba(255, 255, 255, 0.1);
+      /* #endif */
+      /* #ifndef MP-WEIXIN */
       box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-      margin-top: 100rpx;
+      /* #endif */
+      height: 200rpx;
+      width: 200rpx;
+      border-radius: 100rpx;
+      margin-top: 60rpx;
+      overflow: hidden;
+      flex-shrink: 0;
     }
     .nick-name {
       margin-top: 50rpx;
       font-size: 40rpx;
       color: $font1-color;
       font-weight: bold;
+      text-align: center;
+      word-break: break-all;
     }
     .company-name {
       margin-top: 20rpx;
       margin-bottom: 20rpx;
-      font-size: 35rpx;
+      font-size: 32rpx;
       color: $font1-color;
+      text-align: center;
+      word-break: break-all;
+      padding: 0 40rpx;
     }
   }
   .function-section {
     background: $bg2-color;
-    height: 65vh;
-    padding: 60rpx 20rpx 0rpx;
+    padding: 60rpx 40rpx 60rpx;
 
     .card {
       background-color: $card-bg-color;
-      padding: 30rpx 20rpx;
-      border-radius: 12rpx;
+      padding: 40rpx 30rpx;
+      border-radius: 16rpx;
       margin-bottom: 20rpx;
+      /* 小程序兼容的阴影效果 */
+      /* #ifdef MP-WEIXIN */
+      border: 1rpx solid #f0f0f0;
+      /* #endif */
+      /* #ifndef MP-WEIXIN */
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      /* #endif */
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: background-color 0.3s;
 
       .label {
         display: flex;
+        align-items: center;
         .text {
           margin-left: 60rpx;
-          font-size: large;
+          font-size: 32rpx;
           color: $font2-color;
         }
       }
@@ -235,63 +240,45 @@ $press-color: #e5e5e5;
       background-color: $press-color;
     }
 
-    .picker-card.pressed {
-      background-color: $press-color;
-    }
-    .picker-card {
-      background-color: $card-bg-color;
-      padding: 30rpx 20rpx;
-      border-radius: 12rpx;
-      margin-bottom: 20rpx;
-      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .picker {
-        width: 100%;
-        .picker-content {
-          display: flex;
-          justify-content: space-between;
-          .picker-label {
-            display: flex;
-            .picker-text {
-              margin-left: 60rpx;
-              font-size: large;
-              color: $font2-color;
-            }
-          }
-        }
-      }
-    }
-
     .button {
       display: flex;
       justify-content: center;
-      margin-top: 130rpx;
+      margin-top: 100rpx;
       .button-section {
         color: $font2-color;
         background: $card-bg-color;
-        font-size: 35rpx;
+        font-size: 32rpx;
         width: 70%;
-        height: 120rpx;
+        height: 100rpx;
+        border-radius: 50rpx;
+        /* 小程序兼容的阴影效果 */
+        /* #ifdef MP-WEIXIN */
+        border: 1rpx solid #f0f0f0;
+        /* #endif */
+        /* #ifndef MP-WEIXIN */
+        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+        /* #endif */
       }
     }
     .version {
       display: flex;
       justify-content: center;
-      margin-top: 50rpx;
-      font-size: 30rpx;
+      margin-top: 60rpx;
+      font-size: 28rpx;
       color: $font3-color;
     }
   }
 }
 
-::v-deep .page-content {
+/* 深度选择器优化 */
+:deep(.page-content) {
   padding: 0;
   overflow: hidden;
+  /* #ifndef MP-WEIXIN */
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  /* #endif */
 }
+
 .user-details {
   flex: 1;
 }
@@ -314,6 +301,7 @@ $press-color: #e5e5e5;
   font-size: 24rpx;
   color: #999;
 }
+
 /* 功能区块 */
 .function-section {
   padding: 0 20rpx;
@@ -325,7 +313,9 @@ $press-color: #e5e5e5;
   overflow: hidden;
   background-color: #fff;
   border-radius: 16rpx;
+  /* #ifndef MP-WEIXIN */
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+  /* #endif */
 }
 
 .group-title {
@@ -354,6 +344,7 @@ $press-color: #e5e5e5;
     font-size: 36rpx;
   }
 }
+
 /* 退出登录按钮 */
 .logout-button-wrapper {
   padding: 40rpx 30rpx;

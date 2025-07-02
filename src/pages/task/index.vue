@@ -5,69 +5,74 @@
     navigationBarTitleText: '任务看板',
   },
   layout: 'tabbar',
+  needLogin: true,
 }
 </route>
 
 <template>
   <view class="task-page">
     <!-- 任务看板标题区域 -->
-    <view class="task-board-container">
+    <view class="task-board-container" :class="{ collapsed: isCollapsed }">
       <view class="task-board">
-        <view class="board-title-container">
+        <view class="board-title-container" v-show="!isCollapsed">
           <view class="title-line"></view>
           <h2 class="board-title">{{ t('task_board') }}</h2>
         </view>
         <!-- 数据统计区域 -->
-        <view class="stats-container">
+        <view class="stats-container" :class="{ collapsed: isCollapsed }">
           <!-- 待检查项 -->
-          <view class="stat-item">
+          <view class="stat-item" :class="{ collapsed: isCollapsed }">
             <image class="icon" src="/static/icon/task_check.svg"></image>
-            <view class="stat-content">
-              <view class="stat-label">{{ t('task_pending_check_item') }}</view>
+            <view class="stat-content" :class="{ collapsed: isCollapsed }">
+              <view class="stat-label" v-show="!isCollapsed">
+                {{ t('task_pending_check_item') }}
+              </view>
               <view class="stat-value-wrap">
                 <text class="stat-value">
                   {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingAppealSuccessCount }}
                 </text>
-                <text>{{ t('task_item') }}</text>
+                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
           <!-- 待整改项 -->
-          <view class="stat-item">
+          <view class="stat-item" :class="{ collapsed: isCollapsed }">
             <image class="icon" src="/static/icon/task_check.svg"></image>
-            <view class="stat-content">
-              <view class="stat-label">{{ t('task_rectify_item') }}</view>
+            <view class="stat-content" :class="{ collapsed: isCollapsed }">
+              <view class="stat-label" v-show="!isCollapsed">{{ t('task_rectify_item') }}</view>
               <view class="stat-value-wrap">
                 <text class="stat-value">
                   {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingCount }}
                 </text>
-                <text>{{ t('task_item') }}</text>
+                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
           <!-- 已延期项 -->
-          <view class="stat-item">
+          <view class="stat-item" :class="{ collapsed: isCollapsed }">
             <image class="icon" src="/static/icon/task_audit.svg"></image>
-            <view class="stat-content">
-              <view class="stat-label">{{ t('task_extended_item') }}</view>
+            <view class="stat-content" :class="{ collapsed: isCollapsed }">
+              <view class="stat-label" v-show="!isCollapsed">{{ t('task_extended_item') }}</view>
               <view class="stat-value-wrap">
                 <text class="stat-value">
                   {{ taskBoardDate?.manualDetectionTaskStateEnumTodoExtendedCount }}
                 </text>
-                <text>{{ t('task_item') }}</text>
+                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
           <!-- 待审核项 -->
-          <view class="stat-item">
+          <view class="stat-item" :class="{ collapsed: isCollapsed }">
             <image class="icon" src="/static/icon/task_appeal.svg"></image>
-            <view class="stat-content">
-              <view class="stat-label">{{ t('task_pending_appeal_item') }}</view>
+            <view class="stat-content" :class="{ collapsed: isCollapsed }">
+              <view class="stat-label" v-show="!isCollapsed">
+                {{ t('task_pending_appeal_item') }}
+              </view>
               <view class="stat-value-wrap">
                 <text class="stat-value">
                   {{ taskBoardDate?.detectionTaskRectifiedStateEnumTodoExtendedAppealFailCount }}
                 </text>
-                <text>{{ t('task_item') }}</text>
+                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
@@ -76,29 +81,31 @@
     </view>
 
     <!-- 任务列表 -->
-    <view class="task-list">
-      <view v-if="filteredTasks.length === 0" class="empty-state"></view>
-      <TaskItem
-        v-for="task in filteredTasks"
-        :key="task.id"
-        :type="task.type"
-        :id="task.id"
-        :label="task.label"
-        :shopName="task.shopName"
-        :detectionplanId="task.detectionplanId"
-        :detectionPlanLabel="task.detectionPlanLabel"
-        :detectionRuleIdList="task.detectionRuleIdList"
-        :stateEnum="task.stateEnum"
-        :createdAt="task.createdAt"
-        :role="userRole"
-        @submit="handleTaskSubmit(task)"
-      />
-    </view>
+    <scroll-view class="task-list-scroll" scroll-y @scroll="onScroll" :scroll-top="scrollTop">
+      <view class="task-list">
+        <view v-if="filteredTasks.length === 0" class="empty-state"></view>
+        <TaskItem
+          v-for="task in filteredTasks"
+          :key="task.id"
+          :type="task.type"
+          :id="task.id"
+          :label="task.label"
+          :shopName="task.shopName"
+          :detectionplanId="task.detectionplanId"
+          :detectionPlanLabel="task.detectionPlanLabel"
+          :detectionRuleIdList="task.detectionRuleIdList"
+          :stateEnum="task.stateEnum"
+          :createdAt="task.createdAt"
+          :role="userRole"
+          @submit="handleTaskSubmit(task)"
+        />
+      </view>
 
-    <!-- 查看历史记录 -->
-    <view class="history-link" @click="handlerViewHistory">
-      <text>{{ t('task_view_history_record') }} ></text>
-    </view>
+      <!-- 查看历史记录 -->
+      <view class="history-link" @click="handlerViewHistory">
+        <text>{{ t('task_view_history_record') }} ></text>
+      </view>
+    </scroll-view>
   </view>
 </template>
 
@@ -121,6 +128,13 @@ const userRole: string = 'clerk'
 // 国际化
 const i18n = useI18n()
 const t = i18n.t
+
+// 滚动相关状态
+const isCollapsed = ref(false)
+const scrollTop = ref(0)
+const lastScrollTop = ref(0)
+const COLLAPSE_THRESHOLD = 60 // 折叠阈值，根据实际滚动范围调整
+const EXPAND_THRESHOLD = 30 // 展开阈值
 
 const handlerViewHistory = () => {
   uni.navigateTo({
@@ -171,6 +185,23 @@ const taskBoardDate = ref<TaskBoardStats>({})
 // 加载状态
 const loading = ref(true)
 const error = ref('')
+
+// 滚动事件处理
+const onScroll = (e: any) => {
+  const currentScrollTop = e.detail.scrollTop
+  const scrollDirection = currentScrollTop > lastScrollTop.value ? 'down' : 'up'
+
+  // 向下滚动超过阈值时折叠
+  if (scrollDirection === 'down' && currentScrollTop > COLLAPSE_THRESHOLD && !isCollapsed.value) {
+    isCollapsed.value = true
+  }
+  // 向上滚动到阈值以下时展开
+  else if (scrollDirection === 'up' && currentScrollTop < EXPAND_THRESHOLD && isCollapsed.value) {
+    isCollapsed.value = false
+  }
+
+  lastScrollTop.value = currentScrollTop
+}
 
 // 页面加载时获取数据
 onMounted(async () => {
@@ -245,11 +276,14 @@ $font3-color: #999;
 $font4-color: #333;
 $font5-color: #7d7d7d;
 $input-border-color: #e2e7f5;
+
 .task-page {
   display: flex;
   flex-direction: column;
   background-color: $background-color;
+  height: 100%;
 }
+
 /* task board */
 .task-board-container {
   background-color: $primary-color; // 绿色背景
@@ -257,10 +291,12 @@ $input-border-color: #e2e7f5;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
+  transition: all 0.3s ease;
+  flex-shrink: 0; // 防止被压缩
+
+  &.collapsed {
+    padding: 20rpx 40rpx;
+  }
 
   .task-board {
     background-color: white;
@@ -268,11 +304,13 @@ $input-border-color: #e2e7f5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 600rpx;
+    transition: all 0.3s ease;
 
     .board-title-container {
       display: flex;
       align-items: center;
       margin-bottom: 5px;
+      transition: all 0.3s ease;
 
       .title-line {
         width: 8rpx;
@@ -291,6 +329,13 @@ $input-border-color: #e2e7f5;
     .stats-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
+      gap: 10rpx;
+      transition: all 0.3s ease;
+
+      &.collapsed {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5rpx;
+      }
 
       .stat-item {
         display: flex;
@@ -299,16 +344,38 @@ $input-border-color: #e2e7f5;
         background-color: white;
         border-radius: 8rpx;
         box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+
+        &.collapsed {
+          flex-direction: column;
+          padding: 10rpx;
+          justify-content: center;
+        }
 
         .icon {
           width: 60rpx;
           height: 60rpx;
           margin-right: 20rpx;
+          transition: all 0.3s ease;
+
+          &.collapsed {
+            margin-right: 0;
+            margin-bottom: 5rpx;
+            width: 40rpx;
+            height: 40rpx;
+          }
         }
 
         .stat-content {
-          text-align: left; // 修改为左对齐
+          text-align: left;
           padding-left: 20rpx;
+          transition: all 0.3s ease;
+
+          &.collapsed {
+            padding-left: 0;
+            text-align: center;
+          }
+
           .stat-label {
             font-family: Inter;
             font-weight: 500;
@@ -317,11 +384,13 @@ $input-border-color: #e2e7f5;
             letter-spacing: 0%;
             color: black;
             padding-bottom: 15rpx;
+            transition: all 0.3s ease;
           }
 
           .stat-value-wrap {
             display: flex;
-            align-items: baseline; // 垂直对齐基线
+            align-items: baseline;
+            transition: all 0.3s ease;
 
             .stat-value {
               font-family: Inter;
@@ -344,9 +413,14 @@ $input-border-color: #e2e7f5;
   }
 }
 
+/* 滚动容器 */
+.task-list-scroll {
+  flex: 1;
+  overflow: hidden; // 确保滚动正常工作
+}
+
 /* 任务列表样式 */
 .task-list {
-  margin-top: 500rpx; // 增加顶部边距避免被看板覆盖
   padding: 40rpx 40rpx 0rpx 40rpx;
   .empty-state {
     height: 550rpx;
@@ -356,7 +430,7 @@ $input-border-color: #e2e7f5;
 /* 历史记录链接 */
 .history-link {
   text-align: center;
-  padding: 0 0 30rpx 0;
+  padding: 0 0 300rpx 0;
 
   text {
     color: $font3-color;
