@@ -13,13 +13,23 @@
   <view class="page">
     <view class="page-header">
       <view class="page-header-user">
-        <view class="page-header-user-avatar">
-          <image class="avatar" :src="userInfo.row.avatarUrl" />
+        <view class="page-header-user-info">
+          <view class="page-header-user-avatar">
+            <image class="avatar" :src="userInfo.row.avatarUrl" />
+          </view>
+          <view class="page-header-user-name">
+            {{ userInfo.row.nickname }}
+          </view>
+          <view class="page-header-user-type">{{ displayRole }}</view>
         </view>
-        <view class="page-header-user-name">
-          {{ userInfo.row.nickname }}
+        <view class="page-header-scan">
+          <ScanCode
+            button-type="primary"
+            @success="handleScanSuccess"
+            @fail="handleScanFail"
+            @cancel="handleScanCancel"
+          />
         </view>
-        <view class="page-header-user-type">{{ displayRole }}</view>
       </view>
       <view class="page-header-search">
         <view class="page-header-search-label">{{ t('date') }}</view>
@@ -135,6 +145,8 @@ import { useI18n } from 'vue-i18n'
 import { getDashboard } from '@/api'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
+import ScanCode from '@/components/scan-code/ScanCode.vue'
+import { base64ToUtf8 } from '@/utils/string'
 
 defineOptions({
   name: 'Home',
@@ -293,6 +305,46 @@ const roleMap = {
 const displayRole = computed(() => {
   return roleMap[userInfo.value.row.role] || userInfo.value.row.role
 })
+
+// 扫码处理函数
+const handleScanSuccess = (result: UniApp.ScanCodeSuccessRes) => {
+  console.log('扫描成功:', result)
+  // TODO: 方便debug，之后要注释
+  uni.showToast({
+    title: `扫描成功: ${result.result}`,
+    icon: 'success',
+    duration: 2000,
+  })
+  // 这里可以根据扫描结果进行相应的处理
+  const raw = result.rawData
+  const str = base64ToUtf8(raw)
+  console.log(str)
+  // https://lingshun.ai/downloadapp?action=viewTask&task=id
+  const url = new URL(str)
+  const task = url.searchParams.get('task')
+  const action = url.searchParams.get('action')
+  console.log(task, action)
+  switch (action) {
+    case 'viewTask':
+      uni.navigateTo({
+        url: `/pages/task/detail/index?id=${task}`,
+      })
+      break
+  }
+}
+
+const handleScanFail = (error: any) => {
+  console.error('扫描失败:', error)
+  uni.showToast({
+    title: t('scan_failed'),
+    icon: 'error',
+    duration: 2000,
+  })
+}
+
+const handleScanCancel = () => {
+  console.log('用户取消扫描')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -317,6 +369,32 @@ const displayRole = computed(() => {
   height: 50px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.page-header-user-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.page-header-scan {
+  margin-left: 10px;
+}
+
+.page-header-scan :deep(.scan-code-container) {
+  .scan-button {
+    height: 36px;
+    min-width: 100px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .scan-button:active {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 .page-header-user-avatar {

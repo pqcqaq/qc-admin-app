@@ -150,5 +150,8 @@
   "save_failed": "save failed",
   "china_mainland": "china  mainland",
   "united_states": "united states",
-  "japan": "japan"
+  "japan": "japan",
+  "scan_code": "Scan Code",
+  "scanning": "Scanning...",
+  "scan_failed": "Scan Failed"
 }

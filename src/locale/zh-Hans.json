@@ -151,5 +151,8 @@
   "save_failed": "保存失败",
   "china_mainland": "中国大陆",
   "united_states": "美国",
-  "japan": "日本"
+  "japan": "日本",
+  "scan_code": "扫一扫",
+  "scanning": "扫描中...",
+  "scan_failed": "扫描失败"
 }
