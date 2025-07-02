@@ -108,8 +108,8 @@
       <view class="item_title">
         <text>{{ t('related_stores') }}</text>
       </view>
-      <view v-for="item in formData.shops">
-        <view class="shop-card" :key="item.id">
+      <view v-for="item in formData.shops" :key="item.id">
+        <view class="shop-card">
           <view class="shop-name">{{ item.name }}</view>
           <view class="shop-address">{{ item.address }}</view>
         </view>
@@ -147,13 +147,25 @@ if (userInfo.value.row.gender === 1) {
   gender.value = t('not_filled')
 }
 
+// 职位枚举转换
+const getRoleDisplay = (role: string) => {
+  const roleMap = {
+    manage: t('administrator'), // 管理员
+    'area-manage': t('supervisor'), // 督导
+    clerk: t('clerk'), // 店员
+    'store-manage': t('store_manager'), // 店长
+    // 可以根据需要添加更多角色映射
+  }
+  return roleMap[role] || role
+}
+
 const formData = ref({
   id: userInfo.value.row.id,
   avatar: userInfo.value.row.avatarUrl,
   nickname: userInfo.value.row.nickname,
   phoneNumber: userInfo.value.row.phoneNumber, //国际电话的问题，先写死+86
   gender: gender.value,
-  role: userInfo.value.row.role,
+  role: getRoleDisplay(userInfo.value.row.role),
   employeeStringId: userInfo.value.row.employeeStringId,
   shops: userInfo.value.shops,
 })

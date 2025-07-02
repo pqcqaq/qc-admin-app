@@ -79,7 +79,7 @@
     <view class="task-list">
       <view v-if="filteredTasks.length === 0" class="empty-state"></view>
       <TaskItem
-        v-for="(task, index) in filteredTasks"
+        v-for="task in filteredTasks"
         :key="task.id"
         :type="task.type"
         :id="task.id"
@@ -103,10 +103,10 @@
 </template>
 
 <script setup lang="ts">
-import TaskItem from '@/components/taskItem/index.vue'
 import { useI18n } from 'vue-i18n'
 import { getTaskList, getDashBoardStats } from '@/api'
 import { ref, computed, onMounted } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 
@@ -116,7 +116,7 @@ const { userInfo } = storeToRefs(userStore)
 // 正式使用
 // const userRole = userInfo.value?.row.role || ''
 // 测试使用
-const userRole = 'clerk'
+const userRole: string = 'clerk'
 // const userRole = 'area-manage'
 // 国际化
 const i18n = useI18n()
@@ -174,6 +174,16 @@ const error = ref('')
 
 // 页面加载时获取数据
 onMounted(async () => {
+  await loadData()
+})
+
+// 页面显示时刷新数据
+onShow(async () => {
+  await loadData()
+})
+
+// 封装数据加载逻辑
+const loadData = async () => {
   try {
     loading.value = true
     const [taskRes, statsRes] = await Promise.all([getTaskList(), getDashBoardStats()])
@@ -201,7 +211,7 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
-})
+}
 
 const handleTaskSubmit = (task: any) => {
   console.log(`任务 ${task.id} 已提交`)
