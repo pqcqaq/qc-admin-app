@@ -17,7 +17,7 @@
     </StatusBar>
     <view class="avatar-container">
       <view class="card">
-        <img :src="imgPath" :width="200" :height="200" class="avatar" />
+        <image :src="imgPath" :width="200" :height="200" class="avatar" />
         <view class="button">
           <wd-button type="success" @click="changeAvatar">{{ t('change') }}</wd-button>
         </view>
@@ -112,6 +112,8 @@ $card-bg-color: #ffffff;
       align-items: center;
 
       .avatar {
+        width: 200rpx;
+        height: 200rpx;
         border-radius: 50%;
       }
 

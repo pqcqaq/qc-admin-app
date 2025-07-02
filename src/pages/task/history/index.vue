@@ -12,7 +12,7 @@
     <view class="status_bar">
       <view class="status-bar-left">
         <button class="status_bar_back_button" @click="back">
-          <img src="/static/icon/back.svg"></img>
+          <image src="/static/icon/back.svg" class="back-icon"></image>
         </button>
       </view>
       <view class="status-bar-title">
@@ -219,7 +219,7 @@ $input-border-color: #e2e7f5;
         border-radius: 50%;
         background-color: rgba(255, 255, 255, 0.1);
 
-        image {
+        .back-icon {
           width: 40rpx;
           height: 40rpx;
         }

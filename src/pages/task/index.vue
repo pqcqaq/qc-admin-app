@@ -22,57 +22,77 @@
         <view class="stats-container" :class="{ collapsed: isCollapsed }">
           <!-- 待检查项 -->
           <view class="stat-item" :class="{ collapsed: isCollapsed }">
-            <image class="icon" src="/static/icon/task_check.svg"></image>
+            <image
+              class="icon"
+              :class="{ collapsed: isCollapsed }"
+              src="/static/icon/task_check.svg"
+            ></image>
             <view class="stat-content" :class="{ collapsed: isCollapsed }">
-              <view class="stat-label" v-show="!isCollapsed">
+              <view class="stat-label" :class="{ hidden: isCollapsed }">
                 {{ t('task_pending_check_item') }}
               </view>
-              <view class="stat-value-wrap">
-                <text class="stat-value">
+              <view class="stat-value-wrap" :class="{ collapsed: isCollapsed }">
+                <text class="stat-value" :class="{ collapsed: isCollapsed }">
                   {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingAppealSuccessCount }}
                 </text>
-                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
+                <text class="stat-unit" :class="{ hidden: isCollapsed }">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
           <!-- 待整改项 -->
           <view class="stat-item" :class="{ collapsed: isCollapsed }">
-            <image class="icon" src="/static/icon/task_check.svg"></image>
+            <image
+              class="icon"
+              :class="{ collapsed: isCollapsed }"
+              src="/static/icon/task_check.svg"
+            ></image>
             <view class="stat-content" :class="{ collapsed: isCollapsed }">
-              <view class="stat-label" v-show="!isCollapsed">{{ t('task_rectify_item') }}</view>
-              <view class="stat-value-wrap">
-                <text class="stat-value">
+              <view class="stat-label" :class="{ hidden: isCollapsed }">
+                {{ t('task_rectify_item') }}
+              </view>
+              <view class="stat-value-wrap" :class="{ collapsed: isCollapsed }">
+                <text class="stat-value" :class="{ collapsed: isCollapsed }">
                   {{ taskBoardDate?.detectionTaskRectifiedStateEnumAppealingCount }}
                 </text>
-                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
+                <text class="stat-unit" :class="{ hidden: isCollapsed }">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
           <!-- 已延期项 -->
           <view class="stat-item" :class="{ collapsed: isCollapsed }">
-            <image class="icon" src="/static/icon/task_audit.svg"></image>
+            <image
+              class="icon"
+              :class="{ collapsed: isCollapsed }"
+              src="/static/icon/task_audit.svg"
+            ></image>
             <view class="stat-content" :class="{ collapsed: isCollapsed }">
-              <view class="stat-label" v-show="!isCollapsed">{{ t('task_extended_item') }}</view>
-              <view class="stat-value-wrap">
-                <text class="stat-value">
+              <view class="stat-label" :class="{ hidden: isCollapsed }">
+                {{ t('task_extended_item') }}
+              </view>
+              <view class="stat-value-wrap" :class="{ collapsed: isCollapsed }">
+                <text class="stat-value" :class="{ collapsed: isCollapsed }">
                   {{ taskBoardDate?.manualDetectionTaskStateEnumTodoExtendedCount }}
                 </text>
-                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
+                <text class="stat-unit" :class="{ hidden: isCollapsed }">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
           <!-- 待审核项 -->
           <view class="stat-item" :class="{ collapsed: isCollapsed }">
-            <image class="icon" src="/static/icon/task_appeal.svg"></image>
+            <image
+              class="icon"
+              :class="{ collapsed: isCollapsed }"
+              src="/static/icon/task_appeal.svg"
+            ></image>
             <view class="stat-content" :class="{ collapsed: isCollapsed }">
-              <view class="stat-label" v-show="!isCollapsed">
+              <view class="stat-label" :class="{ hidden: isCollapsed }">
                 {{ t('task_pending_appeal_item') }}
               </view>
-              <view class="stat-value-wrap">
-                <text class="stat-value">
+              <view class="stat-value-wrap" :class="{ collapsed: isCollapsed }">
+                <text class="stat-value" :class="{ collapsed: isCollapsed }">
                   {{ taskBoardDate?.detectionTaskRectifiedStateEnumTodoExtendedAppealFailCount }}
                 </text>
-                <text v-show="!isCollapsed">{{ t('task_item') }}</text>
+                <text class="stat-unit" :class="{ hidden: isCollapsed }">{{ t('task_item') }}</text>
               </view>
             </view>
           </view>
@@ -291,7 +311,7 @@ $input-border-color: #e2e7f5;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  transition: all 0.3s ease;
+  transition: padding 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   flex-shrink: 0; // 防止被压缩
 
   &.collapsed {
@@ -304,19 +324,25 @@ $input-border-color: #e2e7f5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 600rpx;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     .board-title-container {
       display: flex;
       align-items: center;
       margin-bottom: 5px;
-      transition: all 0.3s ease;
+      opacity: 1;
+      max-height: 60rpx;
+      overflow: hidden;
+      transition:
+        opacity 0.3s ease,
+        max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
       .title-line {
         width: 8rpx;
         height: 40rpx;
         background-color: $primary-color;
         margin-right: 20rpx;
+        transition: all 0.3s ease;
       }
 
       .board-title {
@@ -330,7 +356,9 @@ $input-border-color: #e2e7f5;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10rpx;
-      transition: all 0.3s ease;
+      transition:
+        grid-template-columns 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        gap 0.3s ease 0.1s;
 
       &.collapsed {
         grid-template-columns: repeat(4, 1fr);
@@ -344,19 +372,27 @@ $input-border-color: #e2e7f5;
         background-color: white;
         border-radius: 8rpx;
         box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
+        transition:
+          flex-direction 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          padding 0.3s ease 0.1s,
+          justify-content 0.4s ease;
 
         &.collapsed {
           flex-direction: column;
           padding: 10rpx;
           justify-content: center;
+          align-items: center;
         }
 
         .icon {
           width: 60rpx;
           height: 60rpx;
           margin-right: 20rpx;
-          transition: all 0.3s ease;
+          transition:
+            width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+            height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+            margin-right 0.3s ease 0.1s,
+            margin-bottom 0.3s ease 0.1s;
 
           &.collapsed {
             margin-right: 0;
@@ -369,11 +405,18 @@ $input-border-color: #e2e7f5;
         .stat-content {
           text-align: left;
           padding-left: 20rpx;
-          transition: all 0.3s ease;
+          width: 100%;
+          transition:
+            text-align 0.4s ease,
+            padding-left 0.3s ease 0.1s;
 
           &.collapsed {
             padding-left: 0;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
           }
 
           .stat-label {
@@ -384,13 +427,30 @@ $input-border-color: #e2e7f5;
             letter-spacing: 0%;
             color: black;
             padding-bottom: 15rpx;
-            transition: all 0.3s ease;
+            opacity: 1;
+            max-height: 40rpx;
+            overflow: hidden;
+            transition:
+              opacity 0.25s ease,
+              max-height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              padding-bottom 0.3s ease;
+
+            &.hidden {
+              opacity: 0;
+              max-height: 0;
+              padding-bottom: 0;
+            }
           }
 
           .stat-value-wrap {
             display: flex;
             align-items: baseline;
-            transition: all 0.3s ease;
+            justify-content: flex-start;
+            transition: justify-content 0.3s ease 0.1s;
+
+            &.collapsed {
+              justify-content: center;
+            }
 
             .stat-value {
               font-family: Inter;
@@ -400,11 +460,25 @@ $input-border-color: #e2e7f5;
               letter-spacing: 0%;
               color: black;
               margin-right: 10px;
+              transition:
+                margin-right 0.3s ease,
+                font-size 0.3s ease;
+
+              &.collapsed {
+                margin-right: 0;
+                font-size: 16px;
+              }
             }
 
-            text {
+            .stat-unit {
               font-size: 12px;
               color: $font3-color;
+              opacity: 1;
+              transition: opacity 0.25s ease;
+
+              &.hidden {
+                opacity: 0;
+              }
             }
           }
         }

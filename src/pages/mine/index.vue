@@ -11,7 +11,7 @@
 <template>
   <view class="container">
     <view class="user-info-section">
-      <img :src="userInfo.row.avatarUrl" class="avatar-wrapper" />
+      <image :src="userInfo.row.avatarUrl" class="avatar-wrapper" />
       <view class="nick-name">
         <text>{{ userInfo.row.nickname }}</text>
       </view>
@@ -68,14 +68,9 @@
 
       <!-- 退出登录 -->
       <view class="button">
-        <wd-button
-          class="button-section"
-          type="info"
-          @click="handleLogout"
-          custom-style="background-color: #ffffff; color: #536387;"
-        >
+        <view class="custom-button" @click="handleLogout">
           <text>{{ t('logout') }}</text>
-        </wd-button>
+        </view>
       </view>
 
       <!-- 版本 -->
@@ -88,7 +83,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/store'
-import { useToast } from 'wot-design-uni'
+import { toast } from '@/utils/toast'
 import { useUpload } from '@/utils/uploadFile'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
@@ -103,7 +98,6 @@ const t = i18n.t
 const userStore = useUserStore()
 // 使用storeToRefs解构userInfo
 const { userInfo } = storeToRefs(userStore)
-const toast = useToast()
 const hasLogin = ref(false)
 
 onShow((options) => {
@@ -143,7 +137,7 @@ const handleLogout = () => {
         useUserStore().logout()
         hasLogin.value = false
         // 执行退出登录逻辑
-        toast.show(t('logout_successful'))
+        toast.success(t('logout_successful'))
         uni.navigateTo({
           url: '/pages/login/index',
         })
@@ -244,13 +238,20 @@ $press-color: #e5e5e5;
       display: flex;
       justify-content: center;
       margin-top: 100rpx;
-      .button-section {
+
+      .custom-button {
         color: $font2-color;
         background: $card-bg-color;
         font-size: 32rpx;
         width: 70%;
         height: 100rpx;
         border-radius: 50rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        user-select: none;
         /* 小程序兼容的阴影效果 */
         /* #ifdef MP-WEIXIN */
         border: 1rpx solid #f0f0f0;
@@ -258,8 +259,14 @@ $press-color: #e5e5e5;
         /* #ifndef MP-WEIXIN */
         box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
         /* #endif */
+
+        &:active {
+          transform: scale(0.98);
+          background-color: #f5f5f5;
+        }
       }
     }
+
     .version {
       display: flex;
       justify-content: center;
@@ -324,38 +331,5 @@ $press-color: #e5e5e5;
   font-weight: 500;
   color: #999;
   background-color: #fafafa;
-}
-
-:deep(.wd-cell) {
-  border-bottom: 1rpx solid #f5f5f5;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  .wd-cell__title {
-    margin-left: 10rpx;
-    font-size: 32rpx;
-    color: #333;
-  }
-
-  .cell-icon {
-    margin-right: 20rpx;
-    font-size: 36rpx;
-  }
-}
-
-/* 退出登录按钮 */
-.logout-button-wrapper {
-  padding: 40rpx 30rpx;
-}
-
-:deep(.wd-button--danger) {
-  height: 88rpx;
-  font-size: 32rpx;
-  line-height: 88rpx;
-  color: #fff;
-  background-color: #f53f3f;
-  border-radius: 44rpx;
 }
 </style>

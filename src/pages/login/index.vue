@@ -11,140 +11,153 @@
       <image class="login-logo" :src="appLogo" mode="aspectFit"></image>
     </view>
     <view class="login-form">
-      <wd-tabs
-        v-model="tab"
-        animated
-        class="login-tabs"
-        :line-height="4"
-        :line-width="80"
-        :duration="500"
-      >
-        <wd-tab :title="t('login_by_account')" class="login-tab">
-          <view class="login-input-group">
-            <view class="input-wrapper">
-              <wd-input
+      <!-- 自定义标签页 -->
+      <view class="custom-tabs">
+        <view class="tab-header">
+          <view class="tab-item" :class="{ active: tab === 0 }" @click="switchTab(0)">
+            {{ t('login_by_account') }}
+          </view>
+          <view class="tab-item" :class="{ active: tab === 1 }" @click="switchTab(1)">
+            {{ t('login_by_verification_code') }}
+          </view>
+        </view>
+        <view class="tab-indicator" :style="{ left: tab * 50 + '%' }"></view>
+      </view>
+
+      <!-- 标签页内容 -->
+      <view class="tab-content">
+        <!-- 账号密码登录 -->
+        <view v-if="tab === 0" class="login-input-group">
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="user" size="40rpx" class="prefix-icon" />
+              </view>
+              <input
                 v-model="loginForm.accountName"
                 :placeholder="t('please_enter_your_username')"
-                clearable
-                class="login-input"
-                :border="false"
-                required
-              >
-                <template #prefix>
-                  <view class="prefix-container">
-                    <img src="@/static/icon/user_icon.svg" class="icon" />
-                  </view>
-                </template>
-              </wd-input>
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view v-if="loginForm.accountName" class="input-suffix" @click="clearAccountName">
+                <wd-icon name="close" size="32rpx" class="clear-icon" />
+              </view>
             </view>
-            <view class="input-wrapper">
-              <wd-input
+          </view>
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="lock" size="40rpx" class="prefix-icon" />
+              </view>
+              <input
                 v-model="loginForm.password"
+                :password="!showPassword"
                 :placeholder="t('please_enter_your_password')"
-                clearable
-                show-password
-                class="login-input"
-                :border="false"
-                required
-              >
-                <template #prefix>
-                  <view class="prefix-container">
-                    <img src="@/static/icon/password_icon.svg" class="icon" />
-                  </view>
-                </template>
-              </wd-input>
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view class="input-suffix">
+                <wd-icon
+                  v-if="loginForm.password"
+                  name="close"
+                  size="32rpx"
+                  class="clear-icon"
+                  @click="clearPassword"
+                />
+                <view class="divider-vertical"></view>
+                <wd-icon
+                  :name="showPassword ? 'view' : 'eye-close'"
+                  size="32rpx"
+                  class="eye-icon"
+                  @click="togglePassword"
+                />
+              </view>
             </view>
           </view>
-        </wd-tab>
-        <wd-tab :title="t('login_by_verification_code')" class="login-tab">
-          <view class="login-input-group">
-            <view class="input-wrapper">
-              <wd-input
-                v-model="smsPhone"
-                prefix-icon="phone"
-                :placeholder="t('please_enter_your_phone_number')"
-                clearable
-                class="login-input"
-                :border="false"
-                required
-              >
-                <template #prefix>
-                  <view class="prefix-container">
-                    <img src="@/static/icon/phone_icon.svg" class="icon" />
-                    <text class="prefix-text">
-                      +86
-                      <wd-divider vertical />
-                    </text>
-                  </view>
-                </template>
-              </wd-input>
-            </view>
-            <view class="input-wrapper">
-              <wd-input
-                v-model="smsCode"
-                class="login-input"
-                :placeholder="t('please_enter_your_verification_code')"
-                clearable
-                :border="false"
-                required
-              >
-                <template #prefix>
-                  <view class="prefix-container">
-                    <img src="@/static/icon/code_icon.svg" class="icon" />
-                  </view>
-                </template>
-                <template #suffix>
-                  <wd-divider vertical />
-                  <view
-                    class="sms-send-btn"
-                    @click="onSendSmsClick"
-                    :style="{
-                      color: smsCountdown === 0 && isValidPhone(smsPhone) ? '#3daa9a' : '#ccc',
-                      cursor:
-                        smsCountdown === 0 && isValidPhone(smsPhone) ? 'pointer' : 'not-allowed',
-                      userSelect: 'none',
-                    }"
-                  >
-                    {{ smsCountdown > 0 ? smsCountdown + 's' : t('send_a_verification_code') }}
-                  </view>
-                </template>
-              </wd-input>
-            </view>
-          </view>
-        </wd-tab>
-      </wd-tabs>
+        </view>
 
-      <!-- 登录按钮组 -->
+        <!-- 验证码登录 -->
+        <view v-if="tab === 1" class="login-input-group">
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="phone" size="40rpx" class="prefix-icon" />
+                <text class="prefix-text">+86</text>
+                <view class="divider-vertical"></view>
+              </view>
+              <input
+                v-model="smsPhone"
+                type="number"
+                :placeholder="t('please_enter_your_phone_number')"
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view v-if="smsPhone" class="input-suffix" @click="clearSmsPhone">
+                <wd-icon name="close" size="32rpx" class="clear-icon" />
+              </view>
+            </view>
+          </view>
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="chat" size="40rpx" class="prefix-icon" />
+              </view>
+              <input
+                v-model="smsCode"
+                type="number"
+                :placeholder="t('please_enter_your_verification_code')"
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view class="input-suffix">
+                <wd-icon
+                  v-if="smsCode"
+                  name="close"
+                  size="32rpx"
+                  class="clear-icon"
+                  @click="clearSmsCode"
+                />
+                <view class="divider-vertical"></view>
+                <view
+                  class="sms-send-btn"
+                  @click="onSendSmsClick"
+                  :class="{
+                    disabled: smsCountdown > 0 || !isValidPhone(smsPhone),
+                    enabled: smsCountdown === 0 && isValidPhone(smsPhone),
+                  }"
+                >
+                  {{ smsCountdown > 0 ? smsCountdown + 's' : t('send_a_verification_code') }}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 登录按钮 -->
       <view class="login-buttons">
-        <wd-button
-          :type="buttonType"
-          size="large"
-          block
+        <view
+          class="custom-button"
+          :class="{
+            'button-success': buttonType === 'success',
+            'button-info': buttonType === 'info',
+          }"
           @click="handleLogin"
-          class="account-login-btn"
         >
           <wd-icon name="right" size="18rpx" class="login-icon"></wd-icon>
           {{ t('login') }}
-        </wd-button>
-        <!-- 微信小程序一键登录按钮 -->
-        <!-- #ifdef MP-WEIXIN -->
-        <!-- <view class="divider">
-          <view class="divider-line"></view>
-          <view class="divider-text">或</view>
-          <view class="divider-line"></view>
-        </view> -->
-        <!-- #endif -->
+        </view>
       </view>
+
       <view class="forget-password" @click="forgetPassword">{{ t('forget_password') }}?</view>
     </view>
+
     <!-- 隐私协议勾选 -->
     <view class="privacy-agreement">
-      <wd-checkbox
-        v-model="agreePrivacy"
-        shape="circle"
-        class="privacy-checkbox"
-        active-color="var(--wot-color-theme, #ffffff)"
-      >
+      <view class="custom-checkbox" @click="togglePrivacy">
+        <view class="checkbox-inner" :class="{ checked: agreePrivacy }">
+          <text v-if="agreePrivacy" class="check-mark">✓</text>
+        </view>
         <view class="agreement-text">
           {{ t('accept_protocol') }}
           <text class="agreement-link" @click.stop="handleAgreement('user')">
@@ -155,9 +168,8 @@
             《{{ t('privacy_policy') }}》
           </text>
         </view>
-      </wd-checkbox>
+      </view>
     </view>
-    <!-- <view class="login-footer"></view> -->
   </view>
 </template>
 
@@ -169,13 +181,13 @@ import { toast } from '@/utils/toast'
 import { isTableBar } from '@/utils/index'
 import { ILoginParams } from '@/api'
 import { useI18n } from 'vue-i18n'
-import { ButtonType } from 'wot-design-uni/components/wd-button/types'
 import { getsmscode } from '@/api/auth'
 
 const i18n = useI18n()
 const t = i18n.t
 
 const tab = ref<number>(0)
+const showPassword = ref(false)
 
 const redirectRoute = ref('')
 
@@ -185,12 +197,13 @@ const appLogo = ref(import.meta.env.VITE_APP_LOGO || '/static/logo.png')
 
 // 初始化store
 const userStore = useUserStore()
-// 路由位置
+
 // 登录表单数据
 const loginForm = ref<ILoginParams>({
   accountName: '',
   password: '',
 })
+
 // 隐私协议勾选状态
 const agreePrivacy = ref(false)
 
@@ -199,6 +212,38 @@ const smsPhone = ref('')
 const smsCode = ref('')
 const smsCountdown = ref(0)
 const smsSending = ref(false)
+
+// 标签页切换
+const switchTab = (index: number) => {
+  tab.value = index
+}
+
+// 切换密码显示
+const togglePassword = () => {
+  showPassword.value = !showPassword.value
+}
+
+// 切换隐私协议同意状态
+const togglePrivacy = () => {
+  agreePrivacy.value = !agreePrivacy.value
+}
+
+// 清空输入框
+const clearAccountName = () => {
+  loginForm.value.accountName = ''
+}
+
+const clearPassword = () => {
+  loginForm.value.password = ''
+}
+
+const clearSmsPhone = () => {
+  smsPhone.value = ''
+}
+
+const clearSmsCode = () => {
+  smsCode.value = ''
+}
 
 // 手机号校验方法
 const isValidPhone = (phone: string) => /^1[3-9]\d{9}$/.test(phone)
@@ -261,15 +306,13 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   } else {
     uni.navigateTo({ url: '/pages/login/privacy' })
   }
-  // showToast(`查看${title}`)
-  // 实际项目中可以跳转到对应的协议页面
   uni.navigateTo({
     url: `/pages/login/${type}`,
   })
 }
 
 //button 类型
-const buttonType = ref<ButtonType>('info')
+const buttonType = ref<string>('info')
 
 // 忘记密码
 const forgetPassword = () => {}
@@ -341,7 +384,6 @@ $border-color: rgba(238, 238, 238);
 $divider-color: #999999;
 $font1-color: #ffffff;
 $border-shadow: rgba(0, 0, 0, 0.25);
-$account-login-btn-active-border-shadow: rgba(25, 137, 250, 0.2);
 $logout-input-bg-color: rgba(245, 247, 250, 0.7);
 
 .login-container {
@@ -382,8 +424,43 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
     box-shadow: 0 10rpx 20rpx $border-shadow;
     padding: 0rpx 24rpx 0rpx 24rpx;
 
-    .login-tabs {
-      height: 100%;
+    .custom-tabs {
+      position: relative;
+      margin-bottom: 20rpx;
+
+      .tab-header {
+        display: flex;
+        height: 80rpx;
+
+        .tab-item {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30rpx;
+          color: #666;
+          transition: color 0.3s ease;
+
+          &.active {
+            color: $primary-color;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .tab-indicator {
+        position: absolute;
+        bottom: 0;
+        width: 50%;
+        height: 4rpx;
+        background-color: $primary-color;
+        border-radius: 2rpx;
+        transition: left 0.3s ease;
+      }
+    }
+
+    .tab-content {
+      min-height: 200rpx;
     }
 
     .forget-password {
@@ -411,25 +488,95 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
         border-radius: 16rpx;
         overflow: hidden;
 
-        .prefix-container {
-          display: flex;
-          align-items: center; /* 垂直居中对齐 */
-          gap: 8rpx; /* 图标和文字之间的间距，可根据实际调整 */
-        }
-
         &:last-child {
           margin-bottom: 0;
         }
 
-        .login-input {
+        .custom-input {
+          display: flex;
+          align-items: center;
           padding: 12rpx 20rpx;
           background-color: $logout-input-bg-color;
           border-radius: 16rpx;
           transition: all 0.3s ease;
           border: 2px $border-color solid;
+          min-height: 80rpx;
+          box-sizing: border-box;
 
-          .text {
-            color: $primary-color;
+          .input-prefix {
+            display: flex;
+            align-items: center;
+            margin-right: 20rpx;
+            flex-shrink: 0;
+
+            .prefix-icon {
+              margin-right: 8rpx;
+            }
+
+            .prefix-text {
+              margin-left: 16rpx;
+              margin-right: 16rpx;
+              color: $primary-color;
+              font-size: 28rpx;
+            }
+          }
+
+          .input-field {
+            flex: 1;
+            font-size: 28rpx;
+            color: #333;
+            background: transparent;
+            border: none;
+            outline: none;
+          }
+
+          .input-placeholder {
+            color: #999;
+          }
+
+          .input-suffix {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            margin-left: 20rpx;
+
+            .clear-icon {
+              color: #999;
+              cursor: pointer;
+            }
+
+            .eye-icon {
+              color: #999;
+              cursor: pointer;
+            }
+
+            .sms-send-btn {
+              padding: 0 16rpx;
+              height: 56rpx;
+              line-height: 56rpx;
+              font-size: 24rpx;
+              border-radius: 8rpx;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              user-select: none;
+
+              &.enabled {
+                color: $primary-color;
+                background-color: rgba(61, 170, 154, 0.1);
+              }
+
+              &.disabled {
+                color: #ccc;
+                cursor: not-allowed;
+              }
+            }
+
+            .divider-vertical {
+              width: 1rpx;
+              height: 32rpx;
+              background-color: #e5e5e5;
+              margin: 0 16rpx;
+            }
           }
         }
       }
@@ -440,7 +587,7 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
       flex-direction: column;
       gap: 36rpx;
 
-      .account-login-btn {
+      .custom-button {
         height: 96rpx;
         width: 100%;
         margin: 0 auto;
@@ -452,6 +599,8 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
+        user-select: none;
 
         .login-icon {
           margin-right: 8rpx;
@@ -459,25 +608,22 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
           transition: all 0.3s ease;
         }
 
+        &.button-success {
+          background-color: rgb(61, 170, 154);
+          color: white;
+        }
+
+        &.button-info {
+          background-color: #6c757d;
+          color: white;
+        }
+
         &:active {
-          box-shadow: 0 5rpx 10rpx rgba(25, 137, 250, 0.2);
           transform: scale(0.98);
 
           .login-icon {
             transform: translateX(3rpx);
           }
-        }
-      }
-
-      .divider {
-        display: flex;
-        align-items: center;
-        margin: 24rpx 0;
-
-        .divider-text {
-          padding: 0 24rpx;
-          font-size: 24rpx;
-          color: $divider-color;
         }
       }
     }
@@ -489,26 +635,51 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
     margin: 30rpx 0 40rpx;
     animation: fadeIn 0.8s ease-out 0.4s both;
 
-    .privacy-checkbox {
+    .custom-checkbox {
       display: flex;
-      align-items: center;
-    }
+      align-items: flex-start;
+      cursor: pointer;
 
-    .agreement-text {
-      font-size: 26rpx;
-      line-height: 1.6;
-      color: $font1-color;
-
-      .agreement-link {
-        cursor: pointer;
-        text-decoration: underline;
-        padding: 0 4rpx;
-        font-weight: 500;
+      .checkbox-inner {
+        width: 32rpx;
+        height: 32rpx;
+        border: 2rpx solid white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16rpx;
         transition: all 0.3s ease;
+        flex-shrink: 0;
+        margin-top: 4rpx;
 
-        &:active {
-          opacity: 0.8;
-          transform: scale(0.98);
+        &.checked {
+          background-color: white;
+
+          .check-mark {
+            color: $primary-color;
+            font-size: 20rpx;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .agreement-text {
+        font-size: 26rpx;
+        line-height: 1.6;
+        color: $font1-color;
+
+        .agreement-link {
+          cursor: pointer;
+          text-decoration: underline;
+          padding: 0 4rpx;
+          font-weight: 500;
+          transition: all 0.3s ease;
+
+          &:active {
+            opacity: 0.8;
+            transform: scale(0.98);
+          }
         }
       }
     }
@@ -534,14 +705,5 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-::v-deep .page-content {
-  padding: 0;
-}
-
-.sms-send-btn {
-  display: inline-block;
-  padding: 0 8rpx;
 }
 </style>

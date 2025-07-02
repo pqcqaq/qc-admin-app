@@ -27,7 +27,7 @@
         </wd-button>
       </view>
       <view class="qr-code" @click="handleImageClick">
-        <img :src="qrCode" />
+        <image :src="qrCode" class="qr-code-image" />
       </view>
       <view class="font">
         <text>{{ t('scan_the_QR_code_to_add_our_WeChat_for_business') }}</text>
@@ -187,6 +187,10 @@ $font-color: #4d515b;
       display: flex;
       justify-content: center;
       margin-top: 80rpx;
+      .qr-code-image {
+        width: 400rpx;
+        height: 400rpx;
+      }
     }
 
     .font {

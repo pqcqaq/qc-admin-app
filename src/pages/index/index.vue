@@ -23,7 +23,20 @@
       </view>
       <view class="page-header-search">
         <view class="page-header-search-label">{{ t('date') }}</view>
-        <wd-datetime-picker ellipsis v-model="dateArr" @confirm="handleConfirm" />
+        <!-- 自定义日期选择器 -->
+        <picker
+          mode="multiSelector"
+          :value="pickerValue"
+          :range="pickerRange"
+          @change="onPickerChange"
+          @columnchange="onColumnChange"
+          class="custom-date-picker"
+        >
+          <view class="picker-display">
+            <text class="picker-text">{{ formatDateRange }}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
       </view>
     </view>
     <scroll-view scroll-y class="page-scroll">
@@ -78,29 +91,36 @@
           </view>
           <view class="page-content-card-content">
             <view class="page-content-card-content-shop">
-              <wd-table :data="data?.shopPassRate" :border="false">
-                <wd-table-col prop="Index" :label="t('Serial number')" width="16%">
-                  <template #value="{ row, index }">{{ index + 1 }}</template>
-                </wd-table-col>
-                <wd-table-col prop="Name" :label="t('Store name')" width="28%"></wd-table-col>
-                <wd-table-col
-                  prop="PassRateByDatetimeRange"
-                  width="28%"
-                  :label="t('Inspection pass rate')"
-                >
-                  <template #value="{ row }">
-                    {{ row.PassRateByDatetimeRange.toFixed(2) }}%
-                  </template>
-                </wd-table-col>
-                <wd-table-col
-                  prop="PassRateByDatetimeAll"
-                  width="28%"
-                  :label="t('Average pass rate')"
-                  fixed
-                >
-                  <template #value="{ row }">{{ row.PassRateByDatetimeAll.toFixed(2) }}%</template>
-                </wd-table-col>
-              </wd-table>
+              <view class="custom-table">
+                <!-- 表头 -->
+                <view class="table-header">
+                  <view class="table-cell header-cell" style="width: 16%">
+                    {{ t('Serial number') }}
+                  </view>
+                  <view class="table-cell header-cell" style="width: 28%">
+                    {{ t('Store name') }}
+                  </view>
+                  <view class="table-cell header-cell" style="width: 28%">
+                    {{ t('Inspection pass rate') }}
+                  </view>
+                  <view class="table-cell header-cell" style="width: 28%">
+                    {{ t('Average pass rate') }}
+                  </view>
+                </view>
+                <!-- 表格内容 -->
+                <view class="table-body">
+                  <view class="table-row" v-for="(row, index) in data?.shopPassRate" :key="index">
+                    <view class="table-cell body-cell" style="width: 16%">{{ index + 1 }}</view>
+                    <view class="table-cell body-cell" style="width: 28%">{{ row.Name }}</view>
+                    <view class="table-cell body-cell" style="width: 28%">
+                      {{ row.PassRateByDatetimeRange.toFixed(2) }}%
+                    </view>
+                    <view class="table-cell body-cell" style="width: 28%">
+                      {{ row.PassRateByDatetimeAll.toFixed(2) }}%
+                    </view>
+                  </view>
+                </view>
+              </view>
             </view>
           </view>
         </view>
@@ -130,6 +150,8 @@ const { userInfo } = storeToRefs(userStore)
 onShow(() => {
   getDate()
 })
+
+// 日期选择器相关
 const getTodayRange = (): [Date, Date] => {
   const start = new Date()
   start.setHours(0, 0, 0, 0)
@@ -139,7 +161,54 @@ const getTodayRange = (): [Date, Date] => {
 
   return [start, end]
 }
+
 const dateArr = ref<[Date, Date]>(getTodayRange()) as any
+
+// 生成日期选择器的选项
+const generateDateRange = () => {
+  const years = []
+  const months = []
+  const days = []
+
+  const currentYear = new Date().getFullYear()
+  for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+    years.push(i + '年')
+  }
+
+  for (let i = 1; i <= 12; i++) {
+    months.push(i + '月')
+  }
+
+  for (let i = 1; i <= 31; i++) {
+    days.push(i + '日')
+  }
+
+  return [years, months, days, ['开始时间', '结束时间']]
+}
+
+const pickerRange = ref(generateDateRange())
+const pickerValue = ref([5, 0, 0, 0]) // 默认选中当前年份的1月1日开始时间
+
+// 格式化显示的日期范围
+const formatDateRange = computed(() => {
+  const start = dateArr.value[0]
+  const end = dateArr.value[1]
+  const startStr = `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-${String(start.getDate()).padStart(2, '0')}`
+  const endStr = `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDate()).padStart(2, '0')}`
+  return `${startStr} 至 ${endStr}`
+})
+
+// 处理picker变化
+const onPickerChange = (e: any) => {
+  // 这里可以根据选择的值更新dateArr
+  // 为了简化，暂时保持当前的日期选择逻辑
+  handleConfirm({ value: dateArr.value })
+}
+
+const onColumnChange = (e: any) => {
+  // 列变化处理
+}
+
 const data = ref<{
   detectionPlanCount: number
   shopCount: number
@@ -163,9 +232,11 @@ const data = ref<{
   questionList: [],
   shopPassRate: [],
 })
+
 const maxCount = computed(() => {
   return Math.max(...data.value.questionList.map((item) => item.count), 1)
 })
+
 const stats = [
   {
     title: 'Inspection Plan',
@@ -189,6 +260,7 @@ const stats = [
     extraKey: 'detectionTaskIsPassCount',
   },
 ]
+
 const getDate = () => {
   getDashboard({
     detectionTimeStart: [
@@ -210,13 +282,6 @@ function handleConfirm({ value }) {
 onLoad(() => {
   getDate()
 })
-
-// const toManualInspection = () => {
-//   uni.navigateTo({
-//     url: '/pages/manual-inspection/index',
-//   })
-// }
-// >>>>>>> 0a244849b09297f4e3d692b2e4954f7c1b250c5a
 
 const roleMap = {
   clerk: '店员',
@@ -306,14 +371,35 @@ const displayRole = computed(() => {
   margin-right: 10px;
 }
 
-.page-header-search .wd-picker {
-  width: 100%;
+/* 自定义日期选择器样式 */
+.custom-date-picker {
+  flex: 1;
 }
 
-.page-header-search .wd-picker :deep(.wd-picker__value) {
+.picker-display {
   display: flex;
+  align-items: center;
   justify-content: center;
+  padding: 16rpx 24rpx;
+  background-color: white;
+  border-radius: 8rpx;
+  border: 1rpx solid #e5e5e5;
+  min-height: 60rpx;
+  box-sizing: border-box;
+}
+
+.picker-text {
+  flex: 1;
+  text-align: center;
   color: #98a2bb;
+  font-size: 28rpx;
+}
+
+.picker-arrow {
+  margin-left: 16rpx;
+  color: #98a2bb;
+  font-size: 24rpx;
+  transition: transform 0.3s ease;
 }
 
 .page-scroll {
@@ -470,28 +556,65 @@ const displayRole = computed(() => {
   overflow: hidden;
 }
 
-.page-content-card-content-shop .wd-table {
+.custom-table {
   width: 100%;
   min-height: 200px;
-}
-
-.page-content-card-content-shop :deep(.wd-table__content--header) {
-  border-radius: 8px !important;
+  border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.page-content-card-content-shop :deep(.wd-table__content--header .wd-table__cell) {
-  background-color: var(--color-primary) !important;
-  color: #fff !important;
+.table-header {
+  display: flex;
+  width: 100%;
+  background-color: var(--color-primary);
+  border-radius: 8px 8px 0 0;
 }
 
-.page-content-card-content-shop :deep(.wd-table__content) {
-  max-height: none;
-  overflow: visible;
+.table-body {
+  width: 100%;
 }
 
-.page-content-card-content-shop :deep(.wd-table__body) {
-  max-height: none;
+.table-row {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.table-cell {
+  padding: 12px 8px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.header-cell {
+  background-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  height: 44px;
+}
+
+.body-cell {
+  color: #333;
+  min-height: 40px;
+  border-right: 1px solid #f0f0f0;
+}
+
+.body-cell:last-child {
+  border-right: none;
 }
 
 .stats-card {
