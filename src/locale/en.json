@@ -17,7 +17,6 @@
   "please_enter_your_phone_number": "please enter your phone number",
   "please_enter_your_verification_code": "please enter your verification code",
   "send_a_verification_code": "send a verification code",
-
   "task_board": "Task Board",
   "task_item": "Item",
   "task_pending_check_item": "Pending Check Items",
@@ -100,7 +99,6 @@
   "logout_successful": "logout successful",
   "failed": "failed",
   "change_successfully": "change successfully",
-
   "manual_inspection_item_report": "manual_inspection_item_report",
   "inspection_item": "inspection item",
   "next": "next",
@@ -133,7 +131,6 @@
   "failure": "failure",
   "ok": "ok",
   "Serial number": "NO.",
-
   "change_failed": "change failed",
   "verification_code_sent": "verification code sent",
   "change_successfully_please_relogin": "Change successfully! Please relogin.",
@@ -153,5 +150,10 @@
   "japan": "japan",
   "scan_code": "Scan Code",
   "scanning": "Scanning...",
-  "scan_failed": "Scan Failed"
+  "scan_failed": "Scan Failed",
+  "set_new_password": "set new password",
+  "please_enter_new_password": "please enter new password",
+  "please_enter_new_password_again": "please enter new password again",
+  "please_enter_new_password_format": "The new password should contain both upper and lower case letters and be 8 to 16 characters in length",
+  "two_input_password_not_consistent": "two input password not consistent"
 }
