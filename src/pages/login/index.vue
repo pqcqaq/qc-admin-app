@@ -11,8 +11,8 @@
       <image class="login-logo" :src="appLogo" mode="aspectFit"></image>
     </view>
     <view class="login-form">
-      <!-- 自定义标签页 -->
-      <view class="custom-tabs">
+      <!-- 自定义标签页/忘记密码标题 -->
+      <view v-if="mode === 'login'" class="custom-tabs">
         <view class="tab-header">
           <view class="tab-item" :class="{ active: tab === 0 }" @click="switchTab(0)">
             {{ t('login_by_account') }}
@@ -23,11 +23,25 @@
         </view>
         <view class="tab-indicator" :style="{ left: tab * 50 + '%' }"></view>
       </view>
+      <view v-else-if="mode === 'forget'" class="forget-header">
+        <view class="forget-title-row">
+          <wd-icon name="thin-arrow-left" size="22px" class="back-icon" @click="backToLogin" />
+          <view class="forget-title">{{ t('forget_password') }}</view>
+        </view>
+        <view class="forget-underline"></view>
+      </view>
+      <view v-else-if="mode === 'setPassword'" class="forget-header">
+        <view class="forget-title-row">
+          <wd-icon name="thin-arrow-left" size="22px" class="back-icon" @click="backToLogin" />
+          <view class="forget-title">{{ t('set_new_password') }}</view>
+        </view>
+        <view class="forget-underline"></view>
+      </view>
 
       <!-- 标签页内容 -->
       <view class="tab-content">
         <!-- 账号密码登录 -->
-        <view v-if="tab === 0" class="login-input-group">
+        <view v-if="mode === 'login' && tab === 0" class="login-input-group">
           <view class="input-wrapper">
             <view class="custom-input">
               <view class="input-prefix">
@@ -77,7 +91,7 @@
         </view>
 
         <!-- 验证码登录 -->
-        <view v-if="tab === 1" class="login-input-group">
+        <view v-if="mode === 'login' && tab === 1" class="login-input-group">
           <view class="input-wrapper">
             <view class="custom-input">
               <view class="input-prefix">
@@ -132,11 +146,117 @@
             </view>
           </view>
         </view>
+        <!-- 忘记密码内容（复用验证码登录输入框） -->
+        <view v-if="mode === 'forget'" class="login-input-group">
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="phone" size="40rpx" class="prefix-icon" />
+                <text class="prefix-text">+86</text>
+                <view class="divider-vertical"></view>
+              </view>
+              <input
+                v-model="smsPhone"
+                type="number"
+                :placeholder="t('please_enter_your_phone_number')"
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view v-if="smsPhone" class="input-suffix" @click="clearSmsPhone">
+                <wd-icon name="close" size="32rpx" class="clear-icon" />
+              </view>
+            </view>
+          </view>
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="chat" size="40rpx" class="prefix-icon" />
+              </view>
+              <input
+                v-model="smsCode"
+                type="number"
+                :placeholder="t('please_enter_your_verification_code')"
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view class="input-suffix">
+                <wd-icon
+                  v-if="smsCode"
+                  name="close"
+                  size="32rpx"
+                  class="clear-icon"
+                  @click="clearSmsCode"
+                />
+                <view class="divider-vertical"></view>
+                <view
+                  class="sms-send-btn"
+                  @click="onSendSmsClick"
+                  :class="{
+                    disabled: smsCountdown > 0 || !isValidPhone(smsPhone),
+                    enabled: smsCountdown === 0 && isValidPhone(smsPhone),
+                  }"
+                >
+                  {{ smsCountdown > 0 ? smsCountdown + 's' : t('send_a_verification_code') }}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 设置新密码输入区 -->
+        <view v-if="mode === 'setPassword'" class="login-input-group">
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="lock" size="40rpx" class="prefix-icon" />
+              </view>
+              <input
+                v-model="newPassword"
+                :type="(showNewPassword ? 'text' : 'password') as any"
+                :placeholder="t('please_enter_new_password')"
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view class="input-suffix">
+                <wd-icon
+                  :name="showNewPassword ? 'view' : 'eye-close'"
+                  size="32rpx"
+                  class="eye-icon"
+                  @click="showNewPassword = !showNewPassword"
+                />
+              </view>
+            </view>
+          </view>
+          <view v-if="newPasswordError" class="error-tip">{{ t(newPasswordError) }}</view>
+          <view class="input-wrapper">
+            <view class="custom-input">
+              <view class="input-prefix">
+                <wd-icon name="lock" size="40rpx" class="prefix-icon" />
+              </view>
+              <input
+                v-model="confirmPassword"
+                :type="(showConfirmPassword ? 'text' : 'password') as any"
+                :placeholder="t('please_enter_new_password_again')"
+                class="input-field"
+                placeholder-class="input-placeholder"
+              />
+              <view class="input-suffix">
+                <wd-icon
+                  :name="showConfirmPassword ? 'view' : 'eye-close'"
+                  size="32rpx"
+                  class="eye-icon"
+                  @click="showConfirmPassword = !showConfirmPassword"
+                />
+              </view>
+            </view>
+          </view>
+          <view v-if="confirmPasswordError" class="error-tip">{{ t(confirmPasswordError) }}</view>
+        </view>
       </view>
 
-      <!-- 登录按钮 -->
+      <!-- 登录/提交按钮 -->
       <view class="login-buttons">
         <view
+          v-if="mode === 'login'"
           class="custom-button"
           :class="{
             'button-success': buttonType === 'success',
@@ -147,13 +267,33 @@
           <wd-icon name="right" size="18rpx" class="login-icon"></wd-icon>
           {{ t('login') }}
         </view>
+        <view
+          v-else-if="mode === 'forget'"
+          class="custom-button"
+          :class="{ 'button-success': canSubmitForget, 'button-info': !canSubmitForget }"
+          :disabled="!canSubmitForget"
+          @click="handleForgetSubmit"
+        >
+          {{ t('submit') }}
+        </view>
+        <view
+          v-else-if="mode === 'setPassword'"
+          class="custom-button"
+          :class="{ 'button-success': canSubmitSetPassword, 'button-info': !canSubmitSetPassword }"
+          :disabled="!canSubmitSetPassword"
+          @click="handleSetPassword"
+        >
+          {{ t('ok') }}
+        </view>
       </view>
 
-      <view class="forget-password" @click="forgetPassword">{{ t('forget_password') }}?</view>
+      <view v-if="mode === 'login'" class="forget-password" @click="forgetPassword">
+        {{ t('forget_password') }}?
+      </view>
     </view>
 
     <!-- 隐私协议勾选 -->
-    <view class="privacy-agreement">
+    <view v-if="mode === 'login'" class="privacy-agreement">
       <view class="custom-checkbox" @click="togglePrivacy">
         <view class="checkbox-inner" :class="{ checked: agreePrivacy }">
           <text v-if="agreePrivacy" class="check-mark">✓</text>
@@ -174,7 +314,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useUserStore } from '@/store/user'
 import { isMpWeixin } from '@/utils/platform'
 import { toast } from '@/utils/toast'
@@ -182,6 +322,7 @@ import { isTableBar } from '@/utils/index'
 import { ILoginParams } from '@/api'
 import { useI18n } from 'vue-i18n'
 import { getsmscode } from '@/api/auth'
+import { loginaccountbysmscode, verifysmscode } from '@/api/user'
 
 const i18n = useI18n()
 const t = i18n.t
@@ -212,6 +353,28 @@ const smsPhone = ref('')
 const smsCode = ref('')
 const smsCountdown = ref(0)
 const smsSending = ref(false)
+
+// 新增模式变量
+const mode = ref<'login' | 'forget' | 'setPassword'>('login')
+
+// 设置新密码相关变量
+const newPassword = ref('')
+const confirmPassword = ref('')
+const showNewPassword = ref(false)
+const showConfirmPassword = ref(false)
+
+const isValidPassword = (pwd: string) => /^(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,16}$/.test(pwd)
+
+const newPasswordError = computed(() => {
+  if (!newPassword.value) return ''
+  if (!isValidPassword(newPassword.value)) return t('please_enter_new_password_format')
+  return ''
+})
+const confirmPasswordError = computed(() => {
+  if (!confirmPassword.value) return ''
+  if (confirmPassword.value !== newPassword.value) return t('two_input_password_not_consistent')
+  return ''
+})
 
 // 标签页切换
 const switchTab = (index: number) => {
@@ -315,7 +478,11 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 const buttonType = ref<string>('info')
 
 // 忘记密码
-const forgetPassword = () => {}
+const forgetPassword = () => {
+  clearSmsPhone()
+  clearSmsCode()
+  mode.value = 'forget'
+}
 
 // 改变login button颜色
 const changeButtonColor = () => {
@@ -374,6 +541,78 @@ const handleSendSmsCode = async () => {
 const onSendSmsClick = () => {
   if (smsCountdown.value > 0 || !isValidPhone(smsPhone.value)) return
   handleSendSmsCode()
+}
+
+// 返回登录
+const backToLogin = () => {
+  if (mode.value === 'setPassword') {
+    mode.value = 'forget'
+    clearSmsPhone()
+    clearSmsCode()
+  } else {
+    mode.value = 'login'
+  }
+}
+
+// 切换到设置新密码模式（后续验证码校验通过后调用）
+const toSetPassword = () => {
+  console.log('toSetPassword')
+  mode.value = 'setPassword'
+}
+
+// 忘记密码提交按钮可用性
+const canSubmitForget = computed(() => {
+  return isValidPhone(smsPhone.value) && !!smsCode.value
+})
+
+// 忘记密码模式下提交
+const handleForgetSubmit = async () => {
+  if (!isValidPhone(smsPhone.value)) {
+    toast.error(t('please_enter_your_phone_number'))
+    return
+  }
+  if (!smsCode.value) {
+    toast.error(t('please_enter_your_verification_code'))
+    return
+  }
+  try {
+    await verifysmscode({ phoneNumber: smsPhone.value, smsCode: smsCode.value })
+    toSetPassword()
+  } catch (e: any) {
+    toast.error(e?.message || '验证码校验失败')
+  }
+}
+
+// 设置新密码按钮可用性
+const canSubmitSetPassword = computed(() => {
+  return (
+    !!newPassword.value &&
+    !!confirmPassword.value &&
+    isValidPassword(newPassword.value) &&
+    confirmPassword.value === newPassword.value
+  )
+})
+
+// 设置新密码提交
+const handleSetPassword = async () => {
+  if (!canSubmitSetPassword.value) return
+  try {
+    // 可加loading
+    await loginaccountbysmscode({
+      phoneNumber: smsPhone.value,
+      smsCode: smsCode.value,
+      newPassword: newPassword.value,
+    })
+    toast.success('密码设置成功，请重新登录')
+    // 清空所有相关输入
+    smsPhone.value = ''
+    smsCode.value = ''
+    newPassword.value = ''
+    confirmPassword.value = ''
+    mode.value = 'login'
+  } catch (e: any) {
+    toast.error(e?.message || '密码重置失败')
+  }
 }
 </script>
 
@@ -684,6 +923,44 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
       }
     }
   }
+
+  .forget-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20rpx;
+    margin-top: 20rpx;
+    position: relative;
+    .forget-title-row {
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .back-icon {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-right: 0;
+        cursor: pointer;
+      }
+    }
+    .forget-title {
+      font-size: 36rpx;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 8rpx;
+      display: inline-block;
+      flex: none;
+    }
+    .forget-underline {
+      width: 80rpx;
+      height: 4rpx;
+      background-color: $primary-color;
+      border-radius: 2rpx;
+    }
+  }
 }
 
 /* 添加动画效果 */
@@ -705,5 +982,12 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.error-tip {
+  color: #e74c3c;
+  font-size: 22rpx;
+  margin: 8rpx 0 8rpx 20rpx;
+  line-height: 1.5;
 }
 </style>

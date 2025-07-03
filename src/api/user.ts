@@ -154,6 +154,12 @@ export type UserInfoWithShop = {
   shops: IShop[]
 }
 
+export type ChangePasswordParams = {
+  phoneNumber: string
+  smsCode: string
+  newPassword: string
+}
+
 /**
  * 查询单个用户带shop信息
  */
@@ -258,4 +264,18 @@ export const uploadImage = (filePath: string, fileObj?: File) => {
  */
 export const updatePassword = (params: IUpdatePasswordParams) => {
   return http.post<IBaseResponse>('/customer/customer/updatepasswordbyself', params)
+}
+
+/**
+ * 验证码修改密码
+ */
+export const loginaccountbysmscode = (params: ChangePasswordParams) => {
+  return http.post<IBaseResponse>('/customer/auth/loginaccountbysmscode', params)
+}
+
+/**
+ * 校验验证码
+ */
+export const verifysmscode = (params: { phoneNumber: string; smsCode: string }) => {
+  return http.post<IBaseResponse>('/customer/auth/verifysmscode', params)
 }
