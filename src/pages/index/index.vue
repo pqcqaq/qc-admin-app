@@ -33,22 +33,25 @@
       </view>
       <view class="page-header-search">
         <view class="page-header-search-label">{{ t('date') }}</view>
-        <!-- 自定义日期选择器 -->
-        <picker
-          mode="multiSelector"
-          :value="pickerValue"
-          :range="pickerRange"
-          @change="onPickerChange"
-          @columnchange="onColumnChange"
-          class="custom-date-picker"
-        >
+        <!-- 使用 wot-design-uni 的日历组件 -->
+        <!-- <view class="date-picker-wrapper" @click="openCalendar">
           <view class="picker-display">
             <text class="picker-text">{{ formatDateRange }}</text>
             <text class="picker-arrow">▼</text>
           </view>
-        </picker>
+        </view> -->
+
+        <!-- wot-design-uni 日历组件 -->
+        <wd-calendar
+          ref="calendar"
+          v-model="calendarValue"
+          type="daterange"
+          @confirm="onCalendarConfirm"
+          @cancel="onCalendarCancel"
+        />
       </view>
     </view>
+
     <scroll-view scroll-y class="page-scroll">
       <view class="page-content">
         <view class="page-content-card">
@@ -163,7 +166,6 @@ onShow(() => {
   getDate()
 })
 
-// 日期选择器相关
 const getTodayRange = (): [Date, Date] => {
   const start = new Date()
   start.setHours(0, 0, 0, 0)
@@ -176,31 +178,6 @@ const getTodayRange = (): [Date, Date] => {
 
 const dateArr = ref<[Date, Date]>(getTodayRange()) as any
 
-// 生成日期选择器的选项
-const generateDateRange = () => {
-  const years = []
-  const months = []
-  const days = []
-
-  const currentYear = new Date().getFullYear()
-  for (let i = currentYear - 5; i <= currentYear + 5; i++) {
-    years.push(i + '年')
-  }
-
-  for (let i = 1; i <= 12; i++) {
-    months.push(i + '月')
-  }
-
-  for (let i = 1; i <= 31; i++) {
-    days.push(i + '日')
-  }
-
-  return [years, months, days, ['开始时间', '结束时间']]
-}
-
-const pickerRange = ref(generateDateRange())
-const pickerValue = ref([5, 0, 0, 0]) // 默认选中当前年份的1月1日开始时间
-
 // 格式化显示的日期范围
 const formatDateRange = computed(() => {
   const start = dateArr.value[0]
@@ -209,17 +186,6 @@ const formatDateRange = computed(() => {
   const endStr = `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDate()).padStart(2, '0')}`
   return `${startStr} 至 ${endStr}`
 })
-
-// 处理picker变化
-const onPickerChange = (e: any) => {
-  // 这里可以根据选择的值更新dateArr
-  // 为了简化，暂时保持当前的日期选择逻辑
-  handleConfirm({ value: dateArr.value })
-}
-
-const onColumnChange = (e: any) => {
-  // 列变化处理
-}
 
 const data = ref<{
   detectionPlanCount: number
@@ -285,12 +251,6 @@ const getDate = () => {
   })
 }
 
-function handleConfirm({ value }) {
-  console.log(dateArr.value, value)
-  dateArr.value = value
-  getDate()
-}
-
 onLoad(() => {
   getDate()
 })
@@ -344,6 +304,38 @@ const handleScanFail = (error: any) => {
 
 const handleScanCancel = () => {
   console.log('用户取消扫描')
+}
+
+// wot-design-uni 日历组件相关
+const calendar = ref(null)
+const calendarValue = ref([new Date().getTime(), new Date().getTime()])
+
+// 同步 dateArr 变化到 calendarValue
+watch(
+  dateArr,
+  (newValue) => {
+    if (newValue && newValue.length === 2) {
+      calendarValue.value = [newValue[0].getTime(), newValue[1].getTime()]
+    }
+  },
+  { immediate: true },
+)
+
+const openCalendar = () => {
+  calendar.value?.open()
+}
+
+const onCalendarConfirm = (value) => {
+  console.log('日历确认:', value)
+  // 将时间戳转换为 Date 对象
+  if (Array.isArray(value) && value.length === 2) {
+    dateArr.value = [new Date(value[0]), new Date(value[1])]
+    getDate()
+  }
+}
+
+const onCalendarCancel = () => {
+  console.log('日历取消')
 }
 </script>
 
@@ -450,8 +442,9 @@ const handleScanCancel = () => {
 }
 
 /* 自定义日期选择器样式 */
-.custom-date-picker {
+.date-picker-wrapper {
   flex: 1;
+  cursor: pointer;
 }
 
 .picker-display {
