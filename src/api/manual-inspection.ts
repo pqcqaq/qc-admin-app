@@ -4,8 +4,6 @@ import { getEnvBaseUrl } from '@/utils'
 import { useUserStore } from '@/store'
 // 请求基准地址
 const baseUrl = getEnvBaseUrl()
-const userStore = useUserStore()
-const token = userStore.token
 /**
  * 根据人工巡检任务ID获取检测规则列表
  */
@@ -34,6 +32,14 @@ export const createdetectionbatchformanualdetectiontask = (data: DetectionBatchP
  * @returns Promise<string> 图片url
  */
 export const uploadManualDetectionImage = (filePath: string, fileObj?: File) => {
+  // 每次调用时获取最新token
+  const userStore = useUserStore()
+  const token = userStore.token
+  // 校验token有效性
+  if (!token) {
+    uni.showToast({ icon: 'none', title: '登录失效，请重新登录' })
+    return Promise.reject(new Error('登录失效，请重新登录'))
+  }
   return new Promise<string>((resolve, reject) => {
     // #ifdef H5
     if (typeof window !== 'undefined' && fileObj) {
