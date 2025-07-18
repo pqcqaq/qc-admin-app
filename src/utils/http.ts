@@ -18,6 +18,15 @@ export const http = <T>(options: CustomRequestOptions) => {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           const responseData = res.data as IBaseResponse<any>
 
+          // code: "not-login"
+          // data: "/customer/dashboard/getdashboarddata?_token_="
+          // message: "登录失效，请重新登录"
+          // success: false
+          if (responseData.code === 'not-login') {
+            userStore.logout()
+            return
+          }
+
           // 判断业务状态码
           if (responseData.success === true || responseData.code === 0) {
             // 2.1 业务成功，提取核心数据
@@ -47,7 +56,6 @@ export const http = <T>(options: CustomRequestOptions) => {
         } else if (res.statusCode === 401) {
           // 401错误 -> 清理用户信息，跳转到登录页
           userStore.logout()
-          uni.navigateTo({ url: '/pages/login/login' })
           const responseData = res.data as IBaseResponse<any>
           !options.hideErrorToast &&
             uni.showToast({

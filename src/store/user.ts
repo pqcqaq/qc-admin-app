@@ -111,8 +111,7 @@ export const useUserStore = defineStore(
 
     const logout = () => {
       removeUserInfo()
-      toast.success('退出登录成功')
-      // uni.navigateTo({ url: '/pages/login/login' })
+      uni.navigateTo({ url: import.meta.env.VITE_LOGIN_URL })
     }
 
     return {
