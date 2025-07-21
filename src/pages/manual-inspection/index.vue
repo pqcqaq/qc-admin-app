@@ -248,7 +248,6 @@ function onUpdateUrl(tabIdx, detectionRuleId, url) {
 }
 .finish-icon {
   margin-bottom: 0;
-  margin-right: 24rpx;
 }
 .finish-text {
   font-size: 22rpx;
