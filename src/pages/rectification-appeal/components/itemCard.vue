@@ -32,7 +32,7 @@
             {{ t('rectification_passed') }}
           </wd-tag>
         </view>
-        <image :src="item.detectionTask.detectionImageUrl" class="item-img" mode="aspectFill" />
+        <image :src="item.detectionTask.detection.imageUrl" class="item-img" mode="aspectFill" />
         <!-- <image :src="'/static/app/icons/1024x1024.png'" class="item-img" mode="aspectFill" /> -->
       </view>
     </view>
