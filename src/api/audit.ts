@@ -35,5 +35,5 @@ export const updateAuditApprovestate = (params: {
   approveState: 1 | 2
   lastDetailFlag: Boolean
 }) => {
-  return http.post<IBaseResponse>('app/updatedetectiontaskrectifieddetailapprovestate', params)
+  return http.post<IBaseResponse>('/app/updatedetectiontaskrectifieddetailapprovestate', params)
 }
