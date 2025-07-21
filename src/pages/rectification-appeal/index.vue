@@ -110,10 +110,21 @@ function handleRectify(item) {
 }
 const time = ref('')
 const shopName = ref('')
-onLoad(async (options) => {
+// onLoad(async (options) => {
+//   const id = options?.id ? Number(options.id) : 49
+//   time.value = options?.time ? options.time : ''
+//   shopName.value = options?.shopName ? options.shopName : ''
+//   const res = await getdetectiontaskrectifieddetailbydetectiontaskrectifiedid(id)
+//   items.value = res.data?.rows || []
+//   totalCount.value = items.value.length
+// })
+onShow(async () => {
+  const pages = getCurrentPages()
+  const currentPage = pages[pages.length - 1] as any // any 是因为 $page 是非标准属性
+  const options = currentPage?.$page?.options || {}
   const id = options?.id ? Number(options.id) : 49
-  time.value = options?.time ? options.time : ''
-  shopName.value = options?.shopName ? options.shopName : ''
+  time.value = options?.time || ''
+  shopName.value = options?.shopName || ''
   const res = await getdetectiontaskrectifieddetailbydetectiontaskrectifiedid(id)
   items.value = res.data?.rows || []
   totalCount.value = items.value.length
