@@ -23,7 +23,7 @@ interface GetaAuditDetailResponse {
  */
 export const getAuditDetail = (params: { id: number }) => {
   return http.post<IBaseResponse<GetaAuditDetailResponse>>(
-    'app/getdetectiontaskrectifieddetailbydetectiontaskrectifiedid',
+    '/app/getdetectiontaskrectifieddetailbydetectiontaskrectifiedid',
     params,
   )
 }
