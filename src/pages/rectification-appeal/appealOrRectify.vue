@@ -81,7 +81,7 @@
               </wd-tag>
             </view>
             <image
-              :src="item.detectionTask?.detectionImageUrl"
+              :src="item.detectionTask.detection.imageUrl"
               class="item-img"
               mode="aspectFill"
             />
