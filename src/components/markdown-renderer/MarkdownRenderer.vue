@@ -20,6 +20,7 @@
 import { ref, onMounted, watch } from 'vue'
 import MarkdownIt from 'markdown-it'
 import { getLocale } from '@/locale'
+import markdown from '@/data/markdown'
 
 interface Props {
   /** markdown文件路径，相对于static/markdown目录 */
@@ -59,30 +60,8 @@ async function loadMarkdown() {
   const locale = getLocale()
 
   try {
-    // 统一使用uni.request加载文件
-    const uniResponse = await new Promise<UniApp.RequestSuccessCallbackResult>(
-      (resolve, reject) => {
-        // 构造路径，格式类似 /static/markdown/zh-Hans/example.md
-        const filePath = `/static/markdown/${locale}/${props.src}`
-
-        uni.request({
-          url: filePath,
-          method: 'GET',
-          success: resolve,
-          fail: (error) => {
-            reject(new Error(`请求失败: ${error.errMsg || '未知错误'}`))
-          },
-        })
-      },
-    )
-
-    let markdownContent = ''
-    if (uniResponse.statusCode === 200 && typeof uniResponse.data === 'string') {
-      markdownContent = uniResponse.data
-    } else {
-      throw new Error(`无法加载文件: ${props.src}，状态码: ${uniResponse.statusCode}`)
-    }
-
+    const filePath = `${locale}/${props.src}`
+    let markdownContent = markdown[filePath]
     // 渲染markdown
     if (markdownContent) {
       renderedContent.value = md.render(markdownContent)

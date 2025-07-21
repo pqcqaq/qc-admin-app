@@ -469,9 +469,6 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   } else {
     uni.navigateTo({ url: '/pages/login/privacy' })
   }
-  uni.navigateTo({
-    url: `/pages/login/${type}`,
-  })
 }
 
 //button 类型
