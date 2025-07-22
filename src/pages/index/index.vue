@@ -534,8 +534,6 @@ const onCalendarCancel = () => {
 
 .page-content-card-content-stats {
   height: 80px;
-  width: 100%;
-  padding: 10px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -555,7 +553,7 @@ const onCalendarCancel = () => {
 
 .page-content-card-content-stats .info {
   width: 60%;
-  min-width: 120px;
+  min-width: 100px;
 }
 
 .page-content-card-content-stats .info-title {
@@ -566,7 +564,6 @@ const onCalendarCancel = () => {
 }
 
 .page-content-card-content-stats .info-title .extra {
-  margin-left: 10px;
   color: $uni-color-error;
   font-size: 12px;
 }
@@ -618,6 +615,12 @@ const onCalendarCancel = () => {
   font-size: 14px;
   height: 24px;
   line-height: 24px;
+}
+
+.page-content-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .page-content-card-content-shop {
