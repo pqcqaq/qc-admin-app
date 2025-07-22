@@ -10,7 +10,7 @@
           <text class="status-label">{{ t('unqualified') }}</text>
           <text class="desc-label">{{ item.detectionTask.detectionMessage }}</text>
         </view>
-        <view class="btn-group" v-if="item.finishState !== 1">
+        <view class="btn-group" v-show="item.finishState !== 1">
           <button class="btn-appeal" size="mini" @click="$emit('appeal', item)">
             {{ t('appeal') }}
           </button>
