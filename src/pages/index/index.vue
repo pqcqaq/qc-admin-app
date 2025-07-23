@@ -405,7 +405,7 @@ const onCalendarCancel = () => {
 }
 
 .page-header-user-name {
-  font-size: 20px;
+  font-size: 16px;
   color: #eee;
   margin-left: 10px;
 }

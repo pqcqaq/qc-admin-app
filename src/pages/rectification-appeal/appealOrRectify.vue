@@ -37,9 +37,9 @@
     <!-- 检查项进度区，悬浮在绿色区域下方 -->
     <view class="relative z-10">
       <view class="mt-[-32px]">
-        <view class="flex items-center px-6 py-4 bg-white rounded-t-3xl shadow">
+        <view class="flex items-center px-8 py-4 bg-white rounded-t-3xl shadow">
           <wd-icon name="bulletpoint" size="24" class="mr-3" />
-          <text class="text-gray-700 text-base mr-3">{{ t('inspection_item') }}</text>
+          <text class="text-gray-700 text-base mr-3 nowrap">{{ t('inspection_item') }}</text>
           <wd-progress
             :percentage="progressPercent"
             color="#26b7a7"

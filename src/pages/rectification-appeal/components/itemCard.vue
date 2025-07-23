@@ -33,7 +33,12 @@
             {{ t('rectification_passed') }}
           </wd-tag>
         </view>
-        <image :src="item.detectionTask.detection.imageUrl" class="item-img" mode="aspectFill" />
+        <image
+          :src="item.detectionTask.detection.imageUrl"
+          class="item-img"
+          mode="aspectFill"
+          @click="handlePreview(item.detectionTask.detection.imageUrl)"
+        />
       </view>
     </view>
 
@@ -43,24 +48,46 @@
         <image
           :src="item.detectionTask.detection.imageUrl"
           class="w-big h-big object-cover rounded-big mb-2"
+          @click="handlePreview(item.detectionTask.detection.imageUrl)"
         />
         <text class="text-red-500 text-xs">整改前</text>
       </view>
       <view class="flex-1 flex flex-col items-center">
-        <image :src="item.imageUrlList" class="w-big h-big object-cover rounded-big mb-2" />
+        <image
+          :src="item.imageUrlList"
+          class="w-big h-big object-cover rounded-big mb-2"
+          @click="handlePreview(item.imageUrlList)"
+        />
         <text class="text-teal-500 text-xs">整改后</text>
       </view>
     </view>
   </view>
+
+  <!-- 新增：图片预览遮罩 -->
+  <view v-if="showPreview" class="preview-mask" @click="closePreview">
+    <image :src="previewImg" class="preview-img" />
+  </view>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const i18n = useI18n()
 const t = i18n.t
 
 defineProps<{ item: any }>()
+
+// 新增：图片预览相关
+const previewImg = ref('')
+const showPreview = ref(false)
+const handlePreview = (url: string) => {
+  previewImg.value = url
+  showPreview.value = true
+}
+const closePreview = () => {
+  showPreview.value = false
+}
 </script>
 
 <style scoped lang="scss">
@@ -208,5 +235,23 @@ defineProps<{ item: any }>()
 }
 .rounded-big {
   border-radius: 20rpx;
+}
+.preview-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.preview-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12rpx;
+  background: #fff;
 }
 </style>
