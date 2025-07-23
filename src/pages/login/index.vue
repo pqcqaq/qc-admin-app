@@ -36,7 +36,10 @@
       <view v-else-if="mode === 'setPassword'" class="forget-header">
         <view class="forget-title-row">
           <wd-icon name="thin-arrow-left" size="22px" class="back-icon" @click="backToLogin" />
-          <view class="forget-title">{{ t('set_new_password') }}</view>
+          <view class="forget-title-with-underline">
+            <view class="forget-title">{{ t('set_new_password') }}</view>
+            <view class="forget-underline"></view>
+          </view>
         </view>
         <view class="forget-underline"></view>
       </view>
@@ -214,7 +217,7 @@
               </view>
               <input
                 v-model="newPassword"
-                :type="(showNewPassword ? 'text' : 'password') as any"
+                :password="!showNewPassword"
                 :placeholder="t('please_enter_new_password')"
                 class="input-field"
                 placeholder-class="input-placeholder"
@@ -237,7 +240,7 @@
               </view>
               <input
                 v-model="confirmPassword"
-                :type="(showConfirmPassword ? 'text' : 'password') as any"
+                :password="!showConfirmPassword"
                 :placeholder="t('please_enter_new_password_again')"
                 class="input-field"
                 placeholder-class="input-placeholder"
