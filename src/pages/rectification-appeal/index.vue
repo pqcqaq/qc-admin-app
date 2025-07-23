@@ -152,6 +152,13 @@ onShow(async () => {
 //   items.value = res.data?.rows || []
 //   totalCount.value = items.value.length
 // })
+
+function handleSubmit() {
+  console.log('handleSubmit')
+  uni.switchTab({
+    url: '/pages/task/index',
+  })
+}
 </script>
 
 <style lang="scss" scoped>

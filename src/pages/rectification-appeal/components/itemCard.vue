@@ -20,7 +20,8 @@
           </button>
         </view>
       </view>
-      <view class="img-wrapper">
+      <!-- 未完成时右侧图片 -->
+      <view class="img-wrapper" v-if="item.finishState !== 1">
         <view class="tag-row">
           <wd-tag v-if="item.approveState === 2" type="danger" class="wd-status-tag">
             {{ t('audit_rejected') }}
@@ -33,7 +34,21 @@
           </wd-tag>
         </view>
         <image :src="item.detectionTask.detection.imageUrl" class="item-img" mode="aspectFill" />
-        <!-- <image :src="'/static/app/icons/1024x1024.png'" class="item-img" mode="aspectFill" /> -->
+      </view>
+    </view>
+
+    <!-- 已完成时底部两张图片 -->
+    <view v-if="item.finishState === 1" class="rectify-imgs flex justify-between items-center mt-4">
+      <view class="flex-1 flex flex-col items-center">
+        <image
+          :src="item.detectionTask.detection.imageUrl"
+          class="w-big h-big object-cover rounded-big mb-2"
+        />
+        <text class="text-red-500 text-xs">整改前</text>
+      </view>
+      <view class="flex-1 flex flex-col items-center">
+        <image :src="item.imageUrlList" class="w-big h-big object-cover rounded-big mb-2" />
+        <text class="text-teal-500 text-xs">整改后</text>
       </view>
     </view>
   </view>
@@ -162,5 +177,36 @@ defineProps<{ item: any }>()
   margin-top: 3rpx;
   max-width: 144rpx;
   max-height: 108rpx;
+}
+.rectify-imgs {
+  gap: 16rpx;
+}
+.w-24 {
+  width: 96rpx;
+}
+.h-24 {
+  height: 96rpx;
+}
+.object-cover {
+  object-fit: cover;
+}
+.rounded {
+  border-radius: 12rpx;
+}
+.mb-2 {
+  margin-bottom: 8rpx;
+}
+.text-xs {
+  font-size: 24rpx;
+}
+// 新增更大的图片样式
+.w-big {
+  width: 160rpx;
+}
+.h-big {
+  height: 160rpx;
+}
+.rounded-big {
+  border-radius: 20rpx;
 }
 </style>
