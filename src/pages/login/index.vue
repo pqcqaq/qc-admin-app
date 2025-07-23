@@ -240,7 +240,7 @@
               </view>
               <input
                 v-model="confirmPassword"
-                :type="(showConfirmPassword ? 'text' : 'password') as any"
+                :password="!showConfirmPassword"
                 :placeholder="t('please_enter_new_password_again')"
                 class="input-field"
                 placeholder-class="input-placeholder"
