@@ -48,6 +48,7 @@
           type="daterange"
           @confirm="onCalendarConfirm"
           @cancel="onCalendarCancel"
+          :show-confirm="false"
         />
       </view>
     </view>

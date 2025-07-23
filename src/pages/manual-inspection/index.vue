@@ -146,7 +146,7 @@ const time = ref('')
 const shopName = ref('')
 
 onLoad(async (options) => {
-  const id = options?.id ? Number(options.id) : 14
+  const id = Number(options.id)
   time.value = options?.time ? options.time : ''
   shopName.value = options?.shopName ? options.shopName : ''
   const res = await getDetectionRuleListByManualDetectionTaskId(id)
