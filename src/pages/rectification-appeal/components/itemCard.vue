@@ -249,9 +249,11 @@ const closePreview = () => {
   justify-content: center;
 }
 .preview-img {
-  max-width: 90vw;
-  max-height: 90vh;
+  width: 75vw;
+  height: 33vh; /* 保持原图比例 */
+  max-height: 60vh; /* 避免过高撑满屏 */
   border-radius: 12rpx;
+  object-fit: contain;
   background: #fff;
 }
 </style>
