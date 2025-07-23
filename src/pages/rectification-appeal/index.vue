@@ -66,6 +66,18 @@
       @rectify="handleRectify"
     />
   </view>
+
+  <!-- 底部提交按钮 -->
+  <view class="fixed left-0 right-0 bottom-0 px-4 pb-6 bg-white z-50">
+    <button
+      class="w-full h-12 bg-teal-500 text-white text-lg rounded-full shadow-lg flex items-center justify-center"
+      :disabled="checkedCount !== totalCount || totalCount === 0"
+      :style="{ opacity: checkedCount === totalCount && totalCount > 0 ? 1 : 0.5 }"
+      @click="handleSubmit"
+    >
+      {{ t('submit') }}
+    </button>
+  </view>
 </template>
 
 <script setup lang="ts">
@@ -110,6 +122,12 @@ function handleRectify(item) {
 }
 const time = ref('')
 const shopName = ref('')
+function handleSubmit() {
+  uni.showToast({
+    title: t('submit_success'),
+    icon: 'success',
+  })
+}
 // onLoad(async (options) => {
 //   const id = options?.id ? Number(options.id) : 49
 //   time.value = options?.time ? options.time : ''
