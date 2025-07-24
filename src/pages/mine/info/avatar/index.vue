@@ -123,7 +123,4 @@ $card-bg-color: #ffffff;
     }
   }
 }
-::v-deep .page-content {
-  padding: 0;
-}
 </style>
