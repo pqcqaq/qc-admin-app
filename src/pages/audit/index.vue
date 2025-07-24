@@ -74,25 +74,28 @@
             {{ t('comment') }}
             <text class="px-2 text-sm" :style="{ color: 'red' }">{{ t('unqualified') }}</text>
             <text class="custom-message">{{ selectItem?.detectionTask.detectionMessage }}</text>
-            <wd-img
-              :width="100"
-              :height="100"
-              :src="
-                selectItem?.detectionTask.detection.imageUrl === ''
-                  ? 'https://null'
-                  : selectItem?.detectionTask.detection.imageUrl
-              "
-              @click="previewImage(0, selectItem.detectionTask.detection.imageUrl)"
-            >
-              <template #error>
-                <view class="error-wrap">{{ t('loading_failure') }}</view>
-              </template>
-              <template #loading>
-                <view class="loading-wrap">
-                  <wd-loading />
-                </view>
-              </template>
-            </wd-img>
+            <!-- 用 view 包裹图片，保证图片单独一行 -->
+            <view style="margin-top: 8px">
+              <wd-img
+                :width="100"
+                :height="100"
+                :src="
+                  selectItem?.detectionTask.detection.imageUrl === ''
+                    ? 'https://null'
+                    : selectItem?.detectionTask.detection.imageUrl
+                "
+                @click="previewImage(0, selectItem.detectionTask.detection.imageUrl)"
+              >
+                <template #error>
+                  <view class="error-wrap">{{ t('loading_failure') }}</view>
+                </template>
+                <template #loading>
+                  <view class="loading-wrap">
+                    <wd-loading />
+                  </view>
+                </template>
+              </wd-img>
+            </view>
           </view>
         </view>
         <view class="flex justify-end items-center py-2">

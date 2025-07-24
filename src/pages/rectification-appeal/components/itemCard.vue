@@ -48,7 +48,7 @@
         <image
           :src="item.detectionTask.detection.imageUrl"
           class="w-big h-big object-cover rounded-big mb-2"
-          @click="handlePreview(item.detectionTask.detection.imageUrl)"
+          @click="previewImage(0, item.detectionTask.detection.imageUrl)"
         />
         <text class="text-red-500 text-xs">整改前</text>
       </view>
@@ -87,6 +87,13 @@ const handlePreview = (url: string) => {
 }
 const closePreview = () => {
   showPreview.value = false
+}
+
+const previewImage = (index, list) => {
+  uni.previewImage({
+    current: index,
+    urls: [list],
+  })
 }
 </script>
 
