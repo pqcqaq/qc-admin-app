@@ -36,7 +36,9 @@
       <view class="mt-[-32px]">
         <view class="flex items-center px-6 py-4 bg-white rounded-t-3xl">
           <wd-icon name="bulletpoint" size="24" class="mr-3" />
-          <text class="text-gray-700 text-base mr-3">{{ t('inspection_item') }}</text>
+          <text style="color: #4d515b; font-size: 32rpx; font-weight: 500; white-space: nowrap">
+            {{ t('inspection_item') }}
+          </text>
           <wd-progress
             :percentage="progressPercent"
             color="#26b7a7"
@@ -71,7 +73,7 @@
             <text class="ai italic bold px-1">AI</text>
             {{ t('comment') }}
             <text class="px-2 text-sm" :style="{ color: 'red' }">{{ t('unqualified') }}</text>
-            <text class="text-sm">{{ selectItem?.detectionTask.detectionMessage }}</text>
+            <text class="custom-message">{{ selectItem?.detectionTask.detectionMessage }}</text>
             <wd-img
               :width="100"
               :height="100"
@@ -80,6 +82,7 @@
                   ? 'https://null'
                   : selectItem?.detectionTask.detection.imageUrl
               "
+              @click="previewImage(0, selectItem.detectionTask.detection.imageUrl)"
             >
               <template #error>
                 <view class="error-wrap">{{ t('loading_failure') }}</view>
@@ -165,8 +168,8 @@
 </template>
 
 <script lang="ts" setup>
-const inspection_statistics = ref('static/icon/inspection_statistics_qualified_item_icon.svg')
-const rectification_user = ref('static/icon/rectification_user_icon.svg')
+const inspection_statistics = ref('/static/icon/inspection_statistics_qualified_item_icon.svg')
+const rectification_user = ref('/static/icon/rectification_user_icon.svg')
 
 import { useI18n } from 'vue-i18n'
 import { getAuditDetail, updateAuditApprovestate } from '@/api/audit'
@@ -301,5 +304,12 @@ const ChangeApproveState = async (state) => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.custom-message {
+  font-size: 26rpx; // 或你需要的大小
+  color: #4d515b; // 颜色自定
+  line-height: 1.6; // 行高自定
+  font-weight: 500;
+  // 还可以加其他你想要的样式
 }
 </style>

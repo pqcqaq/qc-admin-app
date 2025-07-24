@@ -39,7 +39,9 @@
       <view class="mt-[-32px]">
         <view class="flex items-center px-6 py-4 bg-white rounded-t-3xl shadow">
           <wd-icon name="bulletpoint" size="24" class="mr-3" />
-          <text class="text-gray-700 text-base mr-3">{{ t('inspection_item') }}</text>
+          <text style="color: #4d515b; font-size: 32rpx; font-weight: 500; white-space: nowrap">
+            {{ t('inspection_item') }}
+          </text>
           <wd-progress
             :percentage="progressPercent"
             color="#26b7a7"

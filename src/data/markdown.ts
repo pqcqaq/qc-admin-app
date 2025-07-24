@@ -1,5 +1,5 @@
 // 此文件由vite插件自动生成，请勿手动修改
-// Generated at: 2025-07-23T07:08:21.432Z
+// Generated at: 2025-07-24T02:15:31.200Z
 
 export const markdownFiles: Record<string, string> = {
   "en/example.md": "# Example Markdown Document\r\n\r\nThis is an example document for testing the **MarkdownRenderer** component.\r\n\r\n## Features\r\n\r\n- Supports standard Markdown syntax\r\n- Automatically fetches files from the static/markdown directory\r\n- Displays error messages when loading fails\r\n- Supports retry functionality\r\n\r\n## Code Example\r\n\r\n```javascript\r\n// Usage example\r\n<MarkdownRenderer src=\"example.md\" />\r\n```\r\n\r\n## Table Example\r\n\r\n| Feature | Status | Description                          |\r\n| ------- | ------ | ------------------------------------ |\r\n| Headers | ✅     | Supports H1-H6 headers               |\r\n| Lists   | ✅     | Supports ordered and unordered lists |\r\n| Code    | ✅     | Supports inline code and code blocks |\r\n| Tables  | ✅     | Supports table rendering             |\r\n\r\n## Quote\r\n\r\n> This is a quote example.\r\n> It can be used to emphasize important information.\r\n\r\n## Links\r\n\r\nVisit the [Vue Official Website](https://vuejs.org/) for more information.\r\n\r\n---\r\n\r\n**Note:** Make sure to place markdown files in the `src/static/markdown/` directory.\r\n",

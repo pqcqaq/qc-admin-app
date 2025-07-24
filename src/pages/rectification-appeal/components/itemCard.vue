@@ -144,9 +144,10 @@ const closePreview = () => {
   margin-right: 15rpx;
 }
 .desc-label {
-  color: #5c5c5c;
-  font-size: 24rpx;
-  line-height: 1.6;
+  font-size: 26rpx; // 或你需要的大小
+  color: #4d515b; // 颜色自定
+  line-height: 1.6; // 行高自定
+  font-weight: 500;
 }
 .btn-group {
   display: flex;
@@ -195,15 +196,15 @@ const closePreview = () => {
   white-space: nowrap;
 }
 .item-img {
-  width: 144rpx;
-  height: 108rpx;
+  width: 160rpx;
+  height: 160rpx;
   border-radius: 18rpx;
   object-fit: cover;
   flex-shrink: 0;
   margin-left: 27rpx;
   margin-top: 3rpx;
-  max-width: 144rpx;
-  max-height: 108rpx;
+  max-width: 160rpx;
+  max-height: 160rpx;
 }
 .rectify-imgs {
   gap: 16rpx;
