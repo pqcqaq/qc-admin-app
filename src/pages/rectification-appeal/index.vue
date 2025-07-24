@@ -39,7 +39,9 @@
       <view class="mt-[-32px]">
         <view class="flex items-center px-6 py-4 bg-white rounded-t-3xl shadow">
           <wd-icon name="bulletpoint" size="24" class="mr-3" />
-          <text class="text-gray-700 text-base mr-3">{{ t('inspection_item') }}</text>
+          <text style="color: #4d515b; font-size: 32rpx; font-weight: 500; white-space: nowrap">
+            {{ t('inspection_item') }}
+          </text>
           <wd-progress
             :percentage="progressPercent"
             color="#26b7a7"
@@ -65,6 +67,18 @@
       @appeal="handleAppeal"
       @rectify="handleRectify"
     />
+  </view>
+
+  <!-- 底部提交按钮 -->
+  <view class="fixed left-0 right-0 bottom-0 px-4 pb-6 bg-white z-50">
+    <button
+      class="w-full h-12 bg-teal-500 text-white text-lg rounded-full shadow-lg flex items-center justify-center"
+      :disabled="checkedCount !== totalCount || totalCount === 0"
+      :style="{ opacity: checkedCount === totalCount && totalCount > 0 ? 1 : 0.5 }"
+      @click="handleSubmit"
+    >
+      {{ t('submit') }}
+    </button>
   </view>
 </template>
 
@@ -110,25 +124,43 @@ function handleRectify(item) {
 }
 const time = ref('')
 const shopName = ref('')
-// onLoad(async (options) => {
-//   const id = options?.id ? Number(options.id) : 49
-//   time.value = options?.time ? options.time : ''
-//   shopName.value = options?.shopName ? options.shopName : ''
-//   const res = await getdetectiontaskrectifieddetailbydetectiontaskrectifiedid(id)
-//   items.value = res.data?.rows || []
-//   totalCount.value = items.value.length
-// })
-onShow(async () => {
-  const pages = getCurrentPages()
-  const currentPage = pages[pages.length - 1] as any // any 是因为 $page 是非标准属性
-  const options = currentPage?.$page?.options || {}
-  const id = options?.id ? Number(options.id) : 49
-  time.value = options?.time || ''
-  shopName.value = options?.shopName || ''
+
+const ID = ref(0)
+onLoad(async (options) => {
+  console.log(options, 'options')
+  const id = Number(options?.id)
+  ID.value = id
+  time.value = options?.time ? options.time : ''
+  shopName.value = options?.shopName ? options.shopName : ''
+
   const res = await getdetectiontaskrectifieddetailbydetectiontaskrectifiedid(id)
   items.value = res.data?.rows || []
   totalCount.value = items.value.length
 })
+
+onShow(async () => {
+  const res = await getdetectiontaskrectifieddetailbydetectiontaskrectifiedid(ID.value)
+  items.value = res.data?.rows || []
+  totalCount.value = items.value.length
+})
+// onShow(async () => {
+//   const pages = getCurrentPages()
+//   const currentPage = pages[pages.length - 1] as any // any 是因为 $page 是非标准属性
+//   const options = currentPage?.$page?.options || {}
+//   const id = options?.id ? Number(options.id) : 49
+//   time.value = options?.time || ''
+//   shopName.value = options?.shopName || ''
+//   const res = await getdetectiontaskrectifieddetailbydetectiontaskrectifiedid(id)
+//   items.value = res.data?.rows || []
+//   totalCount.value = items.value.length
+// })
+
+function handleSubmit() {
+  console.log('handleSubmit')
+  uni.switchTab({
+    url: '/pages/task/index',
+  })
+}
 </script>
 
 <style lang="scss" scoped>

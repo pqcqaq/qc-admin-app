@@ -48,6 +48,7 @@
           type="daterange"
           @confirm="onCalendarConfirm"
           @cancel="onCalendarCancel"
+          :show-confirm="false"
         />
       </view>
     </view>
@@ -327,9 +328,9 @@ const openCalendar = () => {
 
 const onCalendarConfirm = (value) => {
   console.log('日历确认:', value)
-  // 将时间戳转换为 Date 对象
-  if (Array.isArray(value) && value.length === 2) {
-    dateArr.value = [new Date(value[0]), new Date(value[1])]
+  console.log(Array.isArray(value.value) && value.value.length === 2)
+  if (Array.isArray(value.value) && value.value.length === 2) {
+    dateArr.value = [new Date(value.value[0]), new Date(value.value[1])]
     getDate()
   }
 }
@@ -404,7 +405,7 @@ const onCalendarCancel = () => {
 }
 
 .page-header-user-name {
-  font-size: 20px;
+  font-size: 16px;
   color: #eee;
   margin-left: 10px;
 }

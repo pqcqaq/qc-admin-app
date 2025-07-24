@@ -6,7 +6,7 @@
 }
 </route>
 <template>
-  <view class="container">
+  <view class="container" :style="{ paddingTop: safeAreaInsets.top + 'px' }">
     <StatusBar>
       <template #title>
         <text class="status-bar-title">{{ t('change_phone_number') }}</text>
@@ -72,6 +72,7 @@ const i18n = useI18n()
 const t = i18n.t
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
+const { safeAreaInsets } = uni.getSystemInfoSync()
 const columns = ref<Record<string, any>[]>([
   {
     value: '+86',

@@ -26,14 +26,20 @@
       <view v-else-if="mode === 'forget'" class="forget-header">
         <view class="forget-title-row">
           <wd-icon name="thin-arrow-left" size="22px" class="back-icon" @click="backToLogin" />
-          <view class="forget-title">{{ t('forget_password') }}</view>
+          <view class="forget-title-with-underline">
+            <view class="forget-title">{{ t('forget_password') }}</view>
+            <view class="forget-underline"></view>
+          </view>
+          <view class="right-placeholder"></view>
         </view>
-        <view class="forget-underline"></view>
       </view>
       <view v-else-if="mode === 'setPassword'" class="forget-header">
         <view class="forget-title-row">
           <wd-icon name="thin-arrow-left" size="22px" class="back-icon" @click="backToLogin" />
-          <view class="forget-title">{{ t('set_new_password') }}</view>
+          <view class="forget-title-with-underline">
+            <view class="forget-title">{{ t('set_new_password') }}</view>
+            <view class="forget-underline"></view>
+          </view>
         </view>
         <view class="forget-underline"></view>
       </view>
@@ -211,7 +217,7 @@
               </view>
               <input
                 v-model="newPassword"
-                :type="(showNewPassword ? 'text' : 'password') as any"
+                :password="!showNewPassword"
                 :placeholder="t('please_enter_new_password')"
                 class="input-field"
                 placeholder-class="input-placeholder"
@@ -234,7 +240,7 @@
               </view>
               <input
                 v-model="confirmPassword"
-                :type="(showConfirmPassword ? 'text' : 'password') as any"
+                :password="!showConfirmPassword"
                 :placeholder="t('please_enter_new_password_again')"
                 class="input-field"
                 placeholder-class="input-placeholder"
@@ -930,32 +936,38 @@ $logout-input-bg-color: rgba(245, 247, 250, 0.7);
     position: relative;
     .forget-title-row {
       width: 100%;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      .back-icon {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        margin-right: 0;
-        cursor: pointer;
+      .back-icon-wrapper {
+        width: 40rpx; // 或合适的宽度
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
       }
-    }
-    .forget-title {
-      font-size: 36rpx;
-      font-weight: bold;
-      color: #222;
-      margin-bottom: 8rpx;
-      display: inline-block;
-      flex: none;
-    }
-    .forget-underline {
-      width: 80rpx;
-      height: 4rpx;
-      background-color: $primary-color;
-      border-radius: 2rpx;
+      .forget-title-with-underline {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        .forget-title {
+          font-size: 36rpx;
+          font-weight: bold;
+          color: #222;
+          margin-bottom: 8rpx;
+          display: inline-block;
+        }
+        .forget-underline {
+          width: 100%;
+          max-width: 120rpx; // 可选，限制最大宽度
+          height: 4rpx;
+          background-color: $primary-color;
+          border-radius: 2rpx;
+        }
+      }
+      .right-placeholder {
+        width: 40rpx; // 保持左右对称
+      }
     }
   }
 }

@@ -20,7 +20,8 @@
           </button>
         </view>
       </view>
-      <view class="img-wrapper">
+      <!-- 未完成时右侧图片 -->
+      <view class="img-wrapper" v-if="item.finishState !== 1">
         <view class="tag-row">
           <wd-tag v-if="item.approveState === 2" type="danger" class="wd-status-tag">
             {{ t('audit_rejected') }}
@@ -32,20 +33,68 @@
             {{ t('rectification_passed') }}
           </wd-tag>
         </view>
-        <image :src="item.detectionTask.detection.imageUrl" class="item-img" mode="aspectFill" />
-        <!-- <image :src="'/static/app/icons/1024x1024.png'" class="item-img" mode="aspectFill" /> -->
+        <image
+          :src="item.detectionTask.detection.imageUrl"
+          class="item-img"
+          mode="aspectFill"
+          @click="handlePreview(item.detectionTask.detection.imageUrl)"
+        />
       </view>
     </view>
+
+    <!-- 已完成时底部两张图片 -->
+    <view v-if="item.finishState === 1" class="rectify-imgs flex justify-between items-center mt-4">
+      <view class="flex-1 flex flex-col items-center">
+        <image
+          :src="item.detectionTask.detection.imageUrl"
+          class="w-big h-big object-cover rounded-big mb-2"
+          @click="previewImage(0, item.detectionTask.detection.imageUrl)"
+        />
+        <text class="text-red-500 text-xs">整改前</text>
+      </view>
+      <view class="flex-1 flex flex-col items-center">
+        <image
+          :src="item.imageUrlList"
+          class="w-big h-big object-cover rounded-big mb-2"
+          @click="handlePreview(item.imageUrlList)"
+        />
+        <text class="text-teal-500 text-xs">整改后</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 新增：图片预览遮罩 -->
+  <view v-if="showPreview" class="preview-mask" @click="closePreview">
+    <image :src="previewImg" class="preview-img" />
   </view>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const i18n = useI18n()
 const t = i18n.t
 
 defineProps<{ item: any }>()
+
+// 新增：图片预览相关
+const previewImg = ref('')
+const showPreview = ref(false)
+const handlePreview = (url: string) => {
+  previewImg.value = url
+  showPreview.value = true
+}
+const closePreview = () => {
+  showPreview.value = false
+}
+
+const previewImage = (index, list) => {
+  uni.previewImage({
+    current: index,
+    urls: [list],
+  })
+}
 </script>
 
 <style scoped lang="scss">
@@ -102,9 +151,10 @@ defineProps<{ item: any }>()
   margin-right: 15rpx;
 }
 .desc-label {
-  color: #5c5c5c;
-  font-size: 24rpx;
-  line-height: 1.6;
+  font-size: 26rpx; // 或你需要的大小
+  color: #4d515b; // 颜色自定
+  line-height: 1.6; // 行高自定
+  font-weight: 500;
 }
 .btn-group {
   display: flex;
@@ -153,14 +203,65 @@ defineProps<{ item: any }>()
   white-space: nowrap;
 }
 .item-img {
-  width: 144rpx;
-  height: 108rpx;
+  width: 160rpx;
+  height: 160rpx;
   border-radius: 18rpx;
   object-fit: cover;
   flex-shrink: 0;
   margin-left: 27rpx;
   margin-top: 3rpx;
-  max-width: 144rpx;
-  max-height: 108rpx;
+  max-width: 160rpx;
+  max-height: 160rpx;
+}
+.rectify-imgs {
+  gap: 16rpx;
+}
+.w-24 {
+  width: 96rpx;
+}
+.h-24 {
+  height: 96rpx;
+}
+.object-cover {
+  object-fit: cover;
+}
+.rounded {
+  border-radius: 12rpx;
+}
+.mb-2 {
+  margin-bottom: 8rpx;
+}
+.text-xs {
+  font-size: 24rpx;
+}
+// 新增更大的图片样式
+.w-big {
+  width: 160rpx;
+}
+.h-big {
+  height: 160rpx;
+}
+.rounded-big {
+  border-radius: 20rpx;
+}
+.preview-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.preview-img {
+  width: 75vw;
+  height: 33vh; /* 保持原图比例 */
+  max-height: 60vh; /* 避免过高撑满屏 */
+  border-radius: 12rpx;
+  object-fit: contain;
+  background: #fff;
 }
 </style>

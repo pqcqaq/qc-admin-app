@@ -141,7 +141,7 @@ import { storeToRefs } from 'pinia'
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 // 正式使用
-const userRole = userInfo.value?.row.role || ''
+const userRole = computed(() => userInfo.value?.row.role || '')
 // 测试使用
 // const userRole: string = 'clerk'
 // const userRole = 'area-manage'
@@ -178,11 +178,11 @@ const filteredTasks = computed(() => {
   // 根据用户角色过滤任务
   return tasks.value.filter((task) => {
     // 店长和店员可以看到所有类型的任务
-    if (userRole === EnumRole.STOREMANAGE || userRole === EnumRole.CLERK) {
+    if (userRole.value === EnumRole.STOREMANAGE || userRole.value === EnumRole.CLERK) {
       return true
     }
     // 督导只看到问题整改类型的任务
-    else if (userRole === EnumRole.AREAMANAGE || userRole === EnumRole.MNAGE) {
+    else if (userRole.value === EnumRole.AREAMANAGE || userRole.value === EnumRole.MNAGE) {
       return (
         task.type === 'detection_task_rectified' &&
         (task.stateEnum === 'rectified_submitted' || task.stateEnum === 'rectified_success')
@@ -269,7 +269,7 @@ const handleTaskSubmit = (task: any) => {
   const time = task.createdAt.split('T')[0].split('-')
   const timeText = `${time[1]}月${time[2]}日`
   // 更新任务状态等逻辑...
-  if (userRole === EnumRole.CLERK || userRole === EnumRole.STOREMANAGE) {
+  if (userRole.value === EnumRole.CLERK || userRole.value === EnumRole.STOREMANAGE) {
     if (task.type === 'manual_detection_task') {
       uni.navigateTo({
         url: `/pages/manual-inspection/index?id=${task.id}&time=${timeText}&shopName=${task.shopName}`,
