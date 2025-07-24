@@ -64,9 +64,7 @@ const finish = async () => {
         showCancel: false,
         confirmColor: '#3daa9a',
         success: () => {
-          uni.navigateTo({
-            url: '/pages/mine/info/index',
-          })
+          uni.navigateBack()
         },
       })
     } else {

@@ -30,7 +30,7 @@ const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
 
 // 返回上一页
 const back = () => {
-  uni.navigateTo({ url: '/pages/mine/info/index' })
+  uni.navigateBack()
 }
 
 const isBackPressed = ref(false)

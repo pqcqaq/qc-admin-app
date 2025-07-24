@@ -23,7 +23,7 @@ const t = i18n.t
 const isBackPressed = ref(false)
 // 返回上一页
 const back = () => {
-  uni.switchTab({ url: '/pages/mine/index' })
+  uni.navigateBack()
 }
 
 const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets

@@ -12,7 +12,7 @@
         <text class="status-bar-title">{{ t('change_avatar') }}</text>
       </template>
       <template #right>
-        <button class="status-bar-confirm-button" @click="finish">{{ t('finish') }}</button>
+        <button class="status-bar-confirm-button" @click="() => finish()">{{ t('finish') }}</button>
       </template>
     </StatusBar>
     <view class="avatar-container">
@@ -45,7 +45,15 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 const finish = async () => {
   const res = await updateavatarbyself({ avatarUrl: imgPath.value })
   if (res.code === 0) {
-    uni.navigateBack()
+    uni.showModal({
+      title: t('tip'),
+      content: t('change_successfully'),
+      showCancel: false,
+      confirmColor: '#3daa9a',
+      success: () => {
+        uni.navigateBack()
+      },
+    })
   }
 }
 
