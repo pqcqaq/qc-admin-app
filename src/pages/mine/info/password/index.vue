@@ -37,7 +37,9 @@
           clearable
           :rules="[{ required: true, message: t('new_password_cannot_be_empty') }]"
           :no-border="true"
+          @blur="validateNewPassword"
         ></wd-input>
+        <text v-if="newPasswordTip" class="password-tip">{{ newPasswordTip }}</text>
       </view>
       <text class="label">{{ t('confirm_your_new_password') }}</text>
       <view class="card">
@@ -48,7 +50,9 @@
           clearable
           :rules="[{ required: true, message: t('new_password_cannot_be_empty') }]"
           :no-border="true"
+          @blur="validateConfirmPassword"
         ></wd-input>
+        <text v-if="confirmPasswordTip" class="password-tip">{{ confirmPasswordTip }}</text>
       </view>
     </view>
   </view>
@@ -69,6 +73,8 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 const i18n = useI18n()
 const t = i18n.t
 
+const isValidPassword = (pwd: string) => /^(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,16}$/.test(pwd)
+
 // 完成修改
 const finish = async () => {
   if (
@@ -82,6 +88,14 @@ const finish = async () => {
       duration: 2000,
       mask: true,
     })
+    return
+  }
+
+  // 先进行输入框下方的校验
+  validateNewPassword()
+  validateConfirmPassword()
+  if (newPasswordTip.value || confirmPasswordTip.value) {
+    // 如果有提示，说明校验未通过
     return
   }
 
@@ -148,6 +162,35 @@ const formData = ref({
   newPassword: '',
   confirmPassword: '',
 })
+
+const newPasswordTip = ref('')
+const confirmPasswordTip = ref('')
+
+// 新密码输入失焦时校验
+const validateNewPassword = () => {
+  if (formData.value.newPassword === '') {
+    newPasswordTip.value = ''
+    return
+  }
+  if (!isValidPassword(formData.value.newPassword)) {
+    newPasswordTip.value = '密码需包含大写字母、小写字母，长度8-16位'
+  } else {
+    newPasswordTip.value = ''
+  }
+}
+
+// 确认新密码输入失焦时校验
+const validateConfirmPassword = () => {
+  if (formData.value.confirmPassword === '') {
+    confirmPasswordTip.value = ''
+    return
+  }
+  if (formData.value.confirmPassword !== formData.value.newPassword) {
+    confirmPasswordTip.value = '两次输入的新密码不一致'
+  } else {
+    confirmPasswordTip.value = ''
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -199,5 +242,12 @@ $card-bg-color: #ffffff;
 
 ::v-deep .page-content {
   padding: 0;
+}
+
+.password-tip {
+  color: #e74c3c;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+  margin-left: 10rpx;
 }
 </style>
