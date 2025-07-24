@@ -270,7 +270,7 @@ export const updatePassword = (params: IUpdatePasswordParams) => {
  * 验证码修改密码
  */
 export const loginaccountbysmscode = (params: ChangePasswordParams) => {
-  return http.post<IBaseResponse>('/customer/auth/loginaccountbysmscode', params)
+  return http.post<IBaseResponse>('/customer/auth/changeaccountpasswordbysmscode', params)
 }
 
 /**
