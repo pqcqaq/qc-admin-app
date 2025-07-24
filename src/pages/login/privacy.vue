@@ -20,7 +20,7 @@
 import MarkdownRenderer from '@/components/markdown-renderer/MarkdownRenderer.vue'
 import { useI18n } from 'vue-i18n'
 const i18n = useI18n()
-const t = i18n.t
+const { t } = i18n
 </script>
 
 <style lang="scss" scoped>

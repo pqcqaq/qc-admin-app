@@ -7,7 +7,7 @@
 </route>
 
 <template>
-  <view class="container" :style="{ paddingTop: safeAreaInsets.top + 'px' }">
+  <view class="container">
     <StatusBar>
       <template #title>
         <text class="status-bar-title">{{ t('change-password') }}</text>
@@ -67,8 +67,6 @@ import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { useI18n } from 'vue-i18n'
 import { updatePassword } from '@/api/user'
 // import { updateInfo, updateUserPassword } from '@/api/login'
-
-const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const i18n = useI18n()
 const t = i18n.t

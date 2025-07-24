@@ -3,6 +3,7 @@
   style: {
     navigationStyle: 'custom',
   },
+  layout: 'default',
 }
 </route>
 

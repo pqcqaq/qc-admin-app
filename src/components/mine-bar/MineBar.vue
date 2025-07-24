@@ -1,5 +1,5 @@
 <template>
-  <view class="status_bar">
+  <view class="status_bar" :style="{ paddingTop: `${safeAreaInsets.top}px` }">
     <view
       class="status-bar-left"
       :class="{ pressed: isBackPressed }"
@@ -23,18 +23,17 @@ const t = i18n.t
 const isBackPressed = ref(false)
 // 返回上一页
 const back = () => {
-  uni.switchTab({ url: '/pages/mine/index' })
+  uni.navigateBack()
 }
+
+const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
 </script>
 
 <style lang="scss" scoped>
 $background-color: rgb(248, 248, 248);
 
 .status_bar {
-  position: relative;
   background: $background-color;
-  height: calc(73rpx + env(safe-area-inset-top));
-  padding: 7rpx 3rpx;
   display: flex;
   overflow: hidden;
   justify-content: space-between;

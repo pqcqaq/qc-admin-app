@@ -1,5 +1,5 @@
 <template>
-  <view class="status_bar">
+  <view class="status_bar" :style="{ paddingTop: `${safeAreaInsets.top}px` }">
     <view
       class="status-bar-left"
       :class="{ pressed: isBackPressed }"
@@ -26,9 +26,11 @@ import { useI18n } from 'vue-i18n'
 const i18n = useI18n()
 const t = i18n.t
 
+const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
+
 // 返回上一页
 const back = () => {
-  uni.navigateTo({ url: '/pages/mine/info/index' })
+  uni.navigateBack()
 }
 
 const isBackPressed = ref(false)
@@ -40,14 +42,11 @@ $font-color: #536387;
 .status_bar {
   position: relative;
   background: $background-color;
-  height: calc(73rpx + env(safe-area-inset-top));
-  padding: 7rpx 3rpx;
   display: flex;
   overflow: hidden;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  z-index: 998;
   transition-property: all;
 
   .status-bar-title {
@@ -57,7 +56,10 @@ $font-color: #536387;
   }
   .status-bar-left {
     margin-left: 25rpx;
-
+    // 上下居中
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .status-bar-back-button {
       color: $font-color;
     }

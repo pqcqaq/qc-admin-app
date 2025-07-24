@@ -20,15 +20,10 @@
 <script lang="ts" setup>
 import { theme } from '@/config/theme'
 const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
+
+onMounted(() => {
+  console.log('default layout', safeAreaInsets, top)
+})
 </script>
 
-<style lang="scss" scoped>
-$background-color: #f7f8fa;
-.tabbar-layout {
-  position: relative;
-}
-
-.page-content {
-  background-color: $background-color;
-}
-</style>
+<style lang="scss" scoped></style>
