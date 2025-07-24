@@ -6,7 +6,7 @@
 }
 </route>
 <template>
-  <view class="container" :style="{ paddingTop: safeAreaInsets.top + 'px' }">
+  <view class="container">
     <StatusBar>
       <template #title>
         <text class="status-bar-title">{{ t('change_avatar') }}</text>
@@ -40,7 +40,6 @@ const t = i18n.t
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const imgPath = ref(userInfo.value.row.avatarUrl)
-const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const finish = async () => {
   const res = await updateavatarbyself({ avatarUrl: imgPath.value })

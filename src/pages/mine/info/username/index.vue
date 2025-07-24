@@ -6,7 +6,7 @@
 }
 </route>
 <template>
-  <view class="container" :style="{ paddingTop: safeAreaInsets.top + 'px' }">
+  <view class="container">
     <StatusBar>
       <template #title>
         <text class="status-bar-title">{{ t('change_username') }}</text>
@@ -42,7 +42,6 @@ const currentUsername = ref(userInfo.value.row.nickname)
 const i18n = useI18n()
 const t = i18n.t
 
-const { safeAreaInsets } = uni.getSystemInfoSync()
 // 完成修改
 const finish = async () => {
   const nickname = currentUsername.value.trim()
