@@ -151,6 +151,7 @@ import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import ScanCode from '@/components/scan-code/ScanCode.vue'
 import { base64ToUtf8 } from '@/utils/string'
+import { getAuditDetail } from '@/api/audit'
 
 defineOptions({
   name: 'Home',
@@ -270,12 +271,12 @@ const displayRole = computed(() => {
 // 扫码处理函数
 const handleScanSuccess = (result: UniApp.ScanCodeSuccessRes) => {
   console.log('扫描成功:', result)
-  // TODO: 方便debug，之后要注释
-  uni.showToast({
-    title: `扫描成功: ${result.result}`,
-    icon: 'success',
-    duration: 2000,
-  })
+  // T1ODO: 方便debug，之后要注释
+  // uni.showToast({
+  //   title: `扫描成功: ${result.result}`,
+  //   icon: 'success',
+  //   duration: 2000,
+  // })
   // 这里可以根据扫描结果进行相应的处理
   const raw = result.rawData
   const str = base64ToUtf8(raw)
@@ -284,14 +285,38 @@ const handleScanSuccess = (result: UniApp.ScanCodeSuccessRes) => {
   const url = new URL(str)
   const task = url.searchParams.get('task')
   const action = url.searchParams.get('action')
+  const type = url.searchParams.get('type') as 'rectification' | 'manual'
   console.log(task, action)
-  switch (action) {
-    case 'viewTask':
-      uni.navigateTo({
-        url: `/pages/task/detail/index?id=${task}`,
-      })
-      break
+  if (!task || !action) {
+    uni.showToast({
+      title: t('error_params'),
+      icon: 'error',
+      duration: 2000,
+    })
+    return
   }
+  getAuditDetail({ id: Number(task) })
+    .then((res) => {
+      const { id, rows, appealState } = res.data
+      switch (action) {
+        case 'viewTask':
+          const baseUrl =
+            type === 'manual'
+              ? '/pages/manual-inspection/index'
+              : '/pages/rectification-appeal/appealOrRectify'
+          uni.navigateTo({
+            url: `${baseUrl}?id=${id}&time=${formatDateRange}&shopName=${rows[0]?.shopName || ''}&appealState=${appealState}`,
+          })
+          break
+      }
+    })
+    .catch((err) => {
+      uni.showToast({
+        title: err.message,
+        icon: 'error',
+        duration: 2000,
+      })
+    })
 }
 
 const handleScanFail = (error: any) => {

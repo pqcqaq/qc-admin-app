@@ -155,5 +155,6 @@
   "please_enter_new_password": "please enter new password",
   "please_enter_new_password_again": "please enter new password again",
   "please_enter_new_password_format": "The new password should contain both upper and lower case letters and be 8 to 16 characters in length",
-  "two_input_password_not_consistent": "two input password not consistent"
+  "two_input_password_not_consistent": "two input password not consistent",
+  "error_params": "error params, please contact the administrator"
 }

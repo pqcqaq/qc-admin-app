@@ -1,5 +1,4 @@
 // 此文件由vite插件自动生成，请勿手动修改
-// Generated at: 2025-07-24T02:15:31.200Z
 
 export const markdownFiles: Record<string, string> = {
   'en/example.md':

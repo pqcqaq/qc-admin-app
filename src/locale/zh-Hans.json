@@ -154,5 +154,6 @@
   "please_enter_new_password": "请输入新密码，长度为8-16字符",
   "please_enter_new_password_again": "请再次输入新密码",
   "please_enter_new_password_format": "新密码需包含大小写字母，长度为8-16字符",
-  "two_input_password_not_consistent": "两次密码不一致"
+  "two_input_password_not_consistent": "两次密码不一致",
+  "error_params": "参数错误，请联系管理员"
 }
