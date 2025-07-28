@@ -416,8 +416,8 @@ const onCalendarCancel = () => {
 }
 
 .page-header-user-avatar {
-  width: 50px;
-  height: 50px;
+  width: 90rpx;
+  height: 90rpx;
   background: #d9d9d9;
   border-radius: 50%;
   overflow: hidden;
@@ -430,41 +430,42 @@ const onCalendarCancel = () => {
 }
 
 .page-header-user-name {
-  font-size: 16px;
+  font-size: 32rpx;
   color: #eee;
-  margin-left: 10px;
+  margin-left: 20rpx;
 }
 
 .page-header-user-type {
-  height: 28px;
-  line-height: 28px;
-  margin-left: 20px;
+  height: 56rpx;
+  line-height: 56rpx;
+  margin-left: 20rpx;
   background-color: #fff;
   color: var(--color-primary);
-  border-radius: 14px;
-  font-size: 16px;
-  padding: 0 10px;
+  border-radius: 28rpx;
+  font-size: 28rpx;
+  padding: 0 20rpx;
   box-sizing: border-box;
 }
 
 .page-header-search {
-  margin-top: 20px;
+  margin-top: 40rpx;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 20rpx;
   box-sizing: border-box;
   background-color: #f9f9f9;
-  border-radius: 8px;
+  border-radius: 16rpx;
 }
 
 .page-header-search-label {
-  width: 60px;
-  font-size: 20px;
+  width: 100rpx;
+  font-size: 34rpx;
   font-weight: 500;
   color: #536387;
-  margin-right: 10px;
+  margin-right: 10rpx;
+  margin-bottom: 7rpx;
 }
 
 /* 自定义日期选择器样式 */

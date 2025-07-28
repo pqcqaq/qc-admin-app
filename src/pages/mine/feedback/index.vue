@@ -172,10 +172,11 @@ $font-color: #4d515b;
     background-color: $bg-color;
 
     .submit-button-container {
+      margin-top: 50rpx;
       display: flex;
       justify-content: center;
       .submit-button {
-        margin-top: 50rpx;
+        margin-top: 100rpx;
         border-radius: 10rpx;
         width: 80%;
         height: 80rpx;
