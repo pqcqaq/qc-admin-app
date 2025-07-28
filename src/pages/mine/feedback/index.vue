@@ -21,10 +21,10 @@
           show-word-limit
         />
       </view>
-      <view class="submit-button-container">
-        <wd-button :type="buttonType" class="submit-button" @click="submitFeedback">
+      <view class="feedback-button-container">
+        <button class="feedback-submit" @click="submitFeedback">
           {{ t('submit') }}
-        </wd-button>
+        </button>
       </view>
       <view class="qr-code" @click="handleImageClick">
         <image :src="qrCode" class="qr-code-image" />
@@ -38,13 +38,10 @@
 <script lang="ts" setup>
 import MineBar from '@/components/mine-bar/MineBar.vue'
 import { useI18n } from 'vue-i18n'
-import { ButtonType } from 'wot-design-uni/components/wd-button/types'
 import { addFeedback } from '@/api/feedback'
 
 const i18n = useI18n()
 const t = i18n.t
-
-const buttonType = ref<ButtonType>('info') // 按钮类型
 
 const feedback = ref('')
 
@@ -83,16 +80,6 @@ const submitFeedback = async () => {
     }
   })
 }
-
-//按钮变色
-const changeButtonColor = () => {
-  if (feedback.value.trim() !== '') {
-    buttonType.value = 'success' // 如果有内容，变为绿色
-  } else {
-    buttonType.value = 'info' // 如果没有内容，变为灰色
-  }
-}
-watch(() => feedback.value, changeButtonColor)
 
 //保存图片
 const handleImageClick = () => {
@@ -159,50 +146,63 @@ const saveImage = () => {
 $title-color: #536387;
 $bg-color: #f5f5f5;
 $font-color: #4d515b;
-.container {
-  .status-bar-title {
-    font-size: large;
-    font-weight: bold;
-    color: $title-color;
-  }
-  .feedback-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20rpx;
-    background-color: $bg-color;
 
-    .submit-button-container {
-      margin-top: 50rpx;
-      display: flex;
-      justify-content: center;
-      .submit-button {
-        margin-top: 100rpx;
-        border-radius: 10rpx;
-        width: 80%;
-        height: 80rpx;
-        font-size: 30rpx;
-      }
-    }
-
-    .qr-code {
-      display: flex;
-      justify-content: center;
-      margin-top: 80rpx;
-      .qr-code-image {
-        width: 400rpx;
-        height: 400rpx;
-      }
-    }
-
-    .font {
-      margin-top: 50rpx;
-      display: flex;
-      justify-content: center;
-      font-size: large;
-      color: $font-color;
-    }
-  }
+.status-bar-title {
+  font-size: large;
+  font-weight: bold;
+  color: $title-color;
 }
+
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+  background-color: $bg-color;
+}
+
+.feedback-button-container {
+  margin-top: 80rpx;
+  display: flex;
+  justify-content: center;
+  padding: 0 20rpx;
+}
+
+.qr-code {
+  display: flex;
+  justify-content: center;
+  margin-top: 80rpx;
+}
+
+.qr-code-image {
+  width: 400rpx;
+  height: 400rpx;
+}
+
+.font {
+  margin-top: 50rpx;
+  display: flex;
+  justify-content: center;
+  font-size: large;
+  color: $font-color;
+}
+
+.feedback-submit {
+  width: 100%;
+  height: 80rpx;
+  border-radius: 10rpx;
+  font-size: 30rpx;
+  background-color: #3daa9a;
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-button:active {
+  background-color: #359a8a;
+}
+
 ::v-deep .page-content {
   padding: 0;
 }
