@@ -453,7 +453,7 @@ const onCalendarCancel = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20rpx;
+  padding: 12rpx;
   box-sizing: border-box;
   background-color: #f9f9f9;
   border-radius: 16rpx;
@@ -464,7 +464,7 @@ const onCalendarCancel = () => {
   font-size: 34rpx;
   font-weight: 500;
   color: #536387;
-  margin-right: 10rpx;
+  margin-right: 1rpx;
   margin-bottom: 7rpx;
 }
 
