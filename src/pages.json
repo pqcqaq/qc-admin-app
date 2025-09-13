@@ -54,7 +54,7 @@
         "navigationBarTitleText": "首页"
       },
       "layout": "tabbar",
-      "needLogin": true
+      "needLogin": false
     },
     {
       "path": "pages/about/about",
@@ -69,16 +69,10 @@
       }
     },
     {
-      "path": "pages/audit/index",
-      "type": "page",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/login/index",
       "type": "page",
       "style": {
+        "navigationBarTitleText": "登录",
         "navigationStyle": "custom"
       }
     },
@@ -97,47 +91,10 @@
       }
     },
     {
-      "path": "pages/manual-inspection/index",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationBarTitleText": "人工巡检项报告",
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/mine/index",
       "type": "page",
       "style": {
         "navigationStyle": "custom"
-      },
-      "layout": "tabbar",
-      "needLogin": true
-    },
-    {
-      "path": "pages/rectification-appeal/appealOrRectify",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationBarTitleText": "每日AI早检",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/rectification-appeal/index",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationBarTitleText": "每日AI早检",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/task/index",
-      "type": "page",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "任务看板"
       },
       "layout": "tabbar",
       "needLogin": true
@@ -156,13 +113,6 @@
         "navigationStyle": "custom"
       },
       "layout": "default"
-    },
-    {
-      "path": "pages/task/history/index",
-      "type": "page",
-      "style": {
-        "navigationStyle": "custom"
-      }
     },
     {
       "path": "pages/mine/info/avatar/index",

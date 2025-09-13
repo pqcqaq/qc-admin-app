@@ -1,5 +1,5 @@
 import { http } from '@/utils/http'
-import { IPaginationParams, IBaseResponse, IShop } from '.'
+import { IPaginationParams, IBaseResponse } from '.'
 import { useUserStore } from '@/store'
 import { getEnvBaseUrl } from '@/utils'
 // 请求基准地址
@@ -147,27 +147,10 @@ export type IOrganization = {
   updated: number
 }
 
-export type UserInfoWithShop = {
-  row: IUser & {
-    customerOrganization: IOrganization
-  }
-  shops: IShop[]
-}
-
 export type ChangePasswordParams = {
   phoneNumber: string
   smsCode: string
   newPassword: string
-}
-
-/**
- * 查询单个用户带shop信息
- */
-export const getUserDetailWithShop = (params: IUserDetailParams) => {
-  return http.post<IBaseResponse<UserInfoWithShop>>(
-    '/customer/customer/getonebyidwithshops',
-    params,
-  )
 }
 
 /**

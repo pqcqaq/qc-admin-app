@@ -1,40 +1,37 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { toast } from '@/utils/toast'
-import { getUserDetailWithShop, IUser, UserInfoWithShop } from '@/api'
+import { IUser } from '@/api'
 import { login as _login, loginBySmsCode as _loginBySmsCode } from '@/api'
 
-const userInfoState: UserInfoWithShop = {
-  row: {
-    id: 0,
-    customerOrganizationId: 0,
-    phoneNumber: '',
-    nickname: '',
-    name: '',
-    role: '',
-    password: '',
-    shopIdList: '',
-    enabled: 0,
-    gender: 2, // 1男，0女，2未填写
-    avatarUrl: '',
-    webSid: '',
-    logined: 0,
-    employeeStringId: '',
-    created: 0,
-    updated: 0,
-    deleted: 0,
-  } as any,
-  shops: [],
+const userInfoState: IUser = {
+  id: 0,
+  customerOrganizationId: 0,
+  phoneNumber: '',
+  nickname: '',
+  name: '',
+  role: '',
+  password: '',
+  shopIdList: '',
+  enabled: 0,
+  gender: 2, // 1男，0女，2未填写
+  avatarUrl: '',
+  webSid: '',
+  logined: 0,
+  employeeStringId: '',
+  created: 0,
+  updated: 0,
+  deleted: 0,
 }
 
 export const useUserStore = defineStore(
   'user',
   () => {
     // 定义用户信息
-    const userInfo = ref<UserInfoWithShop>({ ...userInfoState })
+    const userInfo = ref<IUser>({ ...userInfoState })
     const token = ref<string | null>(null)
     // 设置用户信息
-    const setUserInfo = (val: UserInfoWithShop) => {
+    const setUserInfo = (val: IUser) => {
       console.log('设置用户信息', val)
       // 若头像为空 则使用默认头像
       // if (!val.row.avatarUrl) {
@@ -45,7 +42,7 @@ export const useUserStore = defineStore(
       userInfo.value = val
     }
     const setUserAvatar = (avatar: string) => {
-      userInfo.value.row.avatarUrl = avatar
+      userInfo.value.avatarUrl = avatar
       console.log('设置用户头像', avatar)
       console.log('userInfo', userInfo.value)
     }
@@ -70,14 +67,14 @@ export const useUserStore = defineStore(
         })
         .then((res) => {
           console.log(res, 77777)
-          return getUserDetailWithShop({
-            id: res.data.id,
-          })
+          // return getUserDetailWithShop({
+          //   id: res.data.id,
+          // })
         })
         .then((res) => {
-          console.log('获取用户信息', res)
-          console.log(res.data, 11126211111)
-          setUserInfo(res.data)
+          // console.log('获取用户信息', res)
+          // console.log(res.data, 11126211111)
+          // setUserInfo(res.data)
           return res
         })
     }
@@ -95,12 +92,12 @@ export const useUserStore = defineStore(
           return res
         })
         .then((res) => {
-          return getUserDetailWithShop({
-            id: res.data.id,
-          })
+          // return getUserDetailWithShop({
+          //   id: res.data.id,
+          // })
         })
         .then((res) => {
-          setUserInfo(res.data)
+          // setUserInfo(res.data)
           return res
         })
         .catch((err) => {

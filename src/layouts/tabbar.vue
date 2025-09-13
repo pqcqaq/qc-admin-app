@@ -33,20 +33,7 @@ const tabbarStore = useTabbarStore()
 
 const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
 
-// 监听页面变化，更新tabbar状态
-onMounted(() => {
-  updateTabBarState()
-})
-
-onShow(() => {
-  updateTabBarState()
-})
-
-// 页面卸载时清理动画状态
-onUnmounted(() => {
-  tabbarStore.stopAnimation()
-})
-
+// 更新tabbar状态的函数
 const updateTabBarState = () => {
   nextTick(() => {
     if (tabBarRef.value) {
@@ -64,6 +51,20 @@ const updateTabBarState = () => {
     }
   })
 }
+
+// 监听页面变化，更新tabbar状态
+onMounted(() => {
+  updateTabBarState()
+})
+
+onShow(() => {
+  updateTabBarState()
+})
+
+// 页面卸载时清理动画状态
+onUnmounted(() => {
+  tabbarStore.stopAnimation()
+})
 </script>
 
 <style lang="scss" scoped>

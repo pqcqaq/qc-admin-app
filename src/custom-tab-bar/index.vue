@@ -47,11 +47,12 @@ const switchTab = (item: TabItem, index: number) => {
   })
 }
 
-// 获取屏幕宽度
+// 获取窗口宽度（不包含开发者工具控制台）
 const getSystemInfo = () => {
   uni.getSystemInfo({
     success: (res) => {
-      tabbarStore.setTabBarWidth(res.screenWidth)
+      // 使用 windowWidth 而不是 screenWidth，避免包含开发者工具控制台宽度
+      tabbarStore.setTabBarWidth(res.windowWidth)
     },
   })
 }

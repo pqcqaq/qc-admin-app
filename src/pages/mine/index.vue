@@ -11,13 +11,13 @@
 <template>
   <view class="container">
     <view class="user-info-section">
-      <image :src="userInfo.row.avatarUrl" class="avatar-wrapper" />
+      <image :src="userInfo.avatarUrl" class="avatar-wrapper" />
       <view class="nick-name">
-        <text>{{ userInfo.row.nickname }}</text>
+        <text>{{ userInfo.nickname }}</text>
       </view>
-      <view class="company-name">
-        <text>{{ userInfo.row.customerOrganization.name }}</text>
-      </view>
+      <!-- <view class="company-name">
+        <text>{{ userInfo.customerOrganization.name }}</text>
+      </view> -->
     </view>
     <view class="function-section">
       <!-- 个人资料 -->
