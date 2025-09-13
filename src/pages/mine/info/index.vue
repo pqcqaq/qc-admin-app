@@ -152,24 +152,16 @@ const goTo = (type: string) => {
 </script>
 
 <style lang="scss" scoped>
-$title-color: #536387;
-$press-color: #e5e5e5;
-$container-bg: #f5f5f5;
-$card-title-color: #333;
-$card-bg: #fff;
-$card-label-color: #333;
-$card-value-color: #666;
-$shop-name-color: #333;
-$shop-address-color: #999;
+@import '@/style/variables.scss';
 
 .container {
   height: 100%;
-  background-color: $container-bg;
+  background-color: $bg-primary;
 
   .status-bar-title {
     font-size: large;
     font-weight: bold;
-    color: $title-color;
+    color: $font-secondary;
   }
   .personal-info-container {
     display: flex;
@@ -177,8 +169,8 @@ $shop-address-color: #999;
     padding: 20rpx;
 
     .item_title {
-      font-size: 24rpx;
-      color: $card-title-color;
+      font-size: $font-size-sm;
+      color: $font-primary;
       margin-top: 20rpx;
       margin-bottom: 10rpx;
       padding-left: 10rpx;
@@ -191,30 +183,30 @@ $shop-address-color: #999;
     }
 
     .pressed {
-      background-color: $press-color;
+      background-color: $color-active;
     }
 
     .card {
-      background-color: $card-bg;
+      background-color: $bg-white;
       padding: 22rpx 18rpx;
-      border-radius: 12rpx;
+      border-radius: $radius-base;
       margin-bottom: 20rpx;
-      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      box-shadow: $shadow-normal;
 
       &:hover {
-        background-color: $press-color;
+        background-color: $color-active;
       }
 
       .label {
-        font-size: 28rpx;
-        color: $card-label-color;
+        font-size: $font-size-base;
+        color: $font-primary;
       }
 
       .value {
         display: flex;
         align-items: center;
-        font-size: 28rpx;
-        color: $card-value-color;
+        font-size: $font-size-base;
+        color: $font-gray;
 
         .avatar {
           width: 60rpx;
@@ -230,21 +222,21 @@ $shop-address-color: #999;
     }
 
     .shop-card {
-      background-color: $card-bg;
+      background-color: $bg-white;
       padding: 10rpx 20rpx;
-      border-radius: 12rpx;
+      border-radius: $radius-base;
       margin-bottom: 20rpx;
-      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      box-shadow: $shadow-normal;
 
       .shop-name {
-        font-size: 28rpx;
-        color: $shop-name-color;
+        font-size: $font-size-base;
+        color: $font-primary;
         font-weight: bold;
       }
 
       .shop-address {
-        font-size: 24rpx;
-        color: $shop-address-color;
+        font-size: $font-size-sm;
+        color: $font-disabled;
         word-break: break-all;
       }
     }

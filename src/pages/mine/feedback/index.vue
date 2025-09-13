@@ -142,19 +142,17 @@ const qrCode = ref('/static/qrcode-qiyeweixin.png')
 // }
 </script>
 <style lang="scss" scoped>
-$title-color: #536387;
-$bg-color: #f5f5f5;
-$font-color: #4d515b;
+@import '@/style/variables.scss';
 
 .container {
   height: 100%;
-  background-color: $bg-color;
+  background-color: $bg-primary;
 }
 
 .status-bar-title {
   font-size: large;
   font-weight: bold;
-  color: $title-color;
+  color: $font-secondary;
 }
 
 .feedback-container {
@@ -186,7 +184,7 @@ $font-color: #4d515b;
   display: flex;
   justify-content: center;
   font-size: large;
-  color: $font-color;
+  color: $font-tertiary;
 }
 
 .feedback-submit {

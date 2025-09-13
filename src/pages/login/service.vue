@@ -21,9 +21,11 @@ const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variables.scss';
+
 .markdown-demo {
   padding: 12px;
-  background-color: #f5f5f5;
+  background-color: $bg-primary;
 
   .header {
     text-align: center;
@@ -32,20 +34,20 @@ const { t } = useI18n()
     .title {
       font-size: 20px;
       font-weight: bold;
-      color: #333;
+      color: $font-primary;
     }
   }
 
   .demo-section {
-    background-color: white;
+    background-color: $bg-white;
     border-radius: 6px;
     margin-bottom: 12px;
     overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: $shadow-light;
 
     .section-title {
-      background-color: #007aff;
-      color: white;
+      background-color: $color-info;
+      color: $bg-white;
       padding: 8px 12px;
       font-size: 14px;
       font-weight: bold;

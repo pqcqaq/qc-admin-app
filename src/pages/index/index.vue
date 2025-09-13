@@ -90,6 +90,8 @@ const calendarValue = ref([new Date().getTime(), new Date().getTime()])
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variables.scss';
+
 .page {
   width: 100%;
   box-sizing: border-box;
@@ -154,7 +156,7 @@ const calendarValue = ref([new Date().getTime(), new Date().getTime()])
 }
 
 .page-header-user-name {
-  font-size: 32rpx;
+  font-size: $font-size-xl;
   color: #eee;
   margin-left: 20rpx;
 }

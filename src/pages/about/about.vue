@@ -34,8 +34,10 @@ const handlerMarkdown = () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/style/variables.scss';
+
 .about-page {
-  background: #f8f9fa;
+  background: $bg-gray;
   min-height: 100vh;
 }
 
@@ -45,16 +47,16 @@ const handlerMarkdown = () => {
 
   .title {
     display: block;
-    font-size: 48rpx;
+    font-size: $font-size-title;
     font-weight: bold;
-    color: #333;
+    color: $font-primary;
     margin-bottom: 20rpx;
   }
 
   .subtitle {
     display: block;
-    font-size: 28rpx;
-    color: #666;
+    font-size: $font-size-base;
+    color: $font-gray;
   }
 }
 
@@ -66,12 +68,12 @@ const handlerMarkdown = () => {
     width: 100%;
     margin-bottom: 20rpx;
     padding: 30rpx;
-    background: white;
+    background: $bg-white;
     border: none;
-    border-radius: 20rpx;
-    font-size: 32rpx;
-    color: #333;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+    border-radius: $radius-xl;
+    font-size: $font-size-xl;
+    color: $font-primary;
+    box-shadow: $shadow-normal;
 
     &:active {
       transform: scale(0.98);

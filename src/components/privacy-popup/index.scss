@@ -1,9 +1,11 @@
 @import 'wot-design-uni/components/wd-button/index.scss';
+@import '../../style/variables.scss';
+
 :deep(.wd-privacy-popup) {
   width: 600rpx;
   padding: 0 24rpx;
   box-sizing: border-box;
-  border-radius: 32rpx;
+  border-radius: $radius-xl;
   overflow: hidden;
 }
 
@@ -13,7 +15,7 @@
     height: 128rpx;
     line-height: 128rpx;
     color: rgba(0, 0, 0, 0.85);
-    font-size: 30rpx;
+    font-size: $font-size-lg;
     padding: 0 12rpx;
     box-sizing: border-box;
   }
@@ -24,13 +26,13 @@
     padding: 0 12rpx;
     margin-bottom: 32rpx;
 
-    font-size: 28rpx;
+    font-size: $font-size-base;
     line-height: 1.8;
-    color: #3e3e3e;
+    color: $font-tertiary;
     text-align: left;
     font-weight: 550;
     &-protocol {
-      color: #4d80f0;
+      color: $color-info;
     }
   }
 

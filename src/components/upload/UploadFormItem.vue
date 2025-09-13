@@ -456,6 +456,8 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variables.scss';
+
 .upload-form-item {
   width: 100%;
 
@@ -475,21 +477,21 @@ defineExpose({
     position: relative;
     width: 200rpx;
     height: 200rpx;
-    border: 4rpx dashed #dcdfe6;
+    border: 4rpx dashed $border-light;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: #fafafa;
+    background-color: $bg-light-gray;
 
     &:hover {
-      border-color: #409eff;
+      border-color: $color-info;
     }
 
     &.is-disabled {
-      opacity: 0.6;
+      opacity: $opacity-disabled;
       cursor: not-allowed;
     }
 
@@ -506,8 +508,8 @@ defineExpose({
 
       .placeholder-text {
         margin-top: 16rpx;
-        font-size: 24rpx;
-        color: #909399;
+        font-size: $font-size-sm;
+        color: $font-disabled;
       }
     }
 
@@ -526,8 +528,8 @@ defineExpose({
 
       .loading-text {
         margin-top: 16rpx;
-        font-size: 24rpx;
-        color: #409eff;
+        font-size: $font-size-sm;
+        color: $color-info;
       }
     }
   }
@@ -545,8 +547,8 @@ defineExpose({
     position: relative;
     width: 200rpx;
     height: 200rpx;
-    border: 2rpx solid #dcdfe6;
-    border-radius: 12rpx;
+    border: 2rpx solid $border-light;
+    border-radius: $radius-base;
     overflow: hidden;
 
     &.file-card {

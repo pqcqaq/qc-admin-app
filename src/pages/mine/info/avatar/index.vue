@@ -138,22 +138,16 @@ const handleFinish = async () => {
 </script>
 
 <style lang="scss" scoped>
-$primary-color: #3daa9a;
-$font1-color: #ffffff;
-$font2-color: #536387;
-$font3-color: #4d515b;
-$bg-color: #f5f5f5;
-$card-bg-color: #ffffff;
-$success-color: #52c41a;
+@import '@/style/variables.scss';
 
 .container {
   height: 100%;
-  background-color: $bg-color;
+  background-color: $bg-primary;
 
   .status-bar-title {
     font-size: large;
     font-weight: bold;
-    color: $font2-color;
+    color: $font-secondary;
   }
 
   .status-bar-confirm-button {
@@ -161,8 +155,8 @@ $success-color: #52c41a;
     width: 95rpx;
     height: 50rpx;
     background-color: $primary-color;
-    color: $font1-color;
-    border-radius: 5rpx;
+    color: $font-white;
+    border-radius: $radius-xs;
     padding: 10rpx 20rpx;
     font-size: 24rpx;
     align-items: center;
@@ -170,8 +164,8 @@ $success-color: #52c41a;
     transition: opacity 0.3s;
 
     &.disabled {
-      opacity: 0.6;
-      background-color: #c0c4cc;
+      opacity: $opacity-disabled;
+      background-color: $color-disabled;
     }
   }
 
@@ -181,10 +175,10 @@ $success-color: #52c41a;
     padding: 40rpx;
 
     .card {
-      background-color: $card-bg-color;
+      background-color: $bg-white;
       padding: 60rpx 40rpx;
-      border-radius: 16rpx;
-      box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.05);
+      border-radius: $radius-lg;
+      box-shadow: $shadow-heavy;
       margin-bottom: 20rpx;
       display: flex;
       flex-direction: column;
@@ -209,8 +203,8 @@ $success-color: #52c41a;
 
         .success-text {
           margin-left: 8rpx;
-          font-size: 28rpx;
-          color: $success-color;
+          font-size: $font-size-base;
+          color: $color-success;
         }
       }
     }

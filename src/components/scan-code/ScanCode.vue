@@ -81,6 +81,8 @@ const handleScan = async () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variables.scss';
+
 .scan-code-container {
   display: flex;
   justify-content: center;
@@ -90,10 +92,10 @@ const handleScan = async () => {
     display: flex;
     align-items: center;
     gap: 8rpx;
-    border-radius: 10rpx;
+    border-radius: $radius-sm;
     min-width: 160rpx;
     height: 70rpx;
-    font-size: 28rpx;
+    font-size: $font-size-base;
   }
 }
 </style>

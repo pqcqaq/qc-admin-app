@@ -232,13 +232,15 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variables.scss';
+
 .phone-login-container {
   width: 100%;
 
   .form-title {
-    font-size: 40rpx;
+    font-size: $font-size-xl;
     font-weight: bold;
-    color: #333333;
+    color: $font-primary;
     text-align: center;
     margin-bottom: 60rpx;
     letter-spacing: 1rpx;
@@ -251,23 +253,23 @@ onUnmounted(() => {
 
       .login-input {
         padding: 12rpx 20rpx;
-        background-color: rgba(245, 247, 250, 0.7);
-        border-radius: 16rpx;
+        background-color: $border-input;
+        border-radius: $radius-lg;
         transition: all 0.3s ease;
 
         :deep(.wd-input__inner) {
-          font-size: 30rpx;
-          color: #333333;
+          font-size: $font-size-lg;
+          color: $font-primary;
         }
 
         :deep(.wd-input__placeholder) {
-          font-size: 28rpx;
-          color: #aaaaaa;
+          font-size: $font-size-base;
+          color: $font-placeholder;
         }
 
         &:focus-within {
           background-color: rgba(245, 247, 250, 0.95);
-          box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
+          box-shadow: $shadow-medium;
           transform: translateY(-3rpx);
         }
       }
@@ -280,23 +282,23 @@ onUnmounted(() => {
         .verify-code-input {
           flex: 1;
           padding: 12rpx 20rpx;
-          background-color: rgba(245, 247, 250, 0.7);
-          border-radius: 16rpx;
+          background-color: $border-input;
+          border-radius: $radius-lg;
           transition: all 0.3s ease;
 
           :deep(.wd-input__inner) {
-            font-size: 30rpx;
-            color: #333333;
+            font-size: $font-size-lg;
+            color: $font-primary;
           }
 
           :deep(.wd-input__placeholder) {
-            font-size: 28rpx;
-            color: #aaaaaa;
+            font-size: $font-size-base;
+            color: $font-placeholder;
           }
 
           &:focus-within {
             background-color: rgba(245, 247, 250, 0.95);
-            box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
+            box-shadow: $shadow-medium;
             transform: translateY(-3rpx);
           }
         }
@@ -304,11 +306,11 @@ onUnmounted(() => {
         .send-code-btn {
           width: 200rpx;
           height: 80rpx;
-          font-size: 24rpx;
-          border-radius: 12rpx;
+          font-size: $font-size-sm;
+          border-radius: $radius-base;
 
           &:disabled {
-            opacity: 0.6;
+            opacity: $opacity-disabled;
           }
         }
       }
@@ -335,22 +337,22 @@ onUnmounted(() => {
       }
 
       .error-text {
-        font-size: 24rpx;
-        color: #ff4757;
+        font-size: $font-size-sm;
+        color: $color-error;
         margin-top: 10rpx;
         padding-left: 20rpx;
       }
     }
 
     .phone-login-btn {
-      height: 96rpx;
+      height: $height-input;
       margin-top: 40rpx;
       margin-bottom: 30rpx;
-      font-size: 32rpx;
+      font-size: $font-size-xl;
       font-weight: 500;
       letter-spacing: 2rpx;
-      border-radius: 48rpx;
-      box-shadow: 0 10rpx 20rpx rgba(25, 137, 250, 0.25);
+      border-radius: $radius-round;
+      box-shadow: $shadow-button;
       transition: all 0.3s ease;
 
       &:active {
@@ -359,17 +361,17 @@ onUnmounted(() => {
       }
 
       &:disabled {
-        opacity: 0.6;
+        opacity: $opacity-disabled;
         box-shadow: none;
       }
     }
 
     .back-btn {
-      height: 96rpx;
-      font-size: 32rpx;
-      color: #666666;
-      border: 2rpx solid #e8e8e8;
-      border-radius: 48rpx;
+      height: $height-input;
+      font-size: $font-size-xl;
+      color: $font-gray;
+      border: 2rpx solid $border-light;
+      border-radius: $radius-round;
       background-color: transparent;
       transition: all 0.3s ease;
 

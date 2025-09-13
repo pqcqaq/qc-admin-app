@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 page {
-  --color-primary: #3daa9a;
+  --color-primary: #{$primary-color};
 }

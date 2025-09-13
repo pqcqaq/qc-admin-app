@@ -148,19 +148,13 @@ const handleLogout = () => {
 </script>
 
 <style lang="scss" scoped>
-$bg1-color: #3daa9a;
-$bg2-color: #f5f5f5;
-$font1-color: #ffffff;
-$font2-color: #536387;
-$font3-color: #767e8c;
-$card-bg-color: #ffffff;
-$press-color: #e5e5e5;
+@import '@/style/variables.scss';
 
 .container {
   height: 100%;
 
   .user-info-section {
-    background: $bg1-color;
+    background: $primary-color;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -184,8 +178,8 @@ $press-color: #e5e5e5;
     }
     .nick-name {
       margin-top: 24rpx;
-      font-size: 32rpx;
-      color: $font1-color;
+      font-size: $font-size-xl;
+      color: $font-white;
       font-weight: bold;
       text-align: center;
       word-break: break-all;
@@ -193,15 +187,15 @@ $press-color: #e5e5e5;
     .company-name {
       margin-top: 20rpx;
       margin-bottom: 20rpx;
-      font-size: 32rpx;
-      color: $font1-color;
+      font-size: $font-size-xl;
+      color: $font-white;
       text-align: center;
       word-break: break-all;
       padding: 0 40rpx;
     }
   }
   .function-section {
-    background: $bg2-color;
+    background: $bg-primary;
     padding: 30rpx 24rpx 30rpx;
     width: 100%;
     box-sizing: border-box;
@@ -210,9 +204,9 @@ $press-color: #e5e5e5;
     flex-direction: column;
 
     .card {
-      background-color: $card-bg-color;
+      background-color: $bg-white;
       padding: 24rpx 20rpx;
-      border-radius: 12rpx;
+      border-radius: $radius-base;
       margin-bottom: 16rpx;
       display: flex;
       justify-content: space-between;
@@ -224,14 +218,14 @@ $press-color: #e5e5e5;
         align-items: center;
         .text {
           margin-left: 20rpx;
-          font-size: 28rpx;
-          color: $font2-color;
+          font-size: $font-size-base;
+          color: $font-secondary;
         }
       }
     }
 
     .card.pressed {
-      background-color: $press-color;
+      background-color: $color-active;
     }
 
     .button {
@@ -240,9 +234,9 @@ $press-color: #e5e5e5;
       margin-top: 60rpx;
 
       .custom-button {
-        color: $font2-color;
-        background: $card-bg-color;
-        font-size: 28rpx;
+        color: $font-secondary;
+        background: $bg-white;
+        font-size: $font-size-base;
         width: 70%;
         height: 80rpx;
         border-radius: 40rpx;
@@ -264,8 +258,8 @@ $press-color: #e5e5e5;
       display: flex;
       justify-content: center;
       margin-top: 40rpx;
-      font-size: 24rpx;
-      color: $font3-color;
+      font-size: $font-size-sm;
+      color: $font-quaternary;
     }
   }
 }

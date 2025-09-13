@@ -77,27 +77,24 @@ const finish = async () => {
 }
 </script>
 <style lang="scss" scoped>
-$primary-color: #3daa9a;
-$font1-color: #ffffff;
-$font2-color: #536387;
-$bg-color: #f5f5f5;
-$card-bg-color: #ffffff;
+@import '@/style/variables.scss';
+
 .container {
   height: 100%;
-  background-color: $bg-color;
+  background-color: $bg-primary;
 
   .status-bar-title {
     font-size: large;
     font-weight: bold;
-    color: $font2-color;
+    color: $font-secondary;
   }
   .status-bar-confirm-button {
     display: flex;
     width: 95rpx;
     height: 50rpx;
     background-color: $primary-color;
-    color: $font1-color;
-    border-radius: 5rpx;
+    color: $font-white;
+    border-radius: $radius-xs;
     padding: 10rpx 20rpx;
     font-size: 24rpx;
     align-items: center;
@@ -109,10 +106,10 @@ $card-bg-color: #ffffff;
     padding: 20rpx;
 
     .card {
-      background-color: $card-bg-color;
+      background-color: $bg-white;
       padding: 30rpx 35rpx;
-      border-radius: 12rpx;
-      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+      border-radius: $radius-base;
+      box-shadow: $shadow-normal;
     }
   }
 }

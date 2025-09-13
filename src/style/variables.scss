@@ -1,0 +1,104 @@
+/**
+ * 项目全局SCSS变量
+ * 统一管理项目中使用的颜色、字体、间距等变量
+ */
+
+// ==================== 主题色 ====================
+$primary-color: #4589c9; // 主题色
+
+// ==================== 文字颜色 ====================
+$font-white: #ffffff; // 白色文字
+$font-primary: #333333; // 主要文字颜色
+$font-secondary: #536387; // 次要文字颜色
+$font-tertiary: #4d515b; // 三级文字颜色
+$font-quaternary: #767e8c; // 四级文字颜色
+$font-gray: #666666; // 灰色文字
+$font-light-gray: #888888; // 浅灰色文字
+$font-placeholder: #aaaaaa; // 占位符文字颜色
+$font-disabled: #999999; // 禁用文字颜色
+
+// ==================== 背景颜色 ====================
+$bg-primary: #f5f5f5; // 主背景色
+$bg-white: #ffffff; // 白色背景
+$bg-card: #ffffff; // 卡片背景色
+$bg-gray: #f8f9fa; // 灰色背景
+$bg-light-gray: #fafafa; // 浅灰色背景
+
+// ==================== 状态颜色 ====================
+$color-success: #52c41a; // 成功色
+$color-warning: #faad14; // 警告色
+$color-error: #ff4757; // 错误色
+$color-info: #1890ff; // 信息色
+
+// ==================== 交互颜色 ====================
+$color-active: #e5e5e5; // 激活/按压色
+$color-hover: #f5f5f5; // 悬停色
+$color-disabled: #c0c4cc; // 禁用色
+
+// ==================== 边框颜色 ====================
+$border-light: #e5e5e5; // 浅色边框
+$border-gray: #f0f0f0; // 灰色边框
+$border-input: rgba(245, 247, 250, 0.7); // 输入框边框
+
+// ==================== 阴影 ====================
+$shadow-light: 0 2rpx 4rpx rgba(0, 0, 0, 0.05); // 轻微阴影
+$shadow-normal: 0 4rpx 8rpx rgba(0, 0, 0, 0.05); // 普通阴影
+$shadow-medium: 0 6rpx 16rpx rgba(0, 0, 0, 0.06); // 中等阴影
+$shadow-heavy: 0 8rpx 16rpx rgba(0, 0, 0, 0.05); // 重阴影
+$shadow-card: 0 4rpx 12rpx rgba(0, 0, 0, 0.08); // 卡片阴影
+$shadow-button: 0 10rpx 20rpx rgba(25, 137, 250, 0.25); // 按钮阴影
+
+// ==================== 渐变 ====================
+$gradient-primary: linear-gradient(
+  135deg,
+  rgba(25, 137, 250, 0.05) 0%,
+  rgba(255, 255, 255, 0) 100%
+);
+$gradient-decoration: linear-gradient(135deg, rgba(25, 137, 250, 0.05), rgba(25, 137, 250, 0.1));
+$gradient-green: linear-gradient(135deg, rgba(7, 193, 96, 0.05), rgba(7, 193, 96, 0.1));
+$gradient-line: linear-gradient(
+  to right,
+  transparent,
+  var(--wot-color-theme, #1989fa),
+  transparent
+);
+
+// ==================== 字体大小 ====================
+$font-size-xs: 22rpx; // 超小字体
+$font-size-sm: 24rpx; // 小字体
+$font-size-base: 28rpx; // 基础字体
+$font-size-lg: 30rpx; // 大字体
+$font-size-xl: 32rpx; // 超大字体
+$font-size-xxl: 46rpx; // 标题字体
+$font-size-title: 48rpx; // 大标题字体
+
+// ==================== 间距 ====================
+$spacing-xs: 10rpx; // 超小间距
+$spacing-sm: 20rpx; // 小间距
+$spacing-base: 30rpx; // 基础间距
+$spacing-lg: 40rpx; // 大间距
+$spacing-xl: 60rpx; // 超大间距
+
+// ==================== 圆角 ====================
+$radius-xs: 5rpx; // 超小圆角
+$radius-sm: 8rpx; // 小圆角
+$radius-base: 12rpx; // 基础圆角
+$radius-lg: 16rpx; // 大圆角
+$radius-xl: 20rpx; // 超大圆角
+$radius-round: 48rpx; // 圆形
+
+// ==================== 高度 ====================
+$height-input: 96rpx; // 输入框高度
+$height-button: 80rpx; // 按钮高度
+$height-navbar: 50rpx; // 导航栏高度
+
+// ==================== 透明度 ====================
+$opacity-disabled: 0.6; // 禁用透明度
+$opacity-overlay: 0.8; // 遮罩透明度
+
+// ==================== TabBar相关 ====================
+$tabbar-bg: #f8f8f8; // TabBar背景色
+$tabbar-text-inactive: #999999; // TabBar非激活文字色
+$tabbar-text-active: #4589c9; // TabBar激活文字色
+$tabbar-highlight-shadow: 0 2px 8px rgba(61, 170, 154, 0.3); // TabBar高亮条阴影
+$tabbar-active-bg: rgba(61, 170, 154, 0.1); // TabBar激活背景色

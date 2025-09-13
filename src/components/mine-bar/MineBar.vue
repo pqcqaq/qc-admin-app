@@ -7,7 +7,7 @@
       @touchend="isBackPressed = false"
       @touchcancel="isBackPressed = false"
     >
-      <wd-icon name="thin-arrow-left" size="20px" color="#536387" @click="back" />
+      <wd-icon name="thin-arrow-left" size="20px" :color="fontSecondary" @click="back" />
     </view>
     <view class="status-bar-title">
       <slot name="title" />
@@ -18,9 +18,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 const i18n = useI18n()
 const t = i18n.t
 const isBackPressed = ref(false)
+
+// 颜色常量
+const fontSecondary = '#536387'
+
 // 返回上一页
 const back = () => {
   uni.navigateBack()
@@ -30,10 +35,10 @@ const safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
 </script>
 
 <style lang="scss" scoped>
-$background-color: rgb(248, 248, 248);
+@import '@/style/variables.scss';
 
 .status_bar {
-  background: $background-color;
+  background: $bg-primary;
   display: flex;
   overflow: hidden;
   justify-content: space-between;

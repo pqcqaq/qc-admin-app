@@ -106,14 +106,16 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variables.scss';
+
 .custom-tab-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 50px;
-  background-color: #f8f8f8;
-  border-top: 1px solid #e5e5e5;
+  background-color: $tabbar-bg;
+  border-top: 1px solid $border-light;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -125,10 +127,10 @@ defineExpose({
     top: 0;
     width: 30px;
     height: 3px;
-    background: linear-gradient(90deg, #018d71 0%, #02a87a 100%);
+    background: linear-gradient(90deg, $primary-color 0%, $primary-color 100%);
     border-radius: 0 0 1.5px 1.5px;
     transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(1, 141, 113, 0.3);
+    box-shadow: $tabbar-highlight-shadow;
     transform-origin: center;
     will-change: left;
 
@@ -182,7 +184,7 @@ defineExpose({
 
     .tab-text {
       font-size: 10px;
-      color: #999999;
+      color: $tabbar-text-inactive;
       transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -193,7 +195,7 @@ defineExpose({
       }
 
       .tab-text {
-        color: #018d71;
+        color: $tabbar-text-active;
         font-weight: 500;
         transform: translateY(-1px);
       }
@@ -206,7 +208,7 @@ defineExpose({
         left: 50%;
         width: 40px;
         height: 40px;
-        background: rgba(1, 141, 113, 0.1);
+        background: $tabbar-active-bg;
         border-radius: 50%;
         transform: translate(-50%, -50%);
         opacity: 0;

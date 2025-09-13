@@ -37,11 +37,11 @@ const isBackPressed = ref(false)
 </script>
 
 <style lang="scss" scoped>
-$background-color: rgb(248, 248, 248);
-$font-color: #536387;
+@import '@/style/variables.scss';
+
 .status_bar {
   position: relative;
-  background: $background-color;
+  background: $bg-primary;
   display: flex;
   overflow: hidden;
   justify-content: space-between;
@@ -62,7 +62,7 @@ $font-color: #536387;
     align-items: center;
     justify-content: center;
     .status-bar-back-button {
-      color: $font-color;
+      color: $font-secondary;
     }
   }
 

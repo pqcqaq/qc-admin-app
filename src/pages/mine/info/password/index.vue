@@ -217,21 +217,16 @@ const handleChangePassword = async () => {
 </script>
 
 <style lang="scss" scoped>
-$primary-color: #3daa9a;
-$font1-color: #ffffff;
-$font2-color: #536387;
-$font3-color: #4d515b;
-$bg-color: #f5f5f5;
-$card-bg-color: #ffffff;
+@import '@/style/variables.scss';
 
 .container {
   min-height: 100vh;
-  background-color: $bg-color;
+  background-color: $bg-primary;
 
   .status-bar-title {
     font-size: large;
     font-weight: bold;
-    color: $font2-color;
+    color: $font-secondary;
   }
 
   .status-bar-confirm-button {
@@ -239,8 +234,8 @@ $card-bg-color: #ffffff;
     width: 95rpx;
     height: 50rpx;
     background-color: $primary-color;
-    color: $font1-color;
-    border-radius: 5rpx;
+    color: $font-white;
+    border-radius: $radius-xs;
     padding: 10rpx 20rpx;
     font-size: 24rpx;
     align-items: center;
@@ -259,7 +254,7 @@ $card-bg-color: #ffffff;
 
   .password-container {
     padding: 40rpx 30rpx;
-    background-color: $bg-color;
+    background-color: $bg-primary;
 
     .form-content {
       .input-wrapper {
@@ -268,23 +263,23 @@ $card-bg-color: #ffffff;
 
         .login-input {
           padding: 20rpx 25rpx;
-          background-color: rgba(245, 247, 250, 0.7);
-          border-radius: 16rpx;
+          background-color: $border-input;
+          border-radius: $radius-lg;
           transition: all 0.3s ease;
 
           :deep(.wd-input__inner) {
-            font-size: 30rpx;
-            color: #333333;
+            font-size: $font-size-lg;
+            color: $font-primary;
           }
 
           :deep(.wd-input__placeholder) {
-            font-size: 28rpx;
-            color: #aaaaaa;
+            font-size: $font-size-base;
+            color: $font-placeholder;
           }
 
           &:focus-within {
             background-color: rgba(245, 247, 250, 0.95);
-            box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
+            box-shadow: $shadow-medium;
             transform: translateY(-3rpx);
           }
         }
@@ -306,8 +301,8 @@ $card-bg-color: #ffffff;
         }
 
         .error-text {
-          font-size: 24rpx;
-          color: #ff4757;
+          font-size: $font-size-sm;
+          color: $color-error;
           margin-top: 10rpx;
           padding-left: 20rpx;
           animation: shake 0.3s ease-in-out;

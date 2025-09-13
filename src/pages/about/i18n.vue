@@ -71,19 +71,21 @@ const radioChange = (evt) => {
 </script>
 
 <style lang="scss">
+@import '@/style/variables.scss';
+
 .uni-list {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: #fff;
-  border-radius: 12px;
+  background-color: $bg-white;
+  border-radius: $radius-base;
 }
 
 .radio-group {
   width: 200px;
   margin: 10px auto;
-  border-radius: 12px;
+  border-radius: $radius-base;
 }
 
 .uni-list-cell {

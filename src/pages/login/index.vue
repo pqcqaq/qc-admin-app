@@ -198,6 +198,8 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variables.scss';
+
 /* 验证码输入框样式 */
 .captcha-wrapper {
   .captcha-input {
@@ -243,12 +245,8 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   flex-direction: column;
   min-height: 100vh;
   padding: 0 70rpx;
-  background-color: #ffffff;
-  background-image: linear-gradient(
-    135deg,
-    rgba(25, 137, 250, 0.05) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background-color: $bg-white;
+  background-image: $gradient-primary;
   position: relative;
   overflow: hidden;
 }
@@ -257,7 +255,7 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 .bg-decoration {
   position: absolute;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(25, 137, 250, 0.05), rgba(25, 137, 250, 0.1));
+  background: $gradient-decoration;
   z-index: 0;
   pointer-events: none;
 }
@@ -284,7 +282,7 @@ const handleAgreement = (type: 'user' | 'privacy') => {
   bottom: -100rpx;
   right: 10%;
   opacity: 0.3;
-  background: linear-gradient(135deg, rgba(7, 193, 96, 0.05), rgba(7, 193, 96, 0.1));
+  background: $gradient-green;
 }
 
 .login-header {
@@ -310,9 +308,9 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 
   .login-title {
     margin-top: 30rpx;
-    font-size: 46rpx;
+    font-size: $font-size-xxl;
     font-weight: bold;
-    color: #333333;
+    color: $font-primary;
     letter-spacing: 3rpx;
     text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
   }
@@ -325,17 +323,17 @@ const handleAgreement = (type: 'user' | 'privacy') => {
 
   .welcome-text {
     margin-bottom: 16rpx;
-    font-size: 48rpx;
+    font-size: $font-size-title;
     font-weight: bold;
-    color: #333333;
+    color: $font-primary;
     text-align: center;
     letter-spacing: 1rpx;
   }
 
   .login-desc {
     margin-bottom: 70rpx;
-    font-size: 28rpx;
-    color: #888888;
+    font-size: $font-size-base;
+    color: $font-light-gray;
     text-align: center;
   }
 
