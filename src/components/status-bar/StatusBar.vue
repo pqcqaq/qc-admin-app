@@ -48,6 +48,7 @@ $font-color: #536387;
   align-items: center;
   box-sizing: border-box;
   transition-property: all;
+  height: 88rpx;
 
   .status-bar-title {
     position: absolute;

@@ -41,6 +41,7 @@ $background-color: rgb(248, 248, 248);
   box-sizing: border-box;
   z-index: 998;
   transition-property: all;
+  height: 88rpx;
 
   .status-bar-title {
     position: absolute;

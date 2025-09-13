@@ -14,62 +14,77 @@
     <view class="bg-decoration bg-circle-3"></view>
 
     <view class="login-header">
-      <image class="login-logo" :src="appLogo" mode="aspectFit"></image>
+      <!-- <image class="login-logo" :src="appLogo" mode="aspectFit"></image> -->
       <view class="login-title">{{ appTitle }}</view>
     </view>
+
     <view class="login-form">
-      <view class="welcome-text">欢迎登录</view>
-      <view class="login-desc">请输入您的账号和密码</view>
-      <view class="login-input-group">
-        <view class="input-wrapper">
-          <wd-input
-            v-model="loginForm.identifier"
-            prefix-icon="user"
-            placeholder="请输入用户名"
-            clearable
-            class="login-input"
-            :border="false"
-            required
-          ></wd-input>
-          <view class="input-bottom-line"></view>
+      <!-- 账号密码登录 -->
+      <view v-if="currentLoginType === 'password'" class="login-content">
+        <view class="welcome-text">欢迎登录</view>
+        <view class="login-desc">请输入您的账号和密码</view>
+        <view class="login-input-group">
+          <view class="input-wrapper">
+            <wd-input
+              v-model="loginForm.identifier"
+              prefix-icon="user"
+              placeholder="请输入用户名"
+              clearable
+              class="login-input"
+              :border="false"
+              required
+            ></wd-input>
+            <view class="input-bottom-line"></view>
+          </view>
+          <view class="input-wrapper">
+            <wd-input
+              v-model="loginForm.secret"
+              prefix-icon="lock-on"
+              placeholder="请输入密码"
+              clearable
+              show-password
+              class="login-input"
+              :border="false"
+              required
+            ></wd-input>
+            <view class="input-bottom-line"></view>
+          </view>
         </view>
-        <view class="input-wrapper">
-          <wd-input
-            v-model="loginForm.secret"
-            prefix-icon="lock-on"
-            placeholder="请输入密码"
-            clearable
-            show-password
-            class="login-input"
-            :border="false"
-            required
-          ></wd-input>
-          <view class="input-bottom-line"></view>
+        <!-- 登录按钮组 -->
+        <view class="login-buttons">
+          <!-- 账号密码登录按钮 -->
+          <wd-button
+            type="primary"
+            size="large"
+            block
+            @click="handleAccountLogin"
+            class="account-login-btn"
+          >
+            <wd-icon name="right" size="18px" class="login-icon"></wd-icon>
+            登录
+          </wd-button>
+        </view>
+
+        <!-- 登录方式切换 -->
+        <view class="login-switch">
+          <view class="switch-links">
+            <text class="switch-link" @click="switchLoginType('phone')">手机验证码登录</text>
+            <text class="switch-link" @click="switchLoginType('reset')">忘记密码?</text>
+          </view>
         </view>
       </view>
-      <!-- 登录按钮组 -->
-      <view class="login-buttons">
-        <!-- 账号密码登录按钮 -->
-        <wd-button
-          type="primary"
-          size="large"
-          block
-          @click="handleAccountLogin"
-          class="account-login-btn"
-        >
-          <wd-icon name="right" size="18px" class="login-icon"></wd-icon>
-          登录
-        </wd-button>
-        <!-- 微信小程序一键登录按钮 -->
-        <!-- #ifdef MP-WEIXIN -->
-        <view class="divider">
-          <view class="divider-line"></view>
-          <view class="divider-text">或</view>
-          <view class="divider-line"></view>
-        </view>
-        <!-- #endif -->
-      </view>
+
+      <!-- 手机验证码登录 -->
+      <PhoneLogin v-else-if="currentLoginType === 'phone'" @back="switchLoginType('password')" />
+
+      <!-- 重置密码 -->
+      <ResetPassword
+        v-else-if="currentLoginType === 'reset'"
+        @back="switchLoginType('password')"
+        @success="switchLoginType('password')"
+      />
     </view>
+
     <!-- 隐私协议勾选 -->
     <view class="privacy-agreement">
       <wd-checkbox
@@ -96,6 +111,9 @@ import { useUserStore } from '@/store/user'
 import { toast } from '@/utils/toast'
 import { isTableBar } from '@/utils/index'
 import { getLogin } from '@/api'
+import PhoneLogin from '@/components/PhoneLogin.vue'
+import ResetPassword from '@/components/ResetPassword.vue'
+
 const redirectRoute = ref('')
 
 // 获取环境变量
@@ -104,15 +122,24 @@ const appLogo = ref(import.meta.env.VITE_APP_LOGO || '/static/logo.svg')
 
 // 初始化store
 const userStore = useUserStore()
-// 路由位置
+
+// 当前登录类型
+const currentLoginType = ref<'password' | 'phone' | 'reset'>('password')
+
 // 登录表单数据
 const loginForm = ref({
   credentialType: 'password',
   identifier: '',
   secret: '',
 })
+
 // 隐私协议勾选状态
 const agreePrivacy = ref(true)
+
+// 切换登录类型
+const switchLoginType = (type: 'password' | 'phone' | 'reset') => {
+  currentLoginType.value = type
+}
 
 // 账号密码登录
 const handleAccountLogin = async () => {
@@ -140,13 +167,6 @@ const handleAccountLogin = async () => {
       console.error('登录失败:', err)
       toast.error(err.message || '登录失败，请稍后重试')
     })
-  // 跳转到首页或重定向页面
-  const targetUrl = redirectRoute.value || '/pages/index/index'
-  if (isTableBar(targetUrl)) {
-    uni.switchTab({ url: targetUrl })
-  } else {
-    uni.redirectTo({ url: targetUrl })
-  }
 }
 
 const navigateToHome = () => {
@@ -458,6 +478,28 @@ const handleAgreement = (type: 'user' | 'privacy') => {
       &:active {
         background-color: rgba(7, 193, 96, 0.08);
         transform: scale(0.98);
+      }
+    }
+  }
+
+  .login-switch {
+    margin-top: 40rpx;
+
+    .switch-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .switch-link {
+        font-size: 28rpx;
+        color: var(--wot-color-theme, #1989fa);
+        text-decoration: none;
+        transition: all 0.3s ease;
+
+        &:active {
+          opacity: 0.7;
+          transform: scale(0.95);
+        }
       }
     }
   }

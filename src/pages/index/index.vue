@@ -15,10 +15,10 @@
       <view class="page-header-user">
         <view class="page-header-user-info">
           <view class="page-header-user-avatar">
-            <image class="avatar" :src="userInfo.avatarUrl" />
+            <image class="avatar" :src="userInfo.avatar" />
           </view>
           <view class="page-header-user-name">
-            {{ userInfo.nickname }}
+            {{ userInfo.name }}
           </view>
           <!-- <view class="page-header-user-type">{{ displayRole }}</view> -->
         </view>

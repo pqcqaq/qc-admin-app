@@ -1,264 +1,62 @@
 import { http } from '@/utils/http'
-import { IPaginationParams, IBaseResponse } from '.'
-import { useUserStore } from '@/store'
-import { getEnvBaseUrl } from '@/utils'
-// 请求基准地址
-const baseUrl = getEnvBaseUrl()
-// ==================== 用户相关类型 ====================
-export interface IUser {
-  id: number
-  customerOrganizationId?: number
-  phoneNumber?: string
-  nickname?: string
-  name?: string
-  role?: string // manage，area-manage，store-manage，clerk
-  password?: string
-  shopIdList?: string
-  enabled?: number
-  gender?: number // 1男，0女，2未填写
-  avatarUrl?: string
-  webSid?: string
-  logined?: number
-  employeeStringId?: string
-  created?: number
-  updated?: number
-  deleted?: number
-}
 
-// ==================== 请求参数类型 ====================
-export interface IUserAddParams {
-  phoneNumber: string // 手机号
-  name: string // 姓名
-  shopIdList: string // 关联的门店，用逗号分隔多个门店编号
-  enabled: number // 是否已启用
-  gender: number // 1男，0女，如果用户没填写，必须传递2
-  employeeStringId: string // 工号
-}
-
-export interface IUserListParams extends IPaginationParams {
-  role?: string
-  enabled: number
-  keyword: string
-}
-
-export interface IUserDetailParams {
-  id: number
-}
-
-export interface IUpdateNicknameParams {
-  nickname: string // 昵称
-}
-
-export interface IUserUpdateParams {
-  id: number
-  nickname: string
+export type User = {
+  /** 用户ID */
+  id: string
+  /** 用户名 */
   name: string
-  phoneNumber: string
-  gender: number
-  role: string // manage，area-manage，store-manage，clerk
-  employeeStringId: string
-  enabled: number
-  shopIdList: string
+  /** 年龄 */
+  age?: number
+  /** 性别 */
+  sex?: string
+  /** 状态 */
+  status?: string
+  /** 创建时间 */
+  createTime?: string
+  /** 更新时间 */
+  updateTime?: string
+  /** 头像ID */
+  avatarId?: string
+  /** 头像URL */
+  avatar?: string
 }
 
-export interface IUserAuditListParams extends IPaginationParams {}
-
-export interface IUserAuditCommitParams {
-  idList: number
-  successState: number
+export type Pagination = {
+  /** 当前页码 */
+  page: number
+  /** 每页数量 */
+  pageSize: number
+  /** 总记录数 */
+  total: number
+  /** 总页数 */
+  totalPages: number
+  /** 是否有下一页 */
+  hasNext: boolean
+  /** 是否有上一页 */
+  hasPrev: boolean
 }
 
-export interface ISendSMSCodeParams {
-  phoneNumber: string // 手机号
+export type UserListResult = {
+  success: boolean
+  data: Array<User>
+  pagination: Pagination
 }
 
-export interface IUpdatePhoneParams {
-  oldPhoneNumber: string
-  newPhoneNumber: string
-  smsCode: string
-}
-
-export interface IUpdatePasswordParams {
-  oldPassword: string
-  newPassword: string
-}
-// ==================== API 接口函数 ====================
-
-/**
- * 新增用户
- */
-export const addUser = (params: IUserAddParams) => {
-  return http.post<IBaseResponse>('/customer/customer/add', params)
-}
-
-/**
- * 分页查询用户
- */
-export const getUserList = (params: IUserListParams) => {
-  return http.post<IBaseResponse>('/customer/customer/getallbypage', params)
-}
-
-/**
- * 查询单个用户
- */
-export const getUserDetail = (params: IUserDetailParams) => {
-  return http.post<IBaseResponse>('/customer/customer/getonebyid', params)
-}
-
-/**
- * 修改用户
- */
-export const updateUser = (params: IUserUpdateParams) => {
-  return http.post<IBaseResponse>('/customer/customer/update', params)
-}
-
-/**
- * 查询用户审核列表
- */
-export const getUserAuditList = (params: IUserAuditListParams) => {
-  return http.post<IBaseResponse>('/customer/customer/getallcustomerinformationauditbypage', params)
-}
-
-/**
- * 提交用户信息审核
- */
-export const commitUserAudit = (params: IUserAuditCommitParams) => {
-  return http.post<IBaseResponse>('/customer/customer/commitcustomerinformationaudit', params)
-}
-
-export type IOrganization = {
-  id: number
-  dealerId: number
-  name: string
-  enabled: boolean
-  expired: number
-  industryId: number
-  phoneNumber: string
-  contactName: string
-  invitationCode: string
-  license: string
-  licenseImg: string
-  logoImg: string
-  provinceId: number
-  cityId: number
-  address: string
-  nameOfLegalEntity: string
-  created: number
-  updated: number
-}
-
-export type ChangePasswordParams = {
-  phoneNumber: string
-  smsCode: string
-  newPassword: string
-}
-
-/**
- * 更新用户昵称
- */
-export const updateNickname = (params: IUpdateNicknameParams) => {
-  return http.post<IBaseResponse>('/customer/customer/updatenicknamebyself', params)
-}
-
-/**
- * 发送短信验证码
- */
-export const sendSMSCode = (params: ISendSMSCodeParams) => {
-  return http.post<IBaseResponse>('/customer/auth/getsmscode', params)
-}
-
-/**
- * 更新手机号
- */
-export const updatePhone = (params: IUpdatePhoneParams) => {
-  return http.post<IBaseResponse>('/customer/customer/updatephonenumberbyself', params)
-}
-
-/**
- * 更新用户头像
- */
-export const updateavatarbyself = (params: { avatarUrl: string }) => {
-  return http.post<IBaseResponse>('/customer/customer/updateavatarbyself', params)
-}
-
-/**
- * 上传图片
- * @param filePath 本地图片路径
- * @param fileObj 文件对象
- * @returns Promise<string> 图片url
- */
-export const uploadImage = (filePath: string, fileObj?: File) => {
-  const token = useUserStore().token
-  return new Promise<string>((resolve, reject) => {
-    // #ifdef H5
-    if (typeof window !== 'undefined' && fileObj) {
-      const formData = new FormData()
-      formData.append('image', fileObj)
-      fetch(baseUrl + '/customer/customer/imageupload?_token_=' + token, {
-        method: 'POST',
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.code === 0 && res.data?.result) {
-            resolve(res.data.result)
-          } else {
-            uni.showToast({ icon: 'none', title: res.message || '上传失败' })
-            reject(res)
-          }
-        })
-        .catch((err) => {
-          uni.showToast({ icon: 'none', title: '网络错误，上传失败' })
-          reject(err)
-        })
-      return
-    }
-    // #endif
-    // #ifndef H5
-    uni.uploadFile({
-      url: baseUrl + '/customer/customer/imageupload?_token_=' + token,
-      filePath,
-      name: 'image',
-      success: (uploadFileRes) => {
-        try {
-          const res = JSON.parse(uploadFileRes.data)
-          if (res.code === 0 && res.data?.result) {
-            resolve(res.data.result)
-          } else {
-            uni.showToast({ icon: 'none', title: res.message || '上传失败' })
-            reject(res)
-          }
-        } catch (e) {
-          uni.showToast({ icon: 'none', title: '上传失败' })
-          reject(e)
-        }
-      },
-      fail: (err) => {
-        uni.showToast({ icon: 'none', title: '网络错误，上传失败' })
-        reject(err)
-      },
-    })
-    // #endif
+/** 获取用户列表 */
+export const getUserList = (data?: object) => {
+  return http.request<UserListResult>('get', '/api/users', {
+    params: data,
   })
 }
 
-/**
- * 更新密码
- */
-export const updatePassword = (params: IUpdatePasswordParams) => {
-  return http.post<IBaseResponse>('/customer/customer/updatepasswordbyself', params)
+/** 获取用户分页列表 */
+export const getUserListWithPagination = (data?: object) => {
+  return http.request<UserListResult>('get', '/api/users/page', {
+    params: data,
+  })
 }
 
-/**
- * 验证码修改密码
- */
-export const loginaccountbysmscode = (params: ChangePasswordParams) => {
-  return http.post<IBaseResponse>('/customer/auth/changeaccountpasswordbysmscode', params)
-}
-
-/**
- * 校验验证码
- */
-export const verifysmscode = (params: { phoneNumber: string; smsCode: string }) => {
-  return http.post<IBaseResponse>('/customer/auth/verifysmscode', params)
+/** 配置用户头像 */
+export const setUserAvatar = (userid: string, attachmentId: string) => {
+  return http.request<any>('post', `/api/users/${userid}/avatar/${attachmentId}`)
 }

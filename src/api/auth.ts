@@ -20,6 +20,8 @@ export type UserResult = {
       permissions: Array<any>
       /** 头像 */
       avatar: string
+      /** 性别 */
+      sex: 'male' | 'female' | 'unknown'
     }
     /** `token` */
     token: string
@@ -55,6 +57,8 @@ export type UserInfo = {
   permissions: Array<any>
   /** 头像 */
   avatar: string
+  /** 性别 */
+  sex: 'male' | 'female' | 'unknown'
 }
 
 export type UserInfoResult = {
@@ -135,7 +139,7 @@ export const verifyCodeApi = (data?: {
 export const resetPasswordApi = (data?: {
   credentialType: string
   identifier: string
-  newSecret: string
+  newPassword: string
   verifyCode?: string
   oldPassword?: string
 }) => {

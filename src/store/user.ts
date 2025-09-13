@@ -11,6 +11,7 @@ const userInfoState: UserInfo = {
   updateTime: '',
   roles: [],
   permissions: [],
+  sex: 'unknown',
 }
 
 export const useUserStore = defineStore(

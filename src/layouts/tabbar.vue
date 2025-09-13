@@ -7,7 +7,7 @@
         :style="{
           paddingBottom: `${safeAreaInsets.bottom}px`,
           paddingTop: `${safeAreaInsets.top}px`,
-          height: `calc(100vh - ${safeAreaInsets.bottom}px - ${safeAreaInsets.top}px)`,
+          height: `calc(100vh - ${safeAreaInsets.bottom}px - ${safeAreaInsets.top}px - 50px)`,
         }"
       >
         <slot />

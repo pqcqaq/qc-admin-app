@@ -5,7 +5,7 @@ import { tabList } from './src/config/tabbar'
 export default defineUniPages({
   globalStyle: {
     navigationStyle: 'default',
-    navigationBarTitleText: 'patrol',
+    navigationBarTitleText: 'qc-admin-app',
     navigationBarBackgroundColor: '#f8f8f8',
     navigationBarTextStyle: 'black',
     backgroundColor: '#FFFFFF',

@@ -11,9 +11,9 @@
 <template>
   <view class="container">
     <view class="user-info-section">
-      <image :src="userInfo.avatarUrl" class="avatar-wrapper" />
+      <image :src="userInfo.avatar" class="avatar-wrapper" />
       <view class="nick-name">
-        <text>{{ userInfo.nickname }}</text>
+        <text>{{ userInfo.name }}</text>
       </view>
       <!-- <view class="company-name">
         <text>{{ userInfo.customerOrganization.name }}</text>
@@ -30,10 +30,10 @@
         @touchcancel="isPressed1 = false"
       >
         <view class="label">
-          <wd-icon name="note" size="50rpx" />
+          <wd-icon name="note" size="32rpx" />
           <text class="text">{{ t('personal_info') }}</text>
         </view>
-        <wd-icon name="arrow-right" size="40rpx" />
+        <wd-icon name="arrow-right" size="28rpx" />
       </view>
       <!-- 帮助与反馈 -->
       <view
@@ -45,10 +45,10 @@
         @touchcancel="isPressed2 = false"
       >
         <view class="label">
-          <wd-icon name="evaluation" size="50rpx" />
+          <wd-icon name="evaluation" size="32rpx" />
           <text class="text">{{ t('help_and_feedback') }}</text>
         </view>
-        <wd-icon name="arrow-right" size="40rpx" />
+        <wd-icon name="arrow-right" size="28rpx" />
       </view>
       <!-- 隐私与协议 -->
       <view
@@ -60,14 +60,14 @@
         @touchcancel="isPressed3 = false"
       >
         <view class="label">
-          <wd-icon name="spool" size="50rpx" />
+          <wd-icon name="spool" size="32rpx" />
           <text class="text">{{ t('privacy_protocols') }}</text>
         </view>
-        <wd-icon name="arrow-right" size="40rpx" />
+        <wd-icon name="arrow-right" size="28rpx" />
       </view>
 
       <!-- 退出登录 -->
-      <view class="button">
+      <view class="button logout">
         <view class="custom-button" @click="handleLogout">
           <text>{{ t('logout') }}</text>
         </view>
@@ -147,7 +147,7 @@ const handleLogout = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $bg1-color: #3daa9a;
 $bg2-color: #f5f5f5;
 $font1-color: #ffffff;
@@ -157,13 +157,15 @@ $card-bg-color: #ffffff;
 $press-color: #e5e5e5;
 
 .container {
+  height: 100%;
+
   .user-info-section {
     background: $bg1-color;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 60rpx;
-    padding-bottom: 60rpx;
+    padding-top: 40rpx;
+    padding-bottom: 40rpx;
 
     .avatar-wrapper {
       /* 小程序兼容的阴影效果 */
@@ -173,16 +175,16 @@ $press-color: #e5e5e5;
       /* #ifndef MP-WEIXIN */
       box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
       /* #endif */
-      height: 200rpx;
-      width: 200rpx;
-      border-radius: 100rpx;
-      margin-top: 60rpx;
+      height: 160rpx;
+      width: 160rpx;
+      border-radius: 80rpx;
+      margin-top: 30rpx;
       overflow: hidden;
       flex-shrink: 0;
     }
     .nick-name {
-      margin-top: 50rpx;
-      font-size: 40rpx;
+      margin-top: 24rpx;
+      font-size: 32rpx;
       color: $font1-color;
       font-weight: bold;
       text-align: center;
@@ -200,20 +202,18 @@ $press-color: #e5e5e5;
   }
   .function-section {
     background: $bg2-color;
-    padding: 60rpx 40rpx 60rpx;
+    padding: 30rpx 24rpx 30rpx;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
     .card {
       background-color: $card-bg-color;
-      padding: 40rpx 30rpx;
-      border-radius: 16rpx;
-      margin-bottom: 20rpx;
-      /* 小程序兼容的阴影效果 */
-      /* #ifdef MP-WEIXIN */
-      border: 1rpx solid #f0f0f0;
-      /* #endif */
-      /* #ifndef MP-WEIXIN */
-      box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
-      /* #endif */
+      padding: 24rpx 20rpx;
+      border-radius: 12rpx;
+      margin-bottom: 16rpx;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -223,8 +223,8 @@ $press-color: #e5e5e5;
         display: flex;
         align-items: center;
         .text {
-          margin-left: 60rpx;
-          font-size: 32rpx;
+          margin-left: 20rpx;
+          font-size: 28rpx;
           color: $font2-color;
         }
       }
@@ -237,28 +237,21 @@ $press-color: #e5e5e5;
     .button {
       display: flex;
       justify-content: center;
-      margin-top: 100rpx;
+      margin-top: 60rpx;
 
       .custom-button {
         color: $font2-color;
         background: $card-bg-color;
-        font-size: 32rpx;
+        font-size: 28rpx;
         width: 70%;
-        height: 100rpx;
-        border-radius: 50rpx;
+        height: 80rpx;
+        border-radius: 40rpx;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: all 0.3s ease;
         user-select: none;
-        /* 小程序兼容的阴影效果 */
-        /* #ifdef MP-WEIXIN */
-        border: 1rpx solid #f0f0f0;
-        /* #endif */
-        /* #ifndef MP-WEIXIN */
-        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
-        /* #endif */
 
         &:active {
           transform: scale(0.98);
@@ -270,8 +263,8 @@ $press-color: #e5e5e5;
     .version {
       display: flex;
       justify-content: center;
-      margin-top: 60rpx;
-      font-size: 28rpx;
+      margin-top: 40rpx;
+      font-size: 24rpx;
       color: $font3-color;
     }
   }
@@ -292,44 +285,42 @@ $press-color: #e5e5e5;
 
 .username {
   margin-bottom: 12rpx;
-  font-size: 38rpx;
+  font-size: 32rpx;
   font-weight: 600;
   color: #333;
   letter-spacing: 0.5rpx;
 }
 
 .user-id {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #666;
 }
 
 .user-created {
   margin-top: 8rpx;
-  font-size: 24rpx;
+  font-size: 22rpx;
   color: #999;
-}
-
-/* 功能区块 */
-.function-section {
-  padding: 0 20rpx;
-  margin-top: 20rpx;
 }
 
 .cell-group {
   margin-bottom: 20rpx;
   overflow: hidden;
   background-color: #fff;
-  border-radius: 16rpx;
+  border-radius: 12rpx;
   /* #ifndef MP-WEIXIN */
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
   /* #endif */
 }
 
 .group-title {
-  padding: 24rpx 30rpx 16rpx;
-  font-size: 30rpx;
+  padding: 20rpx 24rpx 12rpx;
+  font-size: 26rpx;
   font-weight: 500;
   color: #999;
   background-color: #fafafa;
+}
+
+.logout {
+  margin-top: auto;
 }
 </style>

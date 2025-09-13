@@ -93,7 +93,6 @@ const httpInterceptor = {
 
     // 2. 添加请求头
     options.header = {
-      'Content-Type': 'application/json', // 默认content-type
       platform, // 可选，与 uniapp 定义的平台一致，告诉后台来源
       ...options.header,
     }

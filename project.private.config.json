@@ -1,6 +1,6 @@
 {
   "libVersion": "3.8.10",
-  "projectname": "patrol-app",
+  "projectname": "qc-admin-app",
   "setting": {
     "urlCheck": true,
     "coverView": true,

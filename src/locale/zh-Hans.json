@@ -155,5 +155,10 @@
   "please_enter_new_password_again": "请再次输入新密码",
   "please_enter_new_password_format": "新密码需包含大小写字母，长度为8-16字符",
   "two_input_password_not_consistent": "两次密码不一致",
-  "error_params": "参数错误，请联系管理员"
+  "error_params": "参数错误，请联系管理员",
+  "upload_success": "上传成功",
+  "upload_failed": "上传失败",
+  "uploading": "上传中",
+  "setting_avatar": "设置头像中",
+  "setting_failed": "设置失败"
 }

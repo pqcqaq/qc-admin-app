@@ -33,12 +33,11 @@ import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
-import { updateNickname } from '@/api/user'
 
 // 用户信息
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
-const currentUsername = ref(userInfo.value.row.nickname)
+const currentUsername = ref(userInfo.value.name)
 const i18n = useI18n()
 const t = i18n.t
 
@@ -54,27 +53,27 @@ const finish = async () => {
     })
     return
   }
-  return updateNickname({ nickname: nickname }).then((res) => {
-    if (res.code === 0) {
-      userInfo.value.row.nickname = nickname
-      uni.showModal({
-        title: t('tip'),
-        content: t('change_successfully'),
-        showCancel: false,
-        confirmColor: '#3daa9a',
-        success: () => {
-          uni.navigateBack()
-        },
-      })
-    } else {
-      uni.showModal({
-        title: t('tip'),
-        content: t('change_failed'),
-        showCancel: false,
-        confirmColor: '#8b0000',
-      })
-    }
-  })
+  // return updateNickname({ nickname: nickname }).then((res) => {
+  //   if (res.code === 0) {
+  //     userInfo.value.row.nickname = nickname
+  //     uni.showModal({
+  //       title: t('tip'),
+  //       content: t('change_successfully'),
+  //       showCancel: false,
+  //       confirmColor: '#3daa9a',
+  //       success: () => {
+  //         uni.navigateBack()
+  //       },
+  //     })
+  //   } else {
+  //     uni.showModal({
+  //       title: t('tip'),
+  //       content: t('change_failed'),
+  //       showCancel: false,
+  //       confirmColor: '#8b0000',
+  //     })
+  //   }
+  // })
 }
 </script>
 <style lang="scss" scoped>
@@ -84,6 +83,9 @@ $font2-color: #536387;
 $bg-color: #f5f5f5;
 $card-bg-color: #ffffff;
 .container {
+  height: 100%;
+  background-color: $bg-color;
+
   .status-bar-title {
     font-size: large;
     font-weight: bold;
@@ -105,7 +107,6 @@ $card-bg-color: #ffffff;
     display: flex;
     flex-direction: column;
     padding: 20rpx;
-    background-color: $bg-color;
 
     .card {
       background-color: $card-bg-color;

@@ -17,7 +17,7 @@ export const tabBarConfig = {
   spacing: '3px',
 }
 
-export const tabList: [TabItem, TabItem, TabItem] = [
+export const tabList = [
   {
     iconPath: '/static/tabbar/home.png',
     selectedIconPath: '/static/tabbar/homeHL.png',
@@ -27,7 +27,7 @@ export const tabList: [TabItem, TabItem, TabItem] = [
   {
     iconPath: '/static/tabbar/History.png',
     selectedIconPath: '/static/tabbar/HistoryHL.png',
-    pagePath: 'pages/task/index',
+    pagePath: 'pages/about/about',
     text: '',
   },
   {
@@ -36,4 +36,4 @@ export const tabList: [TabItem, TabItem, TabItem] = [
     pagePath: 'pages/mine/index',
     text: '',
   },
-]
+] satisfies [TabItem, TabItem, TabItem]

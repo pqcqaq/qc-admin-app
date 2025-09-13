@@ -26,8 +26,8 @@
       >
         <text class="label">{{ t('avatar') }}</text>
         <view class="value arrow-right">
-          <image class="avatar" :src="formData.avatar" />
-          <wd-icon name="arrow-right" size="20" />
+          <image class="avatar" :src="userInfo.avatar" />
+          <wd-icon name="arrow-right" size="16" />
         </view>
       </view>
 
@@ -42,13 +42,13 @@
       >
         <text class="label">{{ t('username') }}</text>
         <view class="value arrow-right">
-          <text>{{ formData.nickname }}</text>
-          <wd-icon name="arrow-right" size="20" />
+          <text>{{ userInfo.name }}</text>
+          <wd-icon name="arrow-right" size="16" />
         </view>
       </view>
 
       <!-- 联系电话 -->
-      <view
+      <!-- <view
         class="card between"
         @click="goTo('phone')"
         :class="{ pressed: isPhonePressed }"
@@ -61,31 +61,31 @@
           <text>+86 {{ formData.phoneNumber }}</text>
           <wd-icon name="arrow-right" size="20" />
         </view>
-      </view>
+      </view> -->
 
       <!-- 性别（不可点） -->
       <view class="card between">
         <text class="label">{{ t('gender') }}</text>
         <view class="value">
-          <text>{{ formData.gender }}</text>
+          <text>{{ gender }}</text>
         </view>
       </view>
 
       <!-- 职位 -->
-      <view class="card between">
+      <!-- <view class="card between">
         <text class="label">{{ t('position') }}</text>
         <view class="value">
           <text>{{ formData.role }}</text>
         </view>
-      </view>
+      </view> -->
 
       <!-- 工号 -->
-      <view class="card between">
+      <!-- <view class="card between">
         <text class="label">{{ t('employee_number') }}</text>
         <view class="value">
           <text>{{ formData.employeeStringId }}</text>
         </view>
-      </view>
+      </view> -->
 
       <!-- 修改密码 -->
       <view class="item_title">
@@ -101,18 +101,7 @@
       >
         <text class="label">{{ t('change_password') }}</text>
         <view class="value arrow-right">
-          <wd-icon name="arrow-right" size="20" />
-        </view>
-      </view>
-
-      <!-- 关联门店 -->
-      <view class="item_title">
-        <text>{{ t('related_stores') }}</text>
-      </view>
-      <view v-for="item in formData.shops" :key="item.id">
-        <view class="shop-card">
-          <view class="shop-name">{{ item.name }}</view>
-          <view class="shop-address">{{ item.address }}</view>
+          <wd-icon name="arrow-right" size="16" />
         </view>
       </view>
     </view>
@@ -140,36 +129,14 @@ const { userInfo } = storeToRefs(userStore)
 
 // 表单数据
 const gender = ref('')
-if (userInfo.value.row.gender === 1) {
+if (userInfo.value.sex === 'male') {
   gender.value = t('man')
-} else if (userInfo.value.row.gender === 0) {
+} else if (userInfo.value.sex === 'female') {
   gender.value = t('woman')
 } else {
   gender.value = t('not_filled')
 }
 
-// 职位枚举转换
-const getRoleDisplay = (role: string) => {
-  const roleMap = {
-    manage: t('administrator'), // 管理员
-    'area-manage': t('supervisor'), // 督导
-    clerk: t('clerk'), // 店员
-    'store-manage': t('store_manager'), // 店长
-    // 可以根据需要添加更多角色映射
-  }
-  return roleMap[role] || role
-}
-
-const formData = ref({
-  id: userInfo.value.row.id,
-  avatar: userInfo.value.row.avatarUrl,
-  nickname: userInfo.value.row.nickname,
-  phoneNumber: userInfo.value.row.phoneNumber, //国际电话的问题，先写死+86
-  gender: gender.value,
-  role: getRoleDisplay(userInfo.value.row.role),
-  employeeStringId: userInfo.value.row.employeeStringId,
-  shops: userInfo.value.shops,
-})
 // 跳转到其他页面
 const goTo = (type: string) => {
   const routeMap = {
@@ -194,7 +161,11 @@ $card-label-color: #333;
 $card-value-color: #666;
 $shop-name-color: #333;
 $shop-address-color: #999;
+
 .container {
+  height: 100%;
+  background-color: $container-bg;
+
   .status-bar-title {
     font-size: large;
     font-weight: bold;
@@ -204,7 +175,6 @@ $shop-address-color: #999;
     display: flex;
     flex-direction: column;
     padding: 20rpx;
-    background-color: $container-bg;
 
     .item_title {
       font-size: 24rpx;
@@ -226,7 +196,7 @@ $shop-address-color: #999;
 
     .card {
       background-color: $card-bg;
-      padding: 30rpx 20rpx;
+      padding: 22rpx 18rpx;
       border-radius: 12rpx;
       margin-bottom: 20rpx;
       box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
