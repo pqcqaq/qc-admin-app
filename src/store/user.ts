@@ -1,48 +1,31 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { toast } from '@/utils/toast'
-import { IUser } from '@/api'
-import { login as _login, loginBySmsCode as _loginBySmsCode } from '@/api'
+import { UserInfo, UserResult } from '@/api'
 
-const userInfoState: IUser = {
-  id: 0,
-  customerOrganizationId: 0,
-  phoneNumber: '',
-  nickname: '',
+const userInfoState: UserInfo = {
+  id: '',
   name: '',
-  role: '',
-  password: '',
-  shopIdList: '',
-  enabled: 0,
-  gender: 2, // 1男，0女，2未填写
-  avatarUrl: '',
-  webSid: '',
-  logined: 0,
-  employeeStringId: '',
-  created: 0,
-  updated: 0,
-  deleted: 0,
+  avatar: '',
+  status: '',
+  createTime: '',
+  updateTime: '',
+  roles: [],
+  permissions: [],
 }
 
 export const useUserStore = defineStore(
   'user',
   () => {
     // 定义用户信息
-    const userInfo = ref<IUser>({ ...userInfoState })
+    const userInfo = ref<UserInfo>({ ...userInfoState })
     const token = ref<string | null>(null)
     // 设置用户信息
-    const setUserInfo = (val: IUser) => {
-      console.log('设置用户信息', val)
-      // 若头像为空 则使用默认头像
-      // if (!val.row.avatarUrl) {
-      //   val.row.avatarUrl = userInfoState.row.avatarUrl
-      // } else {
-      //   val.row.avatarUrl = 'http://qiniuyun.ling-shun.com/avatar-default.png'
-      // }
-      userInfo.value = val
+    const setLoginResult = (res: UserResult) => {
+      userInfo.value = res.data.user
+      token.value = res.data.token
     }
     const setUserAvatar = (avatar: string) => {
-      userInfo.value.avatarUrl = avatar
+      userInfo.value.avatar = avatar
       console.log('设置用户头像', avatar)
       console.log('userInfo', userInfo.value)
     }
@@ -52,60 +35,6 @@ export const useUserStore = defineStore(
       uni.removeStorageSync('userInfo')
       uni.removeStorageSync('token')
     }
-    /**
-     * 用户登录
-     * @param credentials 登录参数
-     * @returns R<IUserLogin>
-     */
-    const login = async (credentials: { accountName: string; password: string }) => {
-      return _login(credentials)
-        .then((res) => {
-          console.log('登录信息', res)
-          toast.success('登录成功')
-          token.value = res.data.sid || ''
-          return res
-        })
-        .then((res) => {
-          console.log(res, 77777)
-          // return getUserDetailWithShop({
-          //   id: res.data.id,
-          // })
-        })
-        .then((res) => {
-          // console.log('获取用户信息', res)
-          // console.log(res.data, 11126211111)
-          // setUserInfo(res.data)
-          return res
-        })
-    }
-
-    /**
-     * 短信验证码登录
-     * @param credentials 验证码登录参数
-     * @returns R<IUserLogin>
-     */
-    const loginBySmsCode = async (credentials: { phoneNumber: string; smsCode: string }) => {
-      return _loginBySmsCode(credentials)
-        .then((res) => {
-          toast.success('登录成功')
-          token.value = res.data.sid || ''
-          return res
-        })
-        .then((res) => {
-          // return getUserDetailWithShop({
-          //   id: res.data.id,
-          // })
-        })
-        .then((res) => {
-          // setUserInfo(res.data)
-          return res
-        })
-        .catch((err) => {
-          toast.error(err.message)
-          throw err
-        })
-    }
-
     const logout = () => {
       removeUserInfo()
       uni.navigateTo({ url: import.meta.env.VITE_LOGIN_URL })
@@ -113,11 +42,10 @@ export const useUserStore = defineStore(
 
     return {
       userInfo,
-      login,
-      loginBySmsCode,
       setUserAvatar,
       logout,
       token,
+      setLoginResult,
     }
   },
   {

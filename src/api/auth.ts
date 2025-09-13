@@ -1,70 +1,164 @@
 import { http } from '@/utils/http'
-import { IBaseResponse } from '.'
 
-// ==================== 认证相关类型 ====================
-export interface ILoginParams {
-  accountName: string
-  password: string
-}
-export interface IGetSmsCodeParams {
-  phoneNumber: string
-  smsCode: string
-}
-
-export interface ILoginResponse {
-  id: number
-  nickname: string
-  gender: number // 1男，0女，2未填写
-  avatarUrl: string
-  sid: string
-}
-
-// ==================== 组织管理相关类型 ====================
-export interface IInvitationCodeResponse {
-  // 根据实际邀请码响应结构定义
-  invitationCode?: string
-  // 添加其他邀请码相关字段
-}
-
-// ==================== API 接口函数 ====================
-
-/**
- * 用户登录
- */
-export const login = (params: ILoginParams) => {
-  return http.post<IBaseResponse<ILoginResponse>>('/customer/auth/loginaccount', params)
+export type UserResult = {
+  success: boolean
+  data: {
+    user: {
+      /** 用户ID */
+      id: string
+      /** 用户名 */
+      name: string
+      /** 状态 */
+      status: string
+      /** 创建时间 */
+      createTime: string
+      /** 更新时间 */
+      updateTime: string
+      /** 当前登录用户的角色 */
+      roles: Array<any>
+      /** 按钮级别权限 */
+      permissions: Array<any>
+      /** 头像 */
+      avatar: string
+    }
+    /** `token` */
+    token: string
+    /** 消息 */
+    message: string
+  }
 }
 
-/**
- * 验证码登录
- */
-export const loginBySmsCode = (params: IGetSmsCodeParams) => {
-  return http.post<IBaseResponse<ILoginResponse>>('/customer/auth/loginaccountbysmscode', params)
+export type RefreshTokenResult = {
+  success: boolean
+  data: {
+    /** `token` */
+    token: string
+    /** 消息 */
+    message: string
+  }
 }
 
-/**
- * 公司生成邀请码
- * 如果已存在就重新生成覆盖旧的
- */
-export const generateInvitationCode = () => {
-  return http.post<IBaseResponse<IInvitationCodeResponse>>(
-    '/customer/customerorganization/generateinvitationcode',
-  )
+export type UserInfo = {
+  /** 用户ID */
+  id: string
+  /** 用户名 */
+  name: string
+  /** 状态 */
+  status: string
+  /** 创建时间 */
+  createTime: string
+  /** 更新时间 */
+  updateTime: string
+  /** 当前登录用户的角色 */
+  roles: Array<any>
+  /** 按钮级别权限 */
+  permissions: Array<any>
+  /** 头像 */
+  avatar: string
 }
 
-/**
- * 公司获取邀请码
- */
-export const getInvitationCode = () => {
-  return http.post<IBaseResponse<IInvitationCodeResponse>>(
-    '/customer/customerorganization/getinvitationcode',
-  )
+export type UserInfoResult = {
+  success: boolean
+  data: UserInfo
 }
 
-/**
- * 验证码
- */
+type ResultTable = {
+  success: boolean
+  data?: {
+    /** 列表数据 */
+    list: Array<any>
+    /** 总条目数 */
+    total?: number
+    /** 每页显示条目个数 */
+    pageSize?: number
+    /** 当前页数 */
+    currentPage?: number
+  }
+}
 
-export const getsmscode = (params: { phoneNumber: string }) => {
-  return http.post<IBaseResponse<IInvitationCodeResponse>>('/customer/auth/getsmscode', params)
+/** 登录 */
+export const getLogin = (data?: {
+  credentialType: string
+  identifier: string
+  secret: string
+  verifyCode?: string
+}) => {
+  return http.request<UserResult>('post', '/api/auth/login', {
+    data,
+  })
+}
+
+/** 刷新`token` */
+export const refreshTokenApi = (data?: object) => {
+  return http.request<RefreshTokenResult>('post', '/api/auth/refresh-token', {
+    data,
+  })
+}
+
+/** 注册 */
+export const registerApi = (data?: {
+  credentialType: string
+  identifier: string
+  secret: string
+  verifyCode: string
+  username: string
+}) => {
+  return http.request<any>('post', '/api/auth/register', {
+    data,
+  })
+}
+
+/** 发送验证码 */
+export const sendVerifyCodeApi = (data?: {
+  senderType: string
+  identifier: string
+  purpose: string
+}) => {
+  return http.request<any>('post', '/api/auth/send-verify-code', {
+    data,
+  })
+}
+
+/** 验证验证码 */
+export const verifyCodeApi = (data?: {
+  identifier: string
+  code: string
+  purpose: string
+  senderType: string
+}) => {
+  return http.request<any>('post', '/api/auth/verify-code', {
+    data,
+  })
+}
+
+/** 重置密码 */
+export const resetPasswordApi = (data?: {
+  credentialType: string
+  identifier: string
+  newSecret: string
+  verifyCode?: string
+  oldPassword?: string
+}) => {
+  return http.request<any>('post', '/api/auth/reset-password', {
+    data,
+  })
+}
+
+/** 获取用户信息 */
+export const getUserInfoApi = (data?: object) => {
+  return http.request<UserInfoResult>('get', '/api/auth/user-info', {
+    data,
+  })
+}
+
+/** 账户设置-个人信息 */
+export const getMine = (data?: object) => {
+  return http.request<UserInfoResult>('get', '/mine', {
+    data,
+  })
+}
+
+/** 账户设置-个人安全日志 */
+export const getMineLogs = (data?: object) => {
+  return http.request<ResultTable>('get', '/mine-logs', { data })
 }

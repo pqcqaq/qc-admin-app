@@ -17,16 +17,6 @@ export const http = <T>(options: CustomRequestOptions) => {
         // 状态码 2xx，参考 axios 的设计
         if (res.statusCode >= 200 && res.statusCode < 300) {
           const responseData = res.data as IBaseResponse<any>
-
-          // code: "not-login"
-          // data: "/customer/dashboard/getdashboarddata?_token_="
-          // message: "登录失效，请重新登录"
-          // success: false
-          if (responseData.code === 'not-login') {
-            userStore.logout()
-            return
-          }
-
           // 判断业务状态码
           if (responseData.success === true || responseData.code === 0) {
             // 2.1 业务成功，提取核心数据
@@ -34,18 +24,7 @@ export const http = <T>(options: CustomRequestOptions) => {
             resolve(responseData as T)
           } else {
             // 业务失败，显示后端返回的错误信息
-            // !options.hideErrorToast &&
-            //   uni.showToast({
-            //     icon: 'none',
-            //     title: responseData.message || '请求失败',
-            //   })
-            let errorMessage = responseData.message || '请求失败'
-            // switch (responseData.code) {
-            //   case 'TOKEN_EXPIRED':
-            //     userStore.logout()
-            //     uni.navigateTo({ url: '/pages/login/login' })
-            //     break
-            // }
+            let errorMessage = responseData.data || '请求失败'
             !options.hideErrorToast &&
               uni.showToast({
                 icon: 'none',
@@ -66,11 +45,6 @@ export const http = <T>(options: CustomRequestOptions) => {
         } else {
           // 其他HTTP错误 -> 根据后端错误信息轻提示
           const responseData = res.data as IBaseResponse<any>
-          // !options.hideErrorToast &&
-          //   uni.showToast({
-          //     icon: 'none',
-          //     title: responseData.message || '请求错误',
-          //   })
           !options.hideErrorToast &&
             uni.showToast({
               icon: 'none',
@@ -89,6 +63,29 @@ export const http = <T>(options: CustomRequestOptions) => {
         reject(err)
       },
     })
+  })
+}
+
+/**
+ * 请求
+ */
+export const httpRequest = <T>(
+  method: 'post' | 'get' | 'put' | 'delete',
+  url: string,
+  data?: {
+    data?: Record<string, any>
+    params?: any
+    header?: Record<string, any>
+  },
+) => {
+  let trueMethod = method.toUpperCase() as 'POST' | 'GET' | 'PUT' | 'DELETE'
+
+  return http<T>({
+    url,
+    method: trueMethod,
+    data: data?.data,
+    header: data?.header,
+    query: data?.params,
   })
 }
 
@@ -174,3 +171,4 @@ http.get = httpGet
 http.post = httpPost
 http.put = httpPut
 http.delete = httpDelete
+http.request = httpRequest

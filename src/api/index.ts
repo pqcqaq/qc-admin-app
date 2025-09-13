@@ -6,7 +6,6 @@ export * from './auth'
 // ==================== 常用类型导出 ====================
 export interface IBaseResponse<T = any> {
   success: boolean
-  serverTime: number
   code?: number | string
   message?: string
   data: T

@@ -45,10 +45,15 @@ const httpInterceptor = {
     }
 
     const userStore = useUserStore()
-    // 无论如何给query拼接上_token_
-    options.query = options.query || {}
-    options.query._token_ = userStore.token || '' // 使用用户的token
-    // 接口请求支持通过 query 参数配置 queryString
+
+    // header添加token
+    if (userStore.token) {
+      options.header = {
+        ...options.header,
+        Authorization: `Bearer ${userStore.token}`,
+      }
+    }
+
     if (options.query) {
       const queryStr = qs.stringify(options.query)
       if (options.url.includes('?')) {
@@ -62,17 +67,17 @@ const httpInterceptor = {
     if (!options.url.startsWith('http')) {
       // #ifdef H5
       // console.log(__VITE_APP_PROXY__)
-      try {
-        if (typeof __VITE_APP_PROXY__ !== 'undefined' && JSON.parse(__VITE_APP_PROXY__)) {
-          // 自动拼接代理前缀
-          options.url = import.meta.env.VITE_APP_PROXY_PREFIX + options.url
-        } else {
-          options.url = baseUrl + options.url
-        }
-      } catch (error) {
-        // 如果解析代理配置失败，使用baseUrl
-        options.url = baseUrl + options.url
-      }
+      // try {
+      //   if (typeof __VITE_APP_PROXY__ !== 'undefined' && JSON.parse(__VITE_APP_PROXY__)) {
+      //     // 自动拼接代理前缀
+      //     options.url = import.meta.env.VITE_APP_PROXY_PREFIX + options.url
+      //   } else {
+      //     options.url = baseUrl + options.url
+      //   }
+      // } catch (error) {
+      //   // 如果解析代理配置失败，使用baseUrl
+      // options.url = baseUrl + options.url
+      // }
       // #endif
 
       // 非H5正常拼接

@@ -23,7 +23,7 @@
       <view class="login-input-group">
         <view class="input-wrapper">
           <wd-input
-            v-model="loginForm.accountName"
+            v-model="loginForm.identifier"
             prefix-icon="user"
             placeholder="请输入用户名"
             clearable
@@ -35,7 +35,7 @@
         </view>
         <view class="input-wrapper">
           <wd-input
-            v-model="loginForm.password"
+            v-model="loginForm.secret"
             prefix-icon="lock-on"
             placeholder="请输入密码"
             clearable
@@ -80,7 +80,7 @@
       >
         <view class="agreement-text">
           我已阅读并同意
-          <text class="agreement-link" @click.stop="handleAgreement('user')">《用户协议》</text>
+          <text class="agreement-link" @click.stop="handleAgreement('user')">《服务协议》</text>
           和
           <text class="agreement-link" @click.stop="handleAgreement('privacy')">《隐私政策》</text>
         </view>
@@ -93,10 +93,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUserStore } from '@/store/user'
-import { isMpWeixin } from '@/utils/platform'
 import { toast } from '@/utils/toast'
 import { isTableBar } from '@/utils/index'
-import { ILoginParams } from '@/api'
+import { getLogin } from '@/api'
 const redirectRoute = ref('')
 
 // 获取环境变量
@@ -107,9 +106,10 @@ const appLogo = ref(import.meta.env.VITE_APP_LOGO || '/static/logo.svg')
 const userStore = useUserStore()
 // 路由位置
 // 登录表单数据
-const loginForm = ref<ILoginParams>({
-  accountName: '',
-  password: '',
+const loginForm = ref({
+  credentialType: 'password',
+  identifier: '',
+  secret: '',
 })
 // 隐私协议勾选状态
 const agreePrivacy = ref(true)
@@ -121,17 +121,35 @@ const handleAccountLogin = async () => {
     return
   }
   // 表单验证
-  if (!loginForm.value.accountName) {
+  if (!loginForm.value.identifier) {
     toast.error('请输入用户名')
     return
   }
-  if (!loginForm.value.password) {
+  if (!loginForm.value.secret) {
     toast.error('请输入密码')
     return
   }
   // 执行登录
-  await userStore.login(loginForm.value)
+  getLogin(loginForm.value)
+    .then((res) => {
+      userStore.setLoginResult(res)
+      toast.success('登录成功')
+      navigateToHome()
+    })
+    .catch((err) => {
+      console.error('登录失败:', err)
+      toast.error(err.message || '登录失败，请稍后重试')
+    })
   // 跳转到首页或重定向页面
+  const targetUrl = redirectRoute.value || '/pages/index/index'
+  if (isTableBar(targetUrl)) {
+    uni.switchTab({ url: targetUrl })
+  } else {
+    uni.redirectTo({ url: targetUrl })
+  }
+}
+
+const navigateToHome = () => {
   const targetUrl = redirectRoute.value || '/pages/index/index'
   if (isTableBar(targetUrl)) {
     uni.switchTab({ url: targetUrl })
@@ -142,12 +160,20 @@ const handleAccountLogin = async () => {
 
 // 处理协议点击
 const handleAgreement = (type: 'user' | 'privacy') => {
-  const title = type === 'user' ? '用户协议' : '隐私政策'
-  // showToast(`查看${title}`)
-  // 实际项目中可以跳转到对应的协议页面
-  // uni.navigateTo({
-  //   url: `/pages/agreement/${type}`
-  // })
+  switch (type) {
+    case 'user': {
+      uni.navigateTo({
+        url: '/pages/login/service',
+      })
+      break
+    }
+    case 'privacy': {
+      uni.navigateTo({
+        url: '/pages/login/privacy',
+      })
+      break
+    }
+  }
 }
 </script>
 
