@@ -54,12 +54,13 @@
         "navigationBarTitleText": "首页"
       },
       "layout": "tabbar",
-      "needLogin": false
+      "needLogin": true
     },
     {
       "path": "pages/about/about",
       "type": "page",
-      "layout": "tabbar"
+      "layout": "tabbar",
+      "needLogin": true
     },
     {
       "path": "pages/about/i18n",

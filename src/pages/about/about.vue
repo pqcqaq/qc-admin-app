@@ -1,6 +1,7 @@
 <route lang="json5">
 {
   layout: 'tabbar',
+  needLogin: true,
 }
 </route>
 

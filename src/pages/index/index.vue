@@ -6,7 +6,7 @@
     navigationBarTitleText: '首页',
   },
   layout: 'tabbar',
-  needLogin: false,
+  needLogin: true,
 }
 </route>
 <template>
