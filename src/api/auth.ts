@@ -1,5 +1,12 @@
 import { http } from '@/utils/http'
 
+export type TokenInfo = {
+  accessToken: string
+  refreshToken: string
+  accessExpiredIn: number
+  refreshExpiredIn: number
+}
+
 export type UserResult = {
   success: boolean
   data: {
@@ -24,7 +31,7 @@ export type UserResult = {
       sex: 'male' | 'female' | 'unknown'
     }
     /** `token` */
-    token: string
+    token: TokenInfo
     /** 消息 */
     message: string
   }
@@ -34,7 +41,7 @@ export type RefreshTokenResult = {
   success: boolean
   data: {
     /** `token` */
-    token: string
+    token: TokenInfo
     /** 消息 */
     message: string
   }
@@ -88,7 +95,9 @@ export const getLogin = (data?: {
   verifyCode?: string
 }) => {
   return http.request<UserResult>('post', '/api/auth/login', {
-    data,
+    data: Object.assign(data, {
+      clientCode: import.meta.env.VITE_CLIENT_CODE,
+    }),
   })
 }
 
@@ -108,7 +117,9 @@ export const registerApi = (data?: {
   username: string
 }) => {
   return http.request<any>('post', '/api/auth/register', {
-    data,
+    data: Object.assign(data, {
+      clientCode: import.meta.env.VITE_CLIENT_CODE,
+    }),
   })
 }
 
@@ -119,7 +130,9 @@ export const sendVerifyCodeApi = (data?: {
   purpose: string
 }) => {
   return http.request<any>('post', '/api/auth/send-verify-code', {
-    data,
+    data: Object.assign(data, {
+      clientCode: import.meta.env.VITE_CLIENT_CODE,
+    }),
   })
 }
 
@@ -131,7 +144,9 @@ export const verifyCodeApi = (data?: {
   senderType: string
 }) => {
   return http.request<any>('post', '/api/auth/verify-code', {
-    data,
+    data: Object.assign(data, {
+      clientCode: import.meta.env.VITE_CLIENT_CODE,
+    }),
   })
 }
 
@@ -144,7 +159,9 @@ export const resetPasswordApi = (data?: {
   oldPassword?: string
 }) => {
   return http.request<any>('post', '/api/auth/reset-password', {
-    data,
+    data: Object.assign(data, {
+      clientCode: import.meta.env.VITE_CLIENT_CODE,
+    }),
   })
 }
 

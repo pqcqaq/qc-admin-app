@@ -46,13 +46,13 @@ const httpInterceptor = {
 
     const userStore = useUserStore()
 
-    // header添加token
-    if (userStore.token) {
-      options.header = {
-        ...options.header,
-        Authorization: `Bearer ${userStore.token}`,
-      }
-    }
+    // header添加token - 现在由http.ts处理token自动续签
+    // if (userStore.token) {
+    //   options.header = {
+    //     ...options.header,
+    //     Authorization: `Bearer ${userStore.token}`,
+    //   }
+    // }
 
     if (options.query) {
       const queryStr = qs.stringify(options.query)

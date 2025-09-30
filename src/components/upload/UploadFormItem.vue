@@ -370,48 +370,55 @@ const uploadPendingFiles = async () => {
 // 直接上传到后端
 const uploadToBackend = (filePath: string, onProgress: (progress: number) => void) => {
   return new Promise<{ id: string; url: string }>((resolve, reject) => {
-    const uploadTask = uni.uploadFile({
-      url: `/api/attachments/direct-upload`,
-      filePath: filePath,
-      name: 'file',
-      formData: {
-        // 这里可以添加额外的表单字段
-      },
-      header: {
-        // 添加认证token
-        ...(userStore.token && { Authorization: `Bearer ${userStore.token}` }),
-      },
-      success: (res) => {
-        try {
-          if (res.statusCode === 200) {
-            const responseData = JSON.parse(res.data)
-            if (responseData.success) {
-              onProgress(100)
-              // 根据实际响应结构，数据在 attachment 字段中
-              const attachment = responseData.attachment || responseData.data
-              resolve({
-                id: attachment.id,
-                url: attachment.url,
-              })
-            } else {
-              reject(new Error(responseData.message || responseData.data || '上传失败'))
-            }
-          } else {
-            reject(new Error(`上传失败，状态码: ${res.statusCode}`))
-          }
-        } catch (error) {
-          console.error('解析响应失败:', error, 'res.data:', res.data)
-          reject(new Error('解析服务器响应失败'))
-        }
-      },
-      fail: (err) => {
-        reject(new Error(`网络错误，上传失败: ${err.errMsg}`))
-      },
-    })
+    userStore.checkAccessToken().then((canupload) => {
+      if (!canupload) {
+        reject(new Error('无法上传文件，请重新登录'))
+        return
+      }
 
-    // 监听上传进度
-    uploadTask.onProgressUpdate((res) => {
-      onProgress(res.progress)
+      const uploadTask = uni.uploadFile({
+        url: `/api/attachments/direct-upload`,
+        filePath: filePath,
+        name: 'file',
+        formData: {
+          // 这里可以添加额外的表单字段
+        },
+        header: {
+          // 添加认证token
+          ...(userStore.token && { Authorization: `Bearer ${userStore.token.accessToken}` }),
+        },
+        success: (res) => {
+          try {
+            if (res.statusCode === 200) {
+              const responseData = JSON.parse(res.data)
+              if (responseData.success) {
+                onProgress(100)
+                // 根据实际响应结构，数据在 attachment 字段中
+                const attachment = responseData.attachment || responseData.data
+                resolve({
+                  id: attachment.id,
+                  url: attachment.url,
+                })
+              } else {
+                reject(new Error(responseData.message || responseData.data || '上传失败'))
+              }
+            } else {
+              reject(new Error(`上传失败，状态码: ${res.statusCode}`))
+            }
+          } catch (error) {
+            console.error('解析响应失败:', error, 'res.data:', res.data)
+            reject(new Error('解析服务器响应失败'))
+          }
+        },
+        fail: (err) => {
+          reject(new Error(`网络错误，上传失败: ${err.errMsg}`))
+        },
+      })
+
+      // 监听上传进度
+      uploadTask.onProgressUpdate((res) => {
+        onProgress(res.progress)
+      })
     })
   })
 }
