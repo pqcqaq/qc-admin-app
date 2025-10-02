@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { UserInfo, UserResult, TokenInfo, refreshTokenApi } from '@/api'
+import { UserInfo, UserResult, TokenInfo, refreshTokenApi } from 'qc-admin-api-common/auth'
 
 const userInfoState: UserInfo = {
   id: '',
@@ -11,7 +11,6 @@ const userInfoState: UserInfo = {
   updateTime: '',
   roles: [],
   permissions: [],
-  sex: 'unknown',
 }
 
 export const useUserStore = defineStore(

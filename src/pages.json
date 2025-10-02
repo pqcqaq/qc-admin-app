@@ -130,13 +130,6 @@
       }
     },
     {
-      "path": "pages/mine/info/phone/index",
-      "type": "page",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/mine/info/username/index",
       "type": "page",
       "style": {

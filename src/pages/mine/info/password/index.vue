@@ -79,7 +79,7 @@ import { storeToRefs } from 'pinia'
 import { toast } from '@/utils/toast'
 import StatusBar from '@/components/status-bar/StatusBar.vue'
 import { useI18n } from 'vue-i18n'
-import { resetPasswordApi } from '@/api/auth'
+import { resetPasswordApi } from 'qc-admin-api-common/auth'
 
 const i18n = useI18n()
 const t = i18n.t

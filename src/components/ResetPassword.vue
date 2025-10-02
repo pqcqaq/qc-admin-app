@@ -100,7 +100,7 @@
 <script setup lang="ts">
 import { ref, computed, defineEmits } from 'vue'
 import { toast } from '@/utils/toast'
-import { resetPasswordApi, sendVerifyCodeApi } from '@/api/auth'
+import { resetPasswordApi, sendVerifyCodeApi } from 'qc-admin-api-common/auth'
 
 // 定义事件
 const emit = defineEmits<{

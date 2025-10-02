@@ -110,7 +110,7 @@ import { ref } from 'vue'
 import { useUserStore } from '@/store/user'
 import { toast } from '@/utils/toast'
 import { isTableBar } from '@/utils/index'
-import { getLogin } from '@/api'
+import { getLogin } from 'qc-admin-api-common/auth'
 import PhoneLogin from '@/components/PhoneLogin.vue'
 import ResetPassword from '@/components/ResetPassword.vue'
 

@@ -52,7 +52,7 @@ import StatusBar from '@/components/status-bar/StatusBar.vue'
 import UploadFormItem from '@/components/upload/UploadFormItem.vue'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store'
-import { setUserAvatar } from '@/api/user'
+import { setUserAvatar } from 'qc-admin-api-common/user'
 import { storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
 

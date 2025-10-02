@@ -66,10 +66,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineEmits } from 'vue'
+import { ref, computed } from 'vue'
 import { toast } from '@/utils/toast'
 import { useUserStore } from '@/store/user'
-import { getLogin, sendVerifyCodeApi } from '@/api/auth'
+import { getLogin, sendVerifyCodeApi } from 'qc-admin-api-common/auth'
 import { isTableBar } from '@/utils/index'
 
 // 定义事件

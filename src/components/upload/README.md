@@ -89,7 +89,7 @@ const fileIds = ref([])
 
 ## 注意事项
 
-1. 组件依赖于 `@/api/attachment` 中的 `prepareUpload` 和 `confirmUpload` 接口
+1. 组件依赖于 `qc-admin-api-common/attachment` 中的 `prepareUpload` 和 `confirmUpload` 接口
 2. 组件使用 Wot-UI 的图标和加载组件
 3. 在非自动上传模式下，文件会在组件销毁时自动上传
 4. 支持图片预览和文件信息展示
