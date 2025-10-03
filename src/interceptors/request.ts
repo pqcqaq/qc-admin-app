@@ -82,6 +82,8 @@ const httpInterceptor = {
 
       // 非H5正常拼接
       // #ifndef H5
+      const VITE_APP_PROXY_PREFIX = import.meta.env.VITE_APP_PROXY_PREFIX
+      options.url = options.url.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), '')
       options.url = baseUrl + options.url
       // #endif
 

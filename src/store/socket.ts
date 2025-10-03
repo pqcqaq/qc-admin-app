@@ -25,7 +25,12 @@ export const useSocketStore = defineStore('socket', () => {
       console.warn('user token is not available')
       return
     }
+    let serverUrl = import.meta.env.VITE_SOCKET_URL
+    //// #ifndef H5
+    serverUrl = import.meta.env.VITE_SOCKET_SERVER
+    // #endif
     socketClient.value = new SocketClient({
+      url: serverUrl,
       token: userStore.token.accessToken,
       heartbeatInterval: 45000,
       adapter: createUniAppAdapter(),

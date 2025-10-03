@@ -168,7 +168,7 @@ export default async ({ command, mode }: { command: 'serve' | 'build'; mode: str
               rewrite: (path) => path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), ''),
             },
             [VITE_SOCKET_URL]: {
-              target: 'ws://' + VITE_SOCKET_SERVER,
+              target: VITE_SOCKET_SERVER,
               ws: true,
               changeOrigin: true,
               rewrite: (path) => path.replace(new RegExp(`^${VITE_SOCKET_URL}`), ''),
