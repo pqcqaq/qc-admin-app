@@ -34,7 +34,9 @@
       <!-- header 其他部分 -->
     </view>
 
-    <scroll-view scroll-y class="page-scroll">模板</scroll-view>
+    <scroll-view scroll-y class="page-scroll">
+      <wd-button @click="handleSendSocketMsg">测试消息发送</wd-button>
+    </scroll-view>
   </view>
 </template>
 
@@ -45,6 +47,8 @@ import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import ScanCode from '@/components/scan-code/ScanCode.vue'
 import { base64ToUtf8 } from '@/utils/string'
+import { sendUserSocketMsg } from 'qc-admin-api-common/test'
+import { useSocketStore } from '@/store/socket'
 
 defineOptions({
   name: 'Home',
@@ -84,9 +88,20 @@ const handleScanCancel = () => {
   console.log('用户取消扫描')
 }
 
-// wot-design-uni 日历组件相关
-const calendar = ref(null)
-const calendarValue = ref([new Date().getTime(), new Date().getTime()])
+const handleSendSocketMsg = () => {
+  sendUserSocketMsg()
+}
+
+const socketStore = useSocketStore()
+socketStore.start()
+
+socketStore.hookOnMounted<string>('test_topic', (msg) => {
+  uni.showToast({
+    title: `收到消息: ${msg}`,
+    icon: 'none',
+    duration: 2000,
+  })
+})
 </script>
 
 <style lang="scss" scoped>

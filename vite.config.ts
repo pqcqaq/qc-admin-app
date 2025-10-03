@@ -24,7 +24,7 @@ import Components from '@uni-helper/vite-plugin-uni-components'
 import markdownPlugin from './vite-plugins/markdown'
 
 // https://vitejs.dev/config/
-export default async ({ command, mode }) => {
+export default async ({ command, mode }: { command: 'serve' | 'build'; mode: string }) => {
   // @see https://unocss.dev/
   const UnoCSS = (await import('unocss/vite')).default
   // console.log(mode === process.env.NODE_ENV) // true
@@ -50,6 +50,8 @@ export default async ({ command, mode }) => {
     VITE_SHOW_SOURCEMAP,
     VITE_APP_PROXY,
     VITE_APP_PROXY_PREFIX,
+    VITE_SOCKET_URL,
+    VITE_SOCKET_SERVER,
   } = env
   console.log('环境变量 env -> ', env)
 
@@ -164,6 +166,12 @@ export default async ({ command, mode }) => {
               target: VITE_SERVER_BASEURL,
               changeOrigin: true,
               rewrite: (path) => path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), ''),
+            },
+            [VITE_SOCKET_URL]: {
+              target: 'ws://' + VITE_SOCKET_SERVER,
+              ws: true,
+              changeOrigin: true,
+              rewrite: (path) => path.replace(new RegExp(`^${VITE_SOCKET_URL}`), ''),
             },
           }
         : undefined,
