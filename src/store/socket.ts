@@ -34,6 +34,20 @@ export const useSocketStore = defineStore('socket', () => {
       token: userStore.token.accessToken,
       heartbeatInterval: 45000,
       adapter: createUniAppAdapter(),
+      refreshToken: () => {
+        const userStore = useUserStore()
+        return userStore
+          .handRefreshToken({
+            refreshToken: userStore.token?.refreshToken || '',
+          })
+          .then((res) => {
+            if (res.success && res.data.token) {
+              userStore.token = res.data.token
+              return res.data.token.accessToken
+            }
+            throw new Error(res.data.message || '刷新token失败')
+          })
+      },
     })
     socketClient.value.connect()
   }
