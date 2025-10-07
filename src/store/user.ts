@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { UserInfo, UserResult, TokenInfo, refreshTokenApi } from 'qc-admin-api-common/auth'
+import { useSocketStore } from './socket'
 
 const userInfoState: UserInfo = {
   id: '',
@@ -19,7 +20,6 @@ export const useUserStore = defineStore(
     // 定义用户信息
     const userInfo = ref<UserInfo>({ ...userInfoState })
     const token = ref<TokenInfo | null>(null)
-
     // 设置用户信息
     const setLoginResult = (res: UserResult) => {
       userInfo.value = res.data.user
@@ -64,7 +64,6 @@ export const useUserStore = defineStore(
     const getToken = () => {
       if (!token.value) return null
       const now = new Date().getTime()
-      const expired = token.value.accessExpiredIn - now <= 0
       return {
         accessToken: token.value.accessToken,
         expires: token.value.accessExpiredIn,
@@ -86,11 +85,31 @@ export const useUserStore = defineStore(
       userInfo.value = { ...userInfoState }
       uni.removeStorageSync('userInfo')
       uni.removeStorageSync('token')
+      token.value = null
     }
     const logout = () => {
       removeUserInfo()
+      const socketStore = useSocketStore()
       uni.navigateTo({ url: import.meta.env.VITE_LOGIN_URL })
     }
+
+    watch(
+      token,
+      (newToken, oldToken) => {
+        if (newToken && newToken !== oldToken) {
+          // token 存在且发生变化 -> 连接 WebSocket
+          console.log('Token changed, connecting WebSocket...')
+          const socketStore = useSocketStore()
+          socketStore.connect()
+        } else if (!newToken && oldToken) {
+          // token 被清空 -> 断开 WebSocket
+          console.log('Token cleared, disconnecting WebSocket...')
+          const socketStore = useSocketStore()
+          socketStore.disConnect()
+        }
+      },
+      { immediate: true },
+    ) // immediate: true 会在初始化时立即执行
 
     return {
       userInfo,

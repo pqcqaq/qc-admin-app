@@ -93,7 +93,6 @@ const handleSendSocketMsg = () => {
 }
 
 const socketStore = useSocketStore()
-socketStore.start()
 
 socketStore.hookOnMounted<string>('test_topic', (msg) => {
   uni.showToast({

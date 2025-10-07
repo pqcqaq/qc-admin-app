@@ -21,17 +21,14 @@ export const useSocketStore = defineStore('socket', () => {
       return
     }
     const userStore = useUserStore()
-    if (!userStore.token) {
-      console.warn('user token is not available')
-      return
-    }
     let serverUrl = import.meta.env.VITE_SOCKET_URL
     //// #ifndef H5
     serverUrl = import.meta.env.VITE_SOCKET_SERVER
     // #endif
     socketClient.value = new SocketClient({
       url: serverUrl,
-      token: userStore.token.accessToken,
+      token: userStore.token?.accessToken || '',
+      debug: true,
       heartbeatInterval: 45000,
       adapter: createUniAppAdapter(),
       refreshToken: () => {
@@ -110,6 +107,13 @@ export const useSocketStore = defineStore('socket', () => {
       }
       return socketClient.value.sendMessage(...params)
     },
+    disConnect: () => {
+      if (!socketClient.value) {
+        console.warn('socketClient is not initialized')
+        return
+      }
+      return socketClient.value.disconnect()
+    },
   } satisfies {
     start: () => void
     connect: () => void
@@ -118,5 +122,6 @@ export const useSocketStore = defineStore('socket', () => {
     unsubscribeAll: SocketClient['unsubscribeAll']
     hookOnMounted: <T>(topic: string, handler: MessageHandler<T>) => void
     sendMessage: SocketClient['sendMessage']
+    disConnect: SocketClient['disconnect']
   }
 })
