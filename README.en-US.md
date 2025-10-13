@@ -1,6 +1,6 @@
 # 📱 QC-Admin App Multi-Platform Mobile Application
 
-[![license](https://img.shields.io/github/license/qc-admin/qc-admin.svg)](LICENSE)
+[![license](https://img.shields.io/github/license/pqcqaq/qc-admin.svg)](LICENSE)
 [![uni-app](https://img.shields.io/badge/uni--app-latest-brightgreen.svg)](https://uniapp.dcloud.io/)
 [![Vue](https://img.shields.io/badge/Vue-3.x-brightgreen.svg)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
