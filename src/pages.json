@@ -70,6 +70,12 @@
       }
     },
     {
+      "path": "pages/area-selector-demo/index",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true
+    },
+    {
       "path": "pages/login/index",
       "type": "page",
       "style": {

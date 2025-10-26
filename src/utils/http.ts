@@ -1,6 +1,7 @@
 import { IBaseResponse } from 'qc-admin-api-common'
 import { CustomRequestOptions } from '@/interceptors/request'
 import { useUserStore } from '@/store'
+import { refreshTokenApiEndpoint } from 'qc-admin-api-common/auth'
 
 // 请求白名单，不需要token的接口
 const whiteList = [
@@ -66,6 +67,19 @@ export const http = <T>(options: CustomRequestOptions) => {
               reject(responseData)
             }
           } else if (res.statusCode === 401) {
+            // 如果地址是refresh-token直接返回失败
+            if (requestOptions.url === refreshTokenApiEndpoint) {
+              // 刷新失败，清理用户信息，跳转到登录页
+              userStore.logout()
+              !requestOptions.hideErrorToast &&
+                uni.showToast({
+                  icon: 'none',
+                  title: '登录已过期，请重新登录',
+                })
+              reject(res.data)
+              return
+            }
+
             // 401错误 -> 尝试刷新token
             const tokenData = userStore.getToken()
             if (tokenData && !isRefreshing) {
@@ -87,16 +101,6 @@ export const http = <T>(options: CustomRequestOptions) => {
 
                   // 重新发起原始请求
                   makeRequest(requestOptions)
-                })
-                .catch(() => {
-                  // 刷新失败，清理用户信息，跳转到登录页
-                  userStore.logout()
-                  !requestOptions.hideErrorToast &&
-                    uni.showToast({
-                      icon: 'none',
-                      title: '登录已过期，请重新登录',
-                    })
-                  reject(res.data)
                 })
                 .finally(() => {
                   isRefreshing = false

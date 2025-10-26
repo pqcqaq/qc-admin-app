@@ -16,6 +16,7 @@
     <view class="function-buttons">
       <button class="function-btn" @click="handler">跳转i18n测试</button>
       <button class="function-btn" @click="handlerMarkdown">跳转markdown测试</button>
+      <button class="function-btn" @click="handlerAreaSelector">跳转地理位置选择测试</button>
     </view>
   </view>
 </template>
@@ -30,6 +31,12 @@ const handler = () => {
 const handlerMarkdown = () => {
   uni.navigateTo({
     url: '/pages/markdown-demo/index',
+  })
+}
+
+const handlerAreaSelector = () => {
+  uni.navigateTo({
+    url: '/pages/area-selector-demo/index',
   })
 }
 </script>
